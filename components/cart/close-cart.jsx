@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
 export default function CloseCart({ className }) {

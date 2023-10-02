@@ -3,7 +3,7 @@ import OpenCart from 'components/cart/open-cart';
 import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import { Suspense } from 'react';
-
+import Search from './search';
 const { SITE_NAME } = process.env;
 
 export default function Navbar() {
@@ -42,7 +42,7 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="hidden justify-center md:flex md:w-1/3">
-          {/* <Search /> */}
+          <Search />
         </div>
         <div className="flex justify-end md:w-1/3">
           <Suspense fallback={<OpenCart />}>

@@ -1,3 +1,4 @@
+"use client";
 import clsx from 'clsx';
 import { createUrl } from 'lib/utils';
 import Link from 'next/link';

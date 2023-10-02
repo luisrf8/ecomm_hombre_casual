@@ -1,5 +1,5 @@
-const Prose = require('components/prose');
-const { notFound } = require('next/navigation');
+import Prose from 'components/prose';
+import { notFound } from 'next/navigation';
 
 export const runtime = 'edge';
 
@@ -32,8 +32,6 @@ export async function generateMetadata({ params }) {
     },
   };
 }
-
-exports.generateMetadata = generateMetadata;
 
 export default function Page({ params }) {
   // Simulamos una página con datos de ejemplo

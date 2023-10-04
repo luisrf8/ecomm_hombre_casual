@@ -1,74 +1,69 @@
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-
+"use client"
 import { GridTileImage } from 'components/grid/tile';
-import { Gallery } from 'components/product/gallery';
+import Footer from 'components/layout/footer';
 import { ProductDescription } from 'components/product/product-description';
+import { products } from 'lib/ddbb.js';
 import Link from 'next/link';
-const sampleProduct = {
-  title: "Producto de muestra",
-  description: "Esta es una descripción de muestra para el producto.",
-  featuredImage: {
-    url: "https://ejemplo.com/imagen.jpg",
-    width: 800,
-    height: 600,
-    altText: "Imagen de muestra"
-  },
-  images: [
-    {
-      url: "https://ejemplo.com/imagen1.jpg",
-      altText: "Imagen 1 de muestra"
-    },
-    {
-      url: "https://ejemplo.com/imagen2.jpg",
-      altText: "Imagen 2 de muestra"
-    }
-  ],
-  priceRange:{
-    maxVariantPrice: {
-      amount: "10 USD"
-    }
-  },
-};
-
+import { notFound, usePathname } from 'next/navigation';
+import { Suspense } from 'react';
 export const runtime = 'edge';
 
-export async function generateMetadata() {
-  const product = sampleProduct;
+// export async function generateMetadata() {
+//   const product = sampleProduct;
 
-  if (!product) return notFound();
+//   if (!product) return notFound();
 
-  const { url, width, height, altText: alt } = product.featuredImage || {};
-  const indexable = true;
+//   const { url, width, height, altText: alt } = product.featuredImage || {};
+//   const indexable = true;
 
-  return {
-    title: product.title,
-    description: product.description,
-    robots: {
-      index: indexable,
-      follow: indexable,
-      googleBot: {
-        index: indexable,
-        follow: indexable
-      }
-    },
-    openGraph: url
-      ? {
-          images: [
-            {
-              url,
-              width,
-              height,
-              alt
-            }
-          ]
-        }
-      : null
-  };
-}
+//   return {
+//     title: product.title,
+//     description: product.description,
+//     robots: {
+//       index: indexable,
+//       follow: indexable,
+//       googleBot: {
+//         index: indexable,
+//         follow: indexable
+//       }
+//     },
+//     openGraph: url
+//       ? {
+//           images: [
+//             {
+//               url,
+//               width,
+//               height,
+//               alt
+//             }
+//           ]
+//         }
+//       : null
+//   };
+// }
 
 export default function ProductPage() {
-  const product = sampleProduct;
+  const router = usePathname()
+  const segments = router.split('/');
+  const handle = segments[segments.length - 1];
+  const product = products.find((product) => product.handle === handle);
+// Verificar si se encontró el producto
+  // const [product, setProduct] = useState(null);
+
+  // useEffect(() => {
+  //   if (handle) {
+  //     // Realiza una solicitud para obtener los datos del producto por su 'handle'
+  //     axios.get(`/api/products/${handle}`)
+  //       .then((response) => {
+  //         setProduct(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error al obtener datos del producto:', error);
+  //       });
+  //   }
+  // }, [handle]);
+
+  // const product = sampleProduct;
 
   if (!product) return notFound();
 
@@ -98,9 +93,9 @@ export default function ProductPage() {
       <div className="mx-auto max-w-screen-2xl px-4">
         <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 dark:border-neutral-800 dark:bg-black md:p-12 lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-4/6">
-            <Gallery
+            {/* <Gallery
               images={product.images}
-            />
+            /> */}
           </div>
 
           <div className="basis-full lg:basis-2/6">
@@ -112,7 +107,7 @@ export default function ProductPage() {
         </Suspense>
       </div>
       <Suspense>
-        {/* <Footer /> */}
+        <Footer />
       </Suspense>
     </>
   );

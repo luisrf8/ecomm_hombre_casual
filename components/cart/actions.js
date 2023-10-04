@@ -1,63 +1,25 @@
 'use client';
 // import { cookies } from 'next/headers';
-
-export const addItem = async (variantId) => {
-  // const cartId = cookies().get('cartId')?.value;
-  let cart;
-
-  if (cartId) {
-    // cart = await getCart(cartId);
-  }
-
-  if (!cartId || !cart) {
-    // cart = await createCart();
-    // cartId = cart.id;
-    // cookies().set('cartId', cartId);
-  }
-
-  if (!variantId) {
-    return 'Missing product variant ID';
-  }
-
-  // try {
-  //   await addToCart(cartId, [{ merchandiseId: variantId, quantity: 1 }]);
-  // } catch (e) {
-    return 'Error adding item to cart';
-  // }
+export const cart = JSON.parse(localStorage.getItem('cart')) || [];
+// localStorage.setItem('cart', JSON.stringify(cart));
+export const addItem = async (Item) => {
+  console.log("luisCartFunction", Item)
+  
+  cart.push(Item);
+  console.log("luisCartLocalStorageFunction", cart)
+  updateCart();
+  
 };
 
-export const removeItem = async (lineId) => {
-  const cartId = cookies().get('cartId')?.value;
+export const removeItem = async (Item) => {
 
-  if (!cartId) {
-    return 'Missing cart ID';
-  }
-  // try {
-  //   await removeFromCart(cartId, [lineId]);
-  // } catch (e) {
-    return 'Error removing item from cart';
-  // }
 };
 
-export const updateItemQuantity = async ({
-  lineId,
-  variantId,
-  quantity
-}) => {
-  const cartId = cookies().get('cartId')?.value;
-
-  if (!cartId) {
-    return 'Missing cart ID';
-  }
-  // try {
-    // await updateCart(cartId, [
-    //   {
-    //     id: lineId,
-    //     merchandiseId: variantId,
-    //     quantity
-    //   }
-    // ]);
-  // } catch (e) {
-    return 'Error updating item quantity';
-  // }
+export const updateItemQuantity = async ({}) => {
+  
+};
+// Función para actualizar el carrito en localStorage
+export const updateCart = () => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  console.log("Luis", localStorage.getItem('cart'))
 };

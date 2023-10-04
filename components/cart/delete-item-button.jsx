@@ -1,11 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useTransition } from 'react';
 
 export default function DeleteItemButton({ item }) {
-  const router = useRouter();
+  // const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -30,7 +30,7 @@ export default function DeleteItemButton({ item }) {
             throw new Error(error.toString());
           }
 
-          router.reload();
+          // router.reload();
         });
       }}
       disabled={isPending}

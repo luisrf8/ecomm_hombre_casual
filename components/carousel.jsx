@@ -1,40 +1,9 @@
+import { products } from 'lib/ddbb.js';
 import Link from 'next/link';
 import { GridTileImage } from './grid/tile';
 
 export async function Carousel() {
-  // Simula los productos del carrusel
-  const simulatedProducts = [
-    {
-      handle: 'product-1',
-      title: 'Producto 1',
-      priceRange: {
-        maxVariantPrice: {
-          amount: 10.0,
-          currencyCode: 'USD'
-        }
-      },
-      featuredImage: {
-        url: '/path-to-image-1.jpg' // URL de la imagen simulada
-      }
-    },
-    {
-      handle: 'product-2',
-      title: 'Producto 2',
-      priceRange: {
-        maxVariantPrice: {
-          amount: 15.0,
-          currencyCode: 'USD'
-        }
-      },
-      featuredImage: {
-        url: '/path-to-image-2.jpg' // URL de la imagen simulada
-      }
-    },
-    // Agrega más productos simulados aquí
-  ];
-
-  // Duplica los productos para crear un carrusel infinito
-  const carouselProducts = [...simulatedProducts, ...simulatedProducts, ...simulatedProducts];
+  const carouselProducts = [...products];
 
   return (
     <div className="w-full overflow-x-auto pb-6 pt-1">
@@ -52,7 +21,7 @@ export async function Carousel() {
                   amount: product.priceRange.maxVariantPrice.amount,
                   currencyCode: product.priceRange.maxVariantPrice.currencyCode
                 }}
-                src={product.featuredImage?.url}
+                // src={product.featuredImage?.url}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
               />

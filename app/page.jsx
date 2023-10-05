@@ -14,13 +14,13 @@ export const metadata = {
 export default async function HomePage() {
   return (
     <>
-      <ThreeItemGrid />
-      <Suspense>
-        <Carousel />
+        <ThreeItemGrid />
         <Suspense>
-          <Footer />
+          <Carousel />
+          <Suspense>
+            <Footer />
+          </Suspense>
         </Suspense>
-      </Suspense>
     </>
   );
 }

@@ -25,7 +25,6 @@ export function ProductDescription(data) {
         item: itemSelected,
       }
       setNewItem(newItemConcat)
-      console.log("luis", newItemConcat)
     }
   }
 

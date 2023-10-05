@@ -1,14 +1,12 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { addItem } from 'components/cart/actions';
 import LoadingDots from 'components/loading-dots';
-// Importa el tipo ProductVariant adecuado desde tu librería si es necesario
-// import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart, } from './reducers/cartReducer';
 export function AddToCart(data) {
+  const dispatch = useDispatch();
   const {newItem} = data
-  console.log("luiscart",newItem);
-  // const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   // const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
   // const variant = variants.find((variant) =>
@@ -17,6 +15,10 @@ export function AddToCart(data) {
   //   )
   // );
   // const selectedVariantId = variant?.id || defaultVariantId;
+  
+  function handleAddToCart(product) {
+    dispatch(addToCart(product))
+  }
   const title = !newItem
     ? 'Please select options'
     : undefined;
@@ -31,7 +33,7 @@ export function AddToCart(data) {
         if (!newItem) return;
 
         startTransition(async () => {
-          const error = await addItem(newItem);
+          const error = await handleAddToCart(newItem);
 
           if (error) {
             // Activa el límite de error en el archivo de error raíz (error.js)

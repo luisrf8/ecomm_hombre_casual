@@ -1,35 +1,39 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
-// import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { removeFromCart, } from './reducers/cartReducer';
+
 import { useTransition } from 'react';
 
 export default function DeleteItemButton({ item }) {
-  // const router = useRouter();
+  const dispatch = useDispatch();
   const [isPending, startTransition] = useTransition();
-
+  function handleRemoveFromCart(product) {
+    dispatch(removeFromCart(product))
+  }
   return (
     <button
       aria-label="Remove cart item"
       onClick={() => {
         startTransition(async () => {
           // Simula la eliminación de un elemento del carrito. Puedes reemplazar esto con la lógica real de eliminación del carrito.
-          const simulatedRemoveItem = async (itemId) => {
+          const simulatedRemoveItem = async (item) => {
             // Simulación de la eliminación de un elemento del carrito.
             return new Promise((resolve) => {
               setTimeout(() => {
+                handleRemoveFromCart(item);
                 resolve(null); // Devuelve null si la eliminación es exitosa o un mensaje de error si falla.
               }, 1000); // Simulamos un retraso de 1 segundo.
             });
           };
 
-          const error = await simulatedRemoveItem(item.id);
+          const error = await simulatedRemoveItem(item);
 
           if (error) {
             // Trigger the error boundary in the root error.js
             throw new Error(error.toString());
           }
-
           // router.reload();
         });
       }}

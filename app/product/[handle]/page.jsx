@@ -1,4 +1,5 @@
 "use client"
+import { store } from 'components/cart/store';
 import { GridTileImage } from 'components/grid/tile';
 import Footer from 'components/layout/footer';
 import { ProductDescription } from 'components/product/product-description';
@@ -6,64 +7,14 @@ import { products } from 'lib/ddbb.js';
 import Link from 'next/link';
 import { notFound, usePathname } from 'next/navigation';
 import { Suspense } from 'react';
+import { Provider } from 'react-redux';
 export const runtime = 'edge';
-
-// export async function generateMetadata() {
-//   const product = sampleProduct;
-
-//   if (!product) return notFound();
-
-//   const { url, width, height, altText: alt } = product.featuredImage || {};
-//   const indexable = true;
-
-//   return {
-//     title: product.title,
-//     description: product.description,
-//     robots: {
-//       index: indexable,
-//       follow: indexable,
-//       googleBot: {
-//         index: indexable,
-//         follow: indexable
-//       }
-//     },
-//     openGraph: url
-//       ? {
-//           images: [
-//             {
-//               url,
-//               width,
-//               height,
-//               alt
-//             }
-//           ]
-//         }
-//       : null
-//   };
-// }
 
 export default function ProductPage() {
   const router = usePathname()
   const segments = router.split('/');
   const handle = segments[segments.length - 1];
   const product = products.find((product) => product.handle === handle);
-// Verificar si se encontró el producto
-  // const [product, setProduct] = useState(null);
-
-  // useEffect(() => {
-  //   if (handle) {
-  //     // Realiza una solicitud para obtener los datos del producto por su 'handle'
-  //     axios.get(`/api/products/${handle}`)
-  //       .then((response) => {
-  //         setProduct(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error al obtener datos del producto:', error);
-  //       });
-  //   }
-  // }, [handle]);
-
-  // const product = sampleProduct;
 
   if (!product) return notFound();
 
@@ -83,6 +34,7 @@ export default function ProductPage() {
   };
 
   return (
+    <Provider store={store}>
     <>
       <script
         type="application/ld+json"
@@ -110,6 +62,7 @@ export default function ProductPage() {
         <Footer />
       </Suspense>
     </>
+    </Provider>
   );
 }
 

@@ -1,71 +1,92 @@
 import clsx from 'clsx';
-export function VariantSelector(data) {
-  const { options, variants, setItemSelected } = data;
+import { useEffect, useState } from 'react';
 
-  const arr = [];
-  function selectItems(data) {
-    const existingIndex = arr.findIndex((item) => item.id === data.id);
-    if (existingIndex !== -1) {
-      arr[existingIndex] = { name: data.name, value: data.value, id: data.id };
+export function VariantSelector({ options, variants, setItemSelected }) {
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [filteredVariants, setFilteredVariants] = useState([]);
+
+  // Actualiza las variantes filtradas cuando cambian las opciones seleccionadas.
+  useEffect(() => {
+    // Filtra las variantes en función de las opciones seleccionadas.
+    const filtradas = variants.filter((variante) =>
+      Object.entries(selectedOptions).every(([nombreOpcion, valorOpcion]) => {
+        const opcionSeleccionada = variante.selectedOptions.find(
+          (opt) => opt.name === nombreOpcion
+        );
+        return opcionSeleccionada?.value === valorOpcion;
+      })
+    );
+    setFilteredVariants(filtradas);
+  }, [selectedOptions, variants]);
+
+  useEffect(() => {
+    // Maneja la selección del artículo aquí en función de las variantes filtradas.
+    if (filteredVariants.length === 1) {
+      setItemSelected(filteredVariants[0]);
     } else {
-      arr.push({ name: data.name, value: data.value, id: data.id });
+      setItemSelected(null);
     }
-    if(arr.length > 1){
-      setItemSelected(arr)
-    }
-  }
-  const simulatedVariants = variants;
-  const simulatedOptions = options;
-  const hasNoOptionsOrJustOneOption =
-    !simulatedOptions.length ||
-    (simulatedOptions.length === 1 && simulatedOptions[0]?.values.length === 1);
+  }, [filteredVariants, setItemSelected]);
 
-  if (hasNoOptionsOrJustOneOption) {
-    return null;
-  }
+  const handleOptionClick = (nombreOpcion, valorOpcion) => {
+    setSelectedOptions((opcionesSeleccionadasAnteriores) => ({
+      ...opcionesSeleccionadasAnteriores,
+      [nombreOpcion]: valorOpcion,
+    }));
+  };
 
-  const combinations = simulatedVariants.map((variant) => ({
-    id: variant.id,
-    availableForSale: variant.availableForSale,
-    ...variant,
-  }));
+  const handleClearSelection = () => {
+    setSelectedOptions({});
+  };
 
-  return simulatedOptions.map((option) => (
-    <dl className="mb-8" key={option.id}>
-      <dt className="mb-4 text-sm uppercase tracking-wide">{option.name}</dt>
-      <dd className="flex flex-wrap gap-3">
-        {option.values.map((value) => {
-          const optionNameLowerCase = option.name.toLowerCase();
-          const filtered = simulatedOptions.filter(
-            (opt) => opt.isActive && opt.name.toLowerCase() === optionNameLowerCase
-          );
-          const isAvailableForSale = combinations.find((combination) =>
-            filtered.every((opt) => combination[opt.name] === opt.values.find((v) => v.isActive))
-          );
-          const isActive = value.isActive;
-          return (
-            <button
-              key={value.name}
-              title={`${option.name} ${value.name}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-              onClick={() => {
-                selectItems({value: value.name, name: option.name, id: option.id})
-              }}
-              className={clsx(
-                'flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm dark:border-neutral-800 dark:bg-neutral-900',
-                {
-                  'cursor-pointer ring-2 ring-blue-600': isActive,
-                  'ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-blue-600 ':
-                    !isActive,
-                  'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform dark:bg-neutral-900 dark:text-neutral-400 dark:ring-neutral-700 before:dark:bg-neutral-700':
-                    !isActive,
-                }
-              )}
-            >
-              {value.name}
-            </button>
-          );
-        })}
-      </dd>
-    </dl>
-  ));
+  return (
+    <>
+      {options.map((opcion) => (
+        <div className="mb-8" key={opcion.id}>
+          <dt className="mb-4 text-sm uppercase tracking-wide">
+            {opcion.name}
+          </dt>
+          <dd className="flex flex-wrap gap-3">
+            {opcion.values.map((valor) => (
+              <button
+                key={valor.name}
+                onClick={() => handleOptionClick(opcion.name, valor.name)}
+                className={clsx(
+                  'flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm dark:border-neutral-800 dark:bg-neutral-900',
+                  {
+                    'cursor-pointer': valor.isActive && !selectedOptions[opcion.name],
+                    'ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-blue-600':
+                      !selectedOptions[opcion.name] && filteredVariants.some((variante) =>
+                        variante.selectedOptions.some(
+                          (opt) =>
+                            opt.name === opcion.name &&
+                            opt.value === valor.name
+                        )
+                      ),
+                    'ring-2 ring-blue-600': selectedOptions[opcion.name] === valor.name,
+                    'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform dark:bg-neutral-900 dark:text-neutral-400 dark:ring-neutral-700 before:dark:bg-neutral-700':
+                      !filteredVariants.some((variante) =>
+                        variante.selectedOptions.some(
+                          (opt) =>
+                            opt.name === opcion.name &&
+                            opt.value === valor.name
+                        )
+                      ),
+                  }
+                )}
+              >
+                {valor.name}
+              </button>
+            ))}
+          </dd>
+        </div>
+      ))}
+      <button
+          onClick={handleClearSelection}
+          className="text-sm text-blue-600 cursor-pointer my-4"
+        >
+          Limpiar selección
+      </button>
+    </>
+  );
 }

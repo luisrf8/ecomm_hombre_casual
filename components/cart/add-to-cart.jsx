@@ -6,15 +6,23 @@ import { useDispatch } from 'react-redux';
 import { addToCart, } from './reducers/cartReducer';
 export function AddToCart(data) {
   const dispatch = useDispatch();
-  const {newItem} = data
+  const { newItem, item } = data
+  const { variants } = item
+  // console.log("luis data product item", { item: { img: item.featuredImage, handle: item.handle, variants: item.variants[0], id: item.id, quantity: 1, }});
   const [isPending, startTransition] = useTransition();
-  // const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
-  // const variant = variants.find((variant) =>
-  //   variant.selectedOptions.every(
-  //     (option) => option.value === searchParams.get(option.name.toLowerCase())
-  //   )
-  // );
-  // const selectedVariantId = variant?.id || defaultVariantId;
+  
+  const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
+  
+  const variant = variants.find((element) =>
+  element.selectedOptions.every(
+    (option) => option === newItem.item
+    )
+  );
+    
+  // console.log("luis data product new item", newItem)
+  // console.log("luis data variant selected", variants);
+  const selectedVariantId = variant?.id || defaultVariantId;
+  // console.log("luis selectedVariantId", selectedVariantId);
   
   function handleAddToCart(product) {
     dispatch(addToCart(product))
@@ -31,7 +39,7 @@ export function AddToCart(data) {
       onClick={() => {
         // Salvaguarda en caso de que alguien manipule `disabled` en las devtools.
         if (!newItem) return;
-
+        // if (!availableForSale || !selectedVariantId) return;
         startTransition(async () => {
           const error = await handleAddToCart(newItem);
 

@@ -27,7 +27,6 @@ export function ProductDescription(data) {
       setNewItem(newItemConcat)
     }
   }
-
   return (
     <>
       <div className="mb-6 flex flex-col border-b pb-6 dark:border-neutral-700">
@@ -44,7 +43,7 @@ export function ProductDescription(data) {
       {product.descriptionHtml ? (
         <Prose className="mb-6 text-sm leading-tight dark:text-white/[60%]" html={product.descriptionHtml} />
       ) : null}
-      <AddToCart variants={product.variants} availableForSale={product.availableForSale} newItem={newItem}/>
+      <AddToCart variants={product.variants} item={product} availableForSale={product.availableForSale} newItem={newItem}/>
     </>
   );
 }

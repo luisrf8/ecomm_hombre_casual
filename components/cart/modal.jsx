@@ -1,17 +1,21 @@
 'use client';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
+import LoadingDots from 'components/loading-dots';
 import { DEFAULT_OPTION } from 'lib/constants';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Price from '../price';
 import CloseCart from './close-cart';
 import DeleteItemButton from './delete-item-button';
+// import EditItemQuantityButton from './edit-item-quantity-button';
 import OpenCart from './open-cart';
-import { addToCart, removeFromCart } from './reducers/cartReducer';
+import { removeAllCart } from './reducers/cartReducer';
 
 export default function CartModal() {
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
+  const [isPending, startTransition] = useTransition();
+
   const [isOpen, setIsOpen] = useState(false);
   const quantityRef = useRef(cart?.totalQuantity);
   
@@ -19,15 +23,14 @@ export default function CartModal() {
   const closeCart = () => setIsOpen(false);
 
   useEffect(() => {
-    console.log("luis cart test", cart)
+    openCart();
+    console.log("Luis lenght",cart)
   }, [cart])
 
-  function handleRemoveFromCart(product) {
-    dispatch(removeFromCart(product))
+  function handleRemoveFromCart() {
+    dispatch(removeAllCart())
   }
-  function handleAddToCart(product) {
-    dispatch(addToCart(product))
-  }
+
   // useEffect(() => {
   //   // Open cart modal when quantity changes.
   //   if (cart?.totalQuantity !== quantityRef.current) {
@@ -44,8 +47,9 @@ export default function CartModal() {
   return (
     <>
       <button aria-label="Open cart" onClick={openCart}>
-        <OpenCart quantity={cart?.totalQuantity} />
+        <OpenCart quantity={cart.length} />
       </button>
+      
       {isOpen && (
         <><div style={{ zIndex: 1}} className="fixed inset-0 bg-black/30" aria-hidden="true" /><div style={{ zIndex: 1,}} className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl dark:border-neutral-700 dark:bg-black/80 dark:text-white md:w-[390px]" >
           <div className="flex items-center justify-between">
@@ -60,11 +64,42 @@ export default function CartModal() {
               <p className="mt-6 text-center text-2xl font-bold">Your cart is empty.</p>
             </div>
           ) : (
-            <div className="flex h-full flex-col justify-between overflow-hidden p-1">
-              <ul className="flex-grow overflow-auto py-4">
+            <div className="flex h-full flex-col justify-between overflow-hidden">
+              <div className="flex justify-start items-center cursor-pointer" style={{border:"0.5px solid #404040", width:"fit-content", borderRadius:"5px"}}
+              onClick={()=> {
+                startTransition(async () => {
+                  const simulatedRemoveItem = async () => {
+                    return new Promise((resolve) => {
+                      setTimeout(() => {
+                        handleRemoveFromCart()
+                        resolve(null);
+                      }, 1000); 
+                    });
+                  };
+                  const error = await simulatedRemoveItem();
+                  if (error) {
+                    throw new Error(error.toString());
+                  }
+                });
+              }}>
+                
+                <button className='flex items-center'>
+                  {isPending ? (
+                    <LoadingDots className="bg-white m-1" />
+                    ) : (
+                    <TrashIcon
+                      className='h-4 transition-all ease-in-out hover:scale-110 mx-1 my-1'
+                    />
+                  )}
+                </button>
+                <span className='mx-1' style={{fontSize:"12px"}}>
+                Remover todos los items
+                </span>
+              </div>
+              <ul className="flex-grow overflow-auto py-2">
                 {cart.map((item, i) => {
-
                   return (
+                    
                     <li
                       key={i}
                       className="flex w-full flex-col border-b border-neutral-300 dark:border-neutral-700"
@@ -86,15 +121,15 @@ export default function CartModal() {
                                 item.title}
                               src={item.featuredImage.url} /> */}
                           </div>
-                          <div className="flex flex-1 flex-col text-base">
+                          <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">
                               {item.title}
                             </span>
-                            {item.title !== DEFAULT_OPTION ? (
-                              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                                {item.title}
-                              </p>
-                            ) : null}
+                            {item && item.item && item.item.title !== DEFAULT_OPTION ? (
+                            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                              {item.item.title}
+                            </p>
+                          ) : null}
                           </div>
                         {/* </Link> */}
                         <div className="flex h-16 flex-col justify-between">
@@ -103,13 +138,13 @@ export default function CartModal() {
                             amount={item.price}
                             // currencyCode={item.cost.totalAmount.currencyCode}
                             />
-                          <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
-                            {/* <EditItemQuantityButton item={item} type="minus" /> */}
+                          {/* <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
+                            <EditItemQuantityButton item={item} type="minus" />
                             <p className="w-6 text-center">
-                              {/* <span className="w-full text-sm">{item.quantity}</span> */}
+                              <span className="w-full text-sm">{item.quantity}</span>
                             </p>
-                            {/* <EditItemQuantityButton item={item} type="plus" /> */}
-                          </div>
+                            <EditItemQuantityButton item={item} type="plus" />
+                          </div> */}
                         </div>
                       </div>
                     </li>
@@ -117,18 +152,6 @@ export default function CartModal() {
                 })}
               </ul>
               <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
-                <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 dark:border-neutral-700">
-                  <p>Taxes</p>
-                  {/* <Price
-                    className="text-right text-base text-black dark:text-white"
-                    amount={cart.cost.totalTaxAmount.amount}
-                    // currencyCode={cart.cost.totalTaxAmount.currencyCode} 
-                    /> */}
-                </div>
-                <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
-                  <p>Shipping</p>
-                  <p className="text-right">Calculated at checkout</p>
-                </div>
                 <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
                   <p>Total</p>
                   {/* <Price
@@ -150,6 +173,3 @@ export default function CartModal() {
     </>
   );
 }
-
-// Asegúrate de que las importaciones y configuraciones estén correctamente configuradas para tu proyecto.
-

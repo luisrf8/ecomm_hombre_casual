@@ -25,6 +25,9 @@ export default function FormPage({ searchParams }) {
           <div className="basis-full lg:basis-2/6">
             <FormInputs />
           </div>
+          <div className="basis-full lg:basis-2/6 flex justify-center">
+            hola
+          </div>
         </div>
       </div>
     </>

@@ -77,7 +77,7 @@ export default function App() {
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <h2 className="text-base font-semibold leading-7 text-white-900">Personal Info.</h2>
           
-          <InputField label="Name" name="firstName" register={register}/>
+          <InputField label="Name" name="firstName" register={register} required/>
           <div className='flex row gap-x-4'>
             <SelectField label="ID Code" name="IDCode" register={register} options={[
               { value: "V", label: "V" },
@@ -86,7 +86,7 @@ export default function App() {
               { value: "G", label: "G" },
             ]} />
             <div style={{width:"27rem"}}>
-              <InputField label="ID Number" name="IDNumber" register={register}  />
+              <InputField label="ID Number" name="IDNumber" register={register} required/>
             </div>
           </div>
           <div className='flex row gap-x-4'>
@@ -98,12 +98,12 @@ export default function App() {
               { value: "+58426", label: "0426" },
             ]} />
             <div style={{width:"27rem"}}>
-              <InputField label="Phone Number" name="phoneNumber" register={register}/>
+              <InputField label="Phone Number" name="phoneNumber" register={register} required/>
             </div>
           </div>
           
-          <InputField label="Email" name="email" register={register} />
-          <InputField label="Address" name="address" register={register}  />
+          <InputField label="Email" name="email" register={register} required/>
+          <InputField label="Address" name="address" register={register} required/>
 
           <div className='flex justify-between items-center'>
           <label>
@@ -167,9 +167,9 @@ export default function App() {
           </div>
         </fieldset>
 
-          <InputField label="City" name="city" register={register} />
-          <InputField label="State" name="region" register={register} />
-          <InputField label="Address to delivered" name="deliveredAddress" register={register}  />
+          <InputField label="City" name="city" register={register} required/>
+          <InputField label="State" name="region" register={register} required/>
+          <InputField label="Address to delivered" name="deliveredAddress" register={register} required/>
 
           <div className='flex justify-between items-center'>
             <label>
@@ -253,8 +253,8 @@ export default function App() {
           </div>
         </fieldset>
 
-          <InputField label="Order ID (last 4 numbers)" name="payID" register={register} />
-          <InputField label="Date" name="date" register={register} />
+          <InputField label="Order ID (last 4 numbers)" name="payID" register={register} required/>
+          <InputField label="Date" name="date" register={register} required/>
 
           <div className='flex justify-between items-center'>
             <label>

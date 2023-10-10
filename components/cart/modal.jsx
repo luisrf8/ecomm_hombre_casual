@@ -2,16 +2,19 @@
 import { ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import LoadingDots from 'components/loading-dots';
 import { DEFAULT_OPTION } from 'lib/constants';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Price from '../price';
 import CloseCart from './close-cart';
 import DeleteItemButton from './delete-item-button';
-// import EditItemQuantityButton from './edit-item-quantity-button';
+import EditItemQuantityButton from './edit-item-quantity-button';
 import OpenCart from './open-cart';
 import { removeAllCart } from './reducers/cartReducer';
 
+
 export default function CartModal() {
+  const router = useRouter();
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
   const [isPending, startTransition] = useTransition();
@@ -136,15 +139,14 @@ export default function CartModal() {
                           <Price
                             className="flex justify-end space-y-2 text-right text-sm"
                             amount={item.price}
-                            // currencyCode={item.cost.totalAmount.currencyCode}
                             />
-                          {/* <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
+                          <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
                             <EditItemQuantityButton item={item} type="minus" />
                             <p className="w-6 text-center">
                               <span className="w-full text-sm">{item.quantity}</span>
                             </p>
                             <EditItemQuantityButton item={item} type="plus" />
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -154,18 +156,18 @@ export default function CartModal() {
               <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
                 <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
                   <p>Total</p>
-                  {/* <Price
+                  <Price
                     className="text-right text-base text-black dark:text-white"
-                    amount={cart.cost.totalAmount.amount}
-                    currencyCode={cart.cost.totalAmount.currencyCode} /> */}
+                    amount={100}
+                  />
                 </div>
               </div>
-              <a
-                // href={cart.checkoutUrl}
+              <button
+                onClick={() => router.push('/form')}
                 className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
               >
                 Proceed to Checkout
-              </a>
+              </button>
             </div>
           )}
         </div></>

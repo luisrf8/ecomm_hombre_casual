@@ -1,13 +1,13 @@
 "use client"
+import { Carousel } from 'components/carousel';
 import { store } from 'components/cart/store';
-import { GridTileImage } from 'components/grid/tile';
 import Footer from 'components/layout/footer';
 import { ProductDescription } from 'components/product/product-description';
 import { products } from 'lib/ddbb.js';
-import Link from 'next/link';
 import { notFound, usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 import { Provider } from 'react-redux';
+
 export const runtime = 'edge';
 
 export default function ProductPage() {
@@ -55,7 +55,12 @@ export default function ProductPage() {
           </div>
         </div>
         <Suspense>
-          <RelatedProducts />
+          <div className='mt-6 text-lg font-semibold'>
+            <label>
+              Otros Productos.
+            </label>
+            <Carousel />
+          </div>
         </Suspense>
       </div>
       <Suspense>
@@ -63,59 +68,5 @@ export default function ProductPage() {
       </Suspense>
     </>
     </Provider>
-  );
-}
-
-function RelatedProducts() {
-  const relatedProducts = [
-    {
-      handle: "producto1",
-      title: "Producto Relacionado 1",
-      priceRange: {
-        minVariantPrice: {
-          currencyCode: "USD",
-          amount: 75.0
-        },
-        maxVariantPrice: {
-          currencyCode: "USD",
-          amount: 90.0
-        }
-      },
-      featuredImage: {
-        url: "https://ejemplo.com/producto1.jpg",
-        width: 800,
-        height: 600,
-        altText: "Imagen Producto Relacionado 1"
-      }
-    },
-    // Agrega más productos relacionados simulados aquí
-  ];
-
-  return (
-    <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Productos Relacionados</h2>
-      <ul className="flex w-full gap-4 overflow-x-auto pt-1">
-        {relatedProducts.map((product) => (
-          <li
-            key={product.handle}
-            className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
-          >
-            <Link className="relative h-full w-full" href={`/product/${product.handle}`} >
-              <GridTileImage
-                alt={product.title}
-                label={{
-                  title: product.title,
-                  amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
-                }}
-                // src={product.featuredImage.url}
-                fill
-                sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-              />
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

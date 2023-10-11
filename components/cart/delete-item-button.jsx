@@ -2,7 +2,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
 import { useDispatch } from 'react-redux';
-import { removeFromCart, } from './reducers/cartReducer';
+import { removeItemFromCart, } from './reducers/cartReducer';
 
 import { useTransition } from 'react';
 
@@ -10,7 +10,7 @@ export default function DeleteItemButton({ item }) {
   const dispatch = useDispatch();
   const [isPending, startTransition] = useTransition();
   function handleRemoveFromCart(product) {
-    dispatch(removeFromCart(product))
+    dispatch(removeItemFromCart(product))
   }
   return (
     <button

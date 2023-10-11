@@ -39,17 +39,16 @@ return(
                     {item.item.title}
                   </p>
                   ) : null}
+                  <span className="leading-tight text-sm text-neutral-500 dark:text-neutral-400">
+                    Cantidad: {item.quantity}
+                  </span>
                 </div>
                 <div className="flex h-16 flex-col justify-between">
                   <Price
-                    className="flex justify-end space-y-2 text-right text-sm"
+                    className="flex justify-end text-right text-sm"
                     amount={item.price}
-                    // currencyCode={item.cost.totalAmount.currencyCode}
                   />
                 </div>
-                <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
-                
-              </div>
               </div>
             </li> 
           )

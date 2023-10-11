@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 function InputField({ label, name, register, required }) {
   return (
     <div className="sm:col-span-3 mt-4">
-      <label className="block text-sm font-medium leading-6 text-white-900">
+      <label className="block text-sm font-medium leading-6 text-white-900 w-full">
         {label}
       </label>
       <input
         {...register(name, { required })}
         style={{height: '2.5rem', width: '100%'}}
-        className="block w-250 bg-transparent p-3 rounded-md border-0 py-1.5 text-white-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        className="block w-250 bg-transparent p-3 rounded-md border-1 border-neutral-200 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
       />
     </div>
   );
@@ -26,11 +26,11 @@ function SelectField({ label, name, register, options }) {
       </label>
       <select
         {...register(name)}
-        style={{height: '2.5rem', width:'3.5rem'}}
-        className="block w-250 flex justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-white-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        style={{height: '2.5rem', width:'3.5rem', background: 'transparent'}}
+        className="block w-250 flex justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} className=''>
             {option.label}
           </option>
         ))}

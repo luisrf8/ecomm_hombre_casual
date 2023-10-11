@@ -23,16 +23,16 @@ export default function FilterItemDropdown({ list }) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    list.forEach((listItem) => {
-      if (
-        ('path' in listItem && pathname === listItem.path) ||
-        ('slug' in listItem && searchParams.get('sort') === listItem.slug)
-      ) {
-        setActive(listItem.title);
-      }
-    });
-  }, [pathname, list, searchParams]);
+  // useEffect(() => {
+  //   list.forEach((listItem) => {
+  //     if (
+  //       ('path' in listItem && pathname === listItem.path) ||
+  //       ('slug' in listItem && searchParams.get('sort') === listItem.slug)
+  //     ) {
+  //       setActive(listItem.title);
+  //     }
+  //   });
+  // }, [pathname, list, searchParams]);
 
   return (
     <div className="relative" ref={ref}>

@@ -1,16 +1,27 @@
 "use client"
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 export default function CartItems() {
 const cart = useSelector(state => state.cart)
+const [totalAmount, setTotalAmount] = useState(0);
+
 useEffect(() => {
-  console.log("Luis lenght",cart)
+  totalCardAmount()
 }, [cart])
 useEffect(() => {
-  console.log("Luis lenght",cart)
+}, [totalAmount]);
+useEffect(() => {
 })
+function totalCardAmount() {
+  let total = 0
+  for (let i = 0; i < cart.length; i++) {
+    const amount = cart[i].quantity * cart[i].price
+    total += amount      
+  }
+  setTotalAmount(total)
+}
 return(
     <div className='column'>
       <ul className="flex-grow overflow-auto py-2">
@@ -58,16 +69,14 @@ return(
         <p>Sub Total</p>
           <Price
           className="text-right text-base text-black dark:text-white"
-          amount={70}
-          // currencyCode={cart.cost.totalAmount.currencyCode}
+          amount={totalAmount}
           />
       </div>
       <div className="mb-3 flex items-center justify-between pb-1 pt-1 dark:border-neutral-700">
         <p>Total</p>
           <Price
           className="text-right text-base text-black dark:text-white"
-          amount={100}
-          // currencyCode={cart.cost.totalAmount.currencyCode}
+          amount={totalAmount + totalAmount * 0.12}
           />
       </div>
     </div>

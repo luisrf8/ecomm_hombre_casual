@@ -19,6 +19,7 @@ export default function CartModal() {
   const [isPending, startTransition] = useTransition();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
   
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
@@ -26,7 +27,20 @@ export default function CartModal() {
   useEffect(() => {
     openCart();
     console.log("Luis lenght",cart)
+    totalCardAmount()
   }, [cart])
+
+  useEffect(() => {
+  }, [totalAmount]);
+
+  function totalCardAmount() {
+    let total = 0
+    for (let i = 0; i < cart.length; i++) {
+      const amount = cart[i].quantity * cart[i].price
+      total += amount      
+    }
+    setTotalAmount(total)
+  }
 
   function handleRemoveFromCart() {
     dispatch(removeAllCart())
@@ -155,10 +169,17 @@ export default function CartModal() {
               </ul>
               <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
                 <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
+                  <p>Sub Total</p>
+                  <Price
+                    className="text-right text-base text-black dark:text-white"
+                    amount={totalAmount}
+                  />
+                </div>
+                <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
                   <p>Total</p>
                   <Price
                     className="text-right text-base text-black dark:text-white"
-                    amount={100}
+                    amount={totalAmount + totalAmount * 0.12}
                   />
                 </div>
               </div>

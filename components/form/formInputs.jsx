@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 
+import axios from 'axios';
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {
   return (
@@ -53,6 +54,16 @@ export default function App() {
   };
 
   const onSubmitFormThree = (data) => {
+    const apiUrl = 'http://localhost:3008/Order';
+    // Realizar la solicitud GET usando Axios
+    axios.post(apiUrl, data)
+      .then(response => {
+        // La respuesta exitosa se almacena en el estado
+        console.log("peticion",response.data);
+      })
+      .catch(error => {
+        console.error('Hubo un error al hacer la solicitud GET:', error);
+      });
     console.log('Formulario 3 enviado:', data);
   };
   

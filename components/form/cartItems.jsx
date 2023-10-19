@@ -24,12 +24,14 @@ function totalCardAmount() {
 }
 return(
     <div className='column'>
-      <ul className="flex-grow overflow-auto py-2">
+      <ul className="flex-grow overflow-auto py-2"
+        style={{height: '32rem',}}
+      >
         {cart.map((item,i ) => {
           return (
             <li
               key={i}
-              className="flex w-full flex-col dark:border-neutral-700"
+              className="flex w-full flex-col dark:border-neutral-700 "
             >
               <div className="relative flex w-full flex-row justify-between px-1 py-4">
                 <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800">

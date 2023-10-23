@@ -36,7 +36,7 @@ export default function CartModal() {
   
   useEffect(() => {
     // URL de la ruta a la que deseas hacer la solicitud GET
-    const apiUrl = 'http://localhost:3008/items';
+    // const apiUrl = 'http://localhost:3008/items';
     // Realizar la solicitud GET usando Axios
     api.get("/items")
       .then(response => {

@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialCartState = (() => {
-  const storedCart = localStorage.getItem('cart');
-  try {
-    return storedCart ? JSON.parse(storedCart) : [];
-  } catch (error) {
-    console.error('Error al analizar el carrito en el almacenamiento local', error);
-    return [];
+  if (typeof localStorage !== 'undefined') {
+    const storedCart = localStorage.getItem('cart');
+    try {
+      return storedCart ? JSON.parse(storedCart) : [];
+    } catch (error) {
+      console.error('Error al analizar el carrito en el almacenamiento local', error);
+      return [];
+    }
   }
+  return [];
 })();
 
 const cartSlice = createSlice({

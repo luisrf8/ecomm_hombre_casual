@@ -39,11 +39,11 @@ export default async function HomePage() {
   return (
     <>
         <IndexCarousel products={carouselProducts}/>
-        <div className='hidden flex-none md:block'>
+        <div className='hidden flex-none xl:block'>
           <Carousel carouselProducts={products} title="Ofertas"/>
         </div>
         <ThreeItemGrid />
-        <div className='hidden flex-none md:block'>
+        <div className='hidden flex-none xl:block'>
           <Carousel carouselProducts={products} title="Productos destacados"/>
         </div>
         <Suspense>

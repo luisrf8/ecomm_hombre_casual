@@ -31,10 +31,10 @@ return(
           return (
             <li
               key={i}
-              className="flex w-full flex-col dark:border-neutral-700 "
+              className="flex w-full flex-col "
             >
               <div className="relative flex w-full flex-row justify-between px-1 py-4">
-                <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800">
+                <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
                   {/* <Image
                   className="h-full w-full object-cover"
                   width={64}
@@ -48,11 +48,11 @@ return(
                     {item.title}
                   </span>
                   {item && item.item && item.item.title !== DEFAULT_OPTION ? (
-                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                  <p className="text-sm text-neutral-500 ">
                     {item.item.title}
                   </p>
                   ) : null}
-                  <span className="leading-tight text-sm text-neutral-500 dark:text-neutral-400">
+                  <span className="leading-tight text-sm text-neutral-500 ">
                     Cantidad: {item.quantity}
                   </span>
                 </div>
@@ -67,17 +67,17 @@ return(
           )
         })}
       </ul>
-      <div className="mt-3 flex items-center justify-between pb-1 pt-1 dark:border-neutral-700">
+      <div className="mt-3 flex items-center justify-between pb-1 pt-1 ">
         <p>Sub Total</p>
           <Price
-          className="text-right text-base text-black dark:text-white"
+          className="text-right text-base text-black"
           amount={totalAmount}
           />
       </div>
-      <div className="mb-3 flex items-center justify-between pb-1 pt-1 dark:border-neutral-700">
+      <div className="mb-3 flex items-center justify-between pb-1 pt-1 ">
         <p>Total</p>
           <Price
-          className="text-right text-base text-black dark:text-white"
+          className="text-right text-base text-black "
           amount={totalAmount + totalAmount * 0.12}
           />
       </div>

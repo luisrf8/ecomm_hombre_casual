@@ -21,7 +21,7 @@ export default function OpenCart({ quantity }) {
     };
   }, []);
   return (
-    <div className="flex items-center gap-1 transition-colors dark:border-neutral-700 dark:text-white w-[5rem] md:w-[6.5rem]">
+    <div className="flex items-center gap-1 transition-colors  w-[5rem] md:w-[6.5rem]">
       <ShoppingCartIcon
         className={clsx('h-7 transition-all ease-in-out hover:scale-110 text-blue-900')}
       />

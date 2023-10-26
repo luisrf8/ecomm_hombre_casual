@@ -35,7 +35,7 @@ export default function Search() {
         autoComplete="off"
         defaultValue={searchParams?.get('q') || ''}
         style={{ border: '1px solid #BABABA'}}
-        className="w-full border rounded-r bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        className="w-full border rounded-r bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800 "
         />
       <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
         <MagnifyingGlassIcon className="h-7 text-neutral-400 font-bold" />

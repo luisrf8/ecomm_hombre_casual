@@ -39,13 +39,9 @@ export default async function HomePage() {
   return (
     <>
         <IndexCarousel products={carouselProducts}/>
-        <div className='hidden flex-none xl:block'>
           <Carousel carouselProducts={products} title="Ofertas"/>
-        </div>
         <ThreeItemGrid />
-        <div className='hidden flex-none xl:block'>
-          <Carousel carouselProducts={products} title="Productos destacados"/>
-        </div>
+          <Carousel carouselProducts={products} title="Trending"/>
         <Suspense>
           <Suspense>
             <Footer />

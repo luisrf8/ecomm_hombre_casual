@@ -1,8 +1,10 @@
 "use client"
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 export default function CartItems() {
 const cart = useSelector(state => state.cart)
 const [totalAmount, setTotalAmount] = useState(0);
@@ -35,13 +37,13 @@ return(
             >
               <div className="relative flex w-full flex-row justify-between px-1 py-4">
                 <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
-                  {/* <Image
+                  <Image
                   className="h-full w-full object-cover"
                   width={64}
                   height={64}
                   alt={item.featuredImage.url ||
                   item.title}
-                  src={item.featuredImage.url} /> */}
+                  src={item.featuredImage.url} />
                 </div>
                 <div className="flex flex-1 flex-col text-base px-3">
                   <span className="leading-tight">

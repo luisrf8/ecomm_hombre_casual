@@ -2,6 +2,7 @@
 import { MinusIcon, PlusIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import LoadingDots from 'components/loading-dots';
 import { DEFAULT_OPTION } from 'lib/constants';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -132,13 +133,13 @@ export default function CartModal() {
                           <DeleteItemButton item={item} />
                         </div>
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
-                            {/* <Image
+                            <Image
                               className="h-full w-full object-cover"
                               width={64}
                               height={64}
                               alt={item.featuredImage.url ||
                                 item.title}
-                              src={item.featuredImage.url} /> */}
+                              src={item.featuredImage.url} />
                           </div>
                           <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">

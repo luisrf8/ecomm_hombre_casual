@@ -56,22 +56,22 @@ export default function Navbar() {
 
   // Define datos simulados para el menú
   const menuItems = [
-    { title: 'Products', path: '/search' },
-    { title: 'About ', path: '/about' },
-    { title: 'Contact', path: '/contact' },
-    { title: 'Products', path: '/search' },
-    { title: 'About ', path: '/about' },
-    { title: 'Contact', path: '/contact' },
-    { title: 'Products', path: '/search' },
-    { title: 'About ', path: '/about' },
-    { title: 'Contact', path: '/contact' },
+    { title: 'Productos', path: '/search' },
+    { title: 'Nosotros ', path: '/about' },
+    { title: 'Contacto', path: '/contact' },
+    { title: 'Productos', path: '/search' },
+    { title: 'Nosotros ', path: '/about' },
+    { title: 'Contacto', path: '/contact' },
+    { title: 'Productos', path: '/search' },
+    { title: 'Nosotros ', path: '/about' },
+    { title: 'Contacto', path: '/contact' },
     // { title: 'Download App', path: '/sw.js' },
   ];
 
   return (
     <nav>
       <div className="relative flex items-center">
-        <div className="flex w-full items-center justify-evenly">
+        <div className="flex w-full items-center justify-evenly pt-4 pb-4">
           <div className="md:hidden flex justify-center w-1/3">
             <MobileMenu menu={menuItems} />
           </div>

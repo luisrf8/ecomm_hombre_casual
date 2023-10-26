@@ -1,4 +1,6 @@
 'use client'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -75,13 +77,25 @@ const IndexCarousel = ({ products }) => {
           ))}
         </div>
         <div className="flex absolute bottom-[40%] left-8 z-30 space-x-3 -translate-y-1/2">
-          <button className="control_prev" onClick={moveLeft}>
-            {'<'}
+          <button
+            className='left-arrow'
+            style={{backgroundColor: "#ffffff3b", borderRadius: '50%'}}
+            onClick={moveRight}
+          >
+            <ChevronLeftIcon
+              className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-white')}
+            />
           </button>
         </div>
         <div className="flex absolute bottom-[40%] right-8 z-30 space-x-3 -translate-y-1/2">
-          <button className="control_next" onClick={moveRight}>
-            {'>'}
+          <button
+            className='right-arrow'
+            style={{backgroundColor: "#ffffff3b", borderRadius: '50%'}}
+            onClick={moveLeft}
+          >
+            <ChevronRightIcon
+              className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-white')}
+            />
           </button>
         </div>
       </div>

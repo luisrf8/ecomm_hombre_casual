@@ -125,7 +125,7 @@ export default function App() {
               style={{width: '4.5rem'}}
               className="rounded-md flex justify-center items-center mt-4 bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-              Next
+              Siguiente
             </button>
           </div>
         </form>
@@ -192,14 +192,14 @@ export default function App() {
                 onClick={handlePreviousStep}
                 className="text-sm font-semibold leading-6 text-white-900"
               >
-                Previous
+                Atras
               </button>
               <button
                 style={{width: '4.5rem'}}
                 type="submit"
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Next
+                Siguiente
               </button>
             </div>
           </div>
@@ -277,13 +277,13 @@ export default function App() {
                 onClick={handlePreviousStep}
                 className="text-sm font-semibold leading-6 text-white-900"
               >
-                Previous
+                Atras
               </button>
               <button
                 type="submit"
                 className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
               >
-                Submit and Pay
+                Cargar pago
               </button>
             </div>
           </div>

@@ -51,7 +51,7 @@ export function AddToCart(data) {
         });
       }}
       className={clsx(
-        'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white hover:opacity-90',
+        'relative flex w-full items-center justify-center rounded-full bg-blue-900 p-4 tracking-wide text-white hover:opacity-90',
         {
           // 'cursor-not-allowed opacity-60 hover:opacity-60': !newItem.value,
           'cursor-not-allowed': isPending
@@ -61,7 +61,7 @@ export function AddToCart(data) {
       <div className="absolute left-0 ml-4">
         {!isPending ? <PlusIcon className="h-5" /> : <LoadingDots className="mb-3 bg-white" />}
       </div>
-      <span>{newItem ? 'Add To Cart' : 'Please select options'}</span>
+      <span>{newItem ? 'Añadir al carrito' : 'Please select options'}</span>
     </button>
   );
 }

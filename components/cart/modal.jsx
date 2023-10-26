@@ -74,7 +74,7 @@ export default function CartModal() {
       </button>
       
       {isOpen && (
-        <><div style={{ zIndex: 1}} className="fixed inset-0 bg-black/30" aria-hidden="true" /><div style={{ zIndex: 1,}} className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl " >
+        <><div style={{ zIndex: 35}} className="fixed inset-0 bg-black/30" aria-hidden="true" /><div style={{ zIndex: 35,}} className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px]" >
           <div className="flex items-center justify-between">
             <p className="text-lg font-semibold">My Cart</p>
             <button aria-label="Close cart" onClick={closeCart}>
@@ -198,9 +198,9 @@ export default function CartModal() {
               </div>
               <button
                 onClick={() => router.push('/form')}
-                className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+                className="block w-full rounded-full bg-blue-900 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
               >
-                Proceed to Checkout
+                PAGAR
               </button>
             </div>
           )}

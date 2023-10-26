@@ -7,10 +7,15 @@ import { Fragment, useEffect, useState } from 'react';
 import Search from './search';
 
 const menuOptions = [
-  { title: 'Inicio', path: '/' },
-  { title: 'Productos', path: '/productos' },
-  { title: 'Acerca de nosotros', path: '/acerca-de' },
-  { title: 'Contacto', path: '/contacto' },
+  { title: 'Products', path: '/search' },
+  { title: 'About ', path: '/about' },
+  { title: 'Contact', path: '/contact' },
+  { title: 'Products', path: '/search' },
+  { title: 'About ', path: '/about' },
+  { title: 'Contact', path: '/contact' },
+  { title: 'Products', path: '/search' },
+  { title: 'About ', path: '/about' },
+  { title: 'Contact', path: '/contact' },
 ];
 
 export default function MobileMenu() {

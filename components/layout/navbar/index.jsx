@@ -1,13 +1,33 @@
 'use client'
+import clsx from 'clsx';
 import Cart from 'components/cart';
 import OpenCart from 'components/cart/open-cart';
 import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import Favorite from './favorite';
 import MobileMenu from './mobile-menu';
 import Search from './search';
+
 export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    // Verifica si la vista es móvil cuando se carga la página y cada vez que cambie el tamaño de la ventana.
+    function checkIfMobileView() {
+      setIsMobileView(window.innerWidth <= 768); // Ajusta este valor según tus necesidades.
+    }
+
+    checkIfMobileView();
+
+    window.addEventListener('resize', checkIfMobileView);
+
+    return () => {
+      window.removeEventListener('resize', checkIfMobileView);
+    };
+  }, []);
   const handleInstallPWA = (event) => {
     // Comprueba si el evento 'beforeinstallprompt' está disponible en el navegador.
     if (deferredPrompt) {
@@ -37,51 +57,63 @@ export default function Navbar() {
   // Define datos simulados para el menú
   const menuItems = [
     { title: 'Products', path: '/search' },
-    { title: 'About Us', path: '/about' },
+    { title: 'About ', path: '/about' },
+    { title: 'Contact', path: '/contact' },
+    { title: 'Products', path: '/search' },
+    { title: 'About ', path: '/about' },
+    { title: 'Contact', path: '/contact' },
+    { title: 'Products', path: '/search' },
+    { title: 'About ', path: '/about' },
     { title: 'Contact', path: '/contact' },
     // { title: 'Download App', path: '/sw.js' },
   ];
 
   return (
-    <nav className="relative flex items-center justify-between p-4 lg:px-6">
-      <div className="block flex-none md:hidden">
-        <MobileMenu menu={menuItems} />
-      </div>
-      <div className="flex w-full items-center">
-        <div className="flex w-full md:w-1/3">
-          <Link href="/" className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6">
-            <LogoSquare />
-            <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
-              {/* {SITE_NAME} */} STORE
+    <nav>
+      <div className="relative flex items-center">
+        <div className="flex w-full items-center justify-evenly">
+          <div className="md:hidden flex justify-center w-1/3">
+            <MobileMenu menu={menuItems} />
+          </div>
+          <div className="flex w-full justify-center md:w-1/3">
+            <Link href="/" className="flex w-full items-center justify-center md:w-auto">
+              <LogoSquare />
+            </Link>
+          </div>
+          <div className="hidden justify-center md:flex md:w-1/3">
+            <Search />
+          </div>
+          <div className="flex justify-center gap-5 md:w-1/3 xs:w-[4rem]">
+            <div className="hidden flex-none md:block">
+              <Favorite 
+                className={clsx('transition-all ease-in-out hover:scale-110')}
+              />
             </div>
-          </Link>
-          <ul className="hidden gap-6 text-sm md:flex md:items-center">
-            {menuItems.map((item) => (
-              <li key={item.title}>
-                <Link
-                  href={item.path}
-                  className="text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
-                >
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <button className='ml-6 text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300'
-            onClick={() => handleInstallPWA()}
-          >
-            Download App
-          </button>
-        </div>
-        <div className="hidden justify-center md:flex md:w-1/3">
-          <Search />
-        </div>
-        <div className="flex justify-end md:w-1/3">
-          <Suspense fallback={<OpenCart />}>
-            <Cart />
-          </Suspense>
+            <Suspense fallback={<OpenCart />}>
+              <Cart />
+            </Suspense>
+          </div>
         </div>
       </div>
+      {isMobileView ? ("") : (
+        <div className="flex justify-center p-6 bg-gray-100">
+          <div className="flex w-full md:w-1/3 justify-evenly ">
+            <ul className="hidden gap-6 text-sm md:flex md:items-center"
+            style={{ fontWeight: "600"}}>
+              {menuItems.map((item) => (
+                <li key={item.title}>
+                  <Link
+                    href={item.path}
+                    className="text-neutral-700 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

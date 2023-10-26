@@ -26,8 +26,6 @@ export default function CartModal() {
   const closeCart = () => setIsOpen(false);
 
   useEffect(() => {
-    openCart();
-    console.log("Luis lenght",cart)
     totalCardAmount()
   }, [cart])
 
@@ -187,14 +185,14 @@ export default function CartModal() {
                   <p>Sub Total</p>
                   <Price
                     className="text-right text-base text-black dark:text-white"
-                    amount={totalAmount}
+                    amount={(totalAmount).toFixed(2)}
                   />
                 </div>
                 <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
                   <p>Total</p>
                   <Price
                     className="text-right text-base text-black dark:text-white"
-                    amount={totalAmount + totalAmount * 0.12}
+                    amount={ (totalAmount + totalAmount * 0.12).toFixed(2) }
                   />
                 </div>
               </div>

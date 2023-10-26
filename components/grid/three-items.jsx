@@ -37,10 +37,18 @@ export function ThreeItemGrid() {
   const [firstProduct, secondProduct, thirdProduct] = products;
 
   return (
-    <section className="mx-auto grid max-w-screen-2xl gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2">
-      <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={thirdProduct} />
-    </section>
+    <>
+      <div className="mx-auto max-w-screen-2xl gap-4 px-3">
+        <div className='flex gap-5 px-8 pb-6'>
+        <p className="text-lg font-semibold flex items-center">Productos</p>
+        <button className='text-[#FFB406]'>Ver más</button>
+        </div>
+        <section className="mx-auto grid max-w-screen-2xl gap-4 px-4 md:grid-cols-6 md:grid-rows-2">
+          <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
+          <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
+          <ThreeItemGridItem size="half" item={thirdProduct} />
+        </section>
+      </div>
+    </>
   );
 }

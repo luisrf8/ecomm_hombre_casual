@@ -1,5 +1,5 @@
 "use client"
-import { Carousel } from 'components/carousel';
+// import Carousel from 'components/carousel';
 import { store } from 'components/cart/store';
 import Footer from 'components/layout/footer';
 import { ProductDescription } from 'components/product/product-description';
@@ -59,7 +59,7 @@ export default function ProductPage() {
             <label>
               Otros Productos.
             </label>
-            <Carousel />
+            {/* <Carousel /> */}
           </div>
         </Suspense>
       </div>

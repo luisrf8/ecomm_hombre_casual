@@ -55,7 +55,7 @@ const IndexCarousel = ({ products }) => {
                   alt={item.handle}
                   width={800}
                   height={400}
-                  className='w-full h-[20rem]'
+                  className='w-full h-[25rem]'
                 />
               </li>
             ))}

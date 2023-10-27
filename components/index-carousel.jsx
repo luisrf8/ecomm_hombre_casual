@@ -47,7 +47,7 @@ const IndexCarousel = ({ products }) => {
     <>
       <div className='relative'>
         <div id="slider" className='w-full' style={sliderContainerStyle}>
-          <ul className="slider-list" style={sliderListStyle}>
+          <ul className="slider-list " style={sliderListStyle}>
             {items.map((item, index) => (
               <li key={index} className="slider-item" style={sliderItemStyle}>
                 <Image
@@ -55,7 +55,7 @@ const IndexCarousel = ({ products }) => {
                   alt={item.handle}
                   width={800}
                   height={400}
-                  className='w-full'
+                  className='w-full h-[20rem]'
                 />
               </li>
             ))}
@@ -66,8 +66,8 @@ const IndexCarousel = ({ products }) => {
             <button
               key={index}
               type="button"
-              className={`w-3 h-3 rounded-full ${
-                index === currentIndex ? 'bg-blue-500' : 'bg-gray-300'
+              className={`w-[3rem] h-1  ${
+                index === currentIndex ? 'bg-white' : 'bg-gray-500'
               }`}
               aria-current={index === currentIndex}
               aria-label={`Slide ${index + 1}`}

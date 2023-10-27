@@ -25,14 +25,6 @@ const carouselProducts = [
     handle: 'product-3',
     image: '/images/imgcarousel.jpg',
   },
-  {
-    handle: 'product-4',
-    image: '/images/imgcarousel.jpg',
-  },
-  {
-    handle: 'product-5',
-    image: '/images/imgcarousel.jpg',
-  },
 ];
 
 export default async function HomePage() {

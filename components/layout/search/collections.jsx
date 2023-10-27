@@ -4,14 +4,18 @@ import FilterList from './filter';
 
 // Simulación de datos de colecciones
 const simulatedCollections = [
-  { id: 'collection1', title: 'Collection 1' },
-  { id: 'collection2', title: 'Collection 2' },
+  { id: 'collection1', title: 'Vidrio Laminado' },
+  { id: 'collection2', title: 'Vidrio Templado' },
+  { id: 'collection3', title: 'Vidrio Insulado' },
+  { id: 'collection4', title: 'Vidrio Antirreflectante' },
+  { id: 'collection5', title: 'Extras' },
+  { id: 'collection6', title: 'Electrodomesticos' },
   // Agrega más colecciones simuladas si es necesario
 ];
 
 // Componente para simular la lista de colecciones
 function CollectionList() {
-  return <FilterList list={simulatedCollections} title="Collections" />;
+  return <FilterList list={simulatedCollections} title="Lineas de Venta"/>;
 }
 
 const skeleton = 'mb-3 h-4 w-5/6 animate-pulse rounded';

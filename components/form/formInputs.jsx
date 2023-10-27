@@ -86,22 +86,22 @@ export default function App() {
       {/* Personal Info */}
       {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
-          <h2 className="text-base font-semibold leading-7 text-white-900">Personal Info.</h2>
+          <h2 className="text-base font-semibold leading-7 text-white-900">Información Personal</h2>
           
-          <InputField label="Name" name="firstName" register={register} required/>
+          <InputField label="Nombre" name="firstName" register={register} required/>
           <div className='flex row gap-x-4'>
-            <SelectField label="ID Code" name="IDCode" register={register} options={[
+            <SelectField label="ID  " name="IDCode" register={register} options={[
               { value: "V", label: "V" },
               { value: "J", label: "J" },
               { value: "E", label: "E" },
               { value: "G", label: "G" },
             ]} />
             <div style={{width:"27rem"}}>
-              <InputField label="ID Number" name="IDNumber" register={register} required/>
+              <InputField label="Número de Cédula" name="IDNumber" register={register} required/>
             </div>
           </div>
           <div className='flex row gap-x-4'>
-            <SelectField label="Code" name="phoneCode" register={register} options={[
+            <SelectField label="Código" name="phoneCode" register={register} options={[
               { value: "+58414", label: "0414" },
               { value: "+58424", label: "0424" },
               { value: "+58412", label: "0412" },
@@ -109,12 +109,12 @@ export default function App() {
               { value: "+58426", label: "0426" },
             ]} />
             <div style={{width:"27rem"}}>
-              <InputField label="Phone Number" name="phoneNumber" register={register} required/>
+              <InputField label="Número de Teléfono" name="phoneNumber" register={register} required/>
             </div>
           </div>
           
           <InputField label="Email" name="email" register={register} required/>
-          <InputField label="Address" name="address" register={register} required/>
+          <InputField label="Dirección" name="address" register={register} required/>
 
           <div className='flex justify-between items-center'>
           <label>
@@ -134,11 +134,11 @@ export default function App() {
       {/* Delivery Info */}
       {step === 2 && (
         <form onSubmit={handleSubmit(onSubmitFormTwo)}>
-          <h2 className="text-base font-semibold leading-7 text-white-900">Sending Info.</h2>
+          <h2 className="text-base font-semibold leading-7 text-white-900">Información de Envío</h2>
 
           {/* Radio Buttons */}
           <fieldset className='pt-5'>
-          <p className="mt-1 text-sm leading-6 text-white-600">Choose your favorite Payment Method.</p>
+          <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu Agencia Favorita.</p>
           <div className="flex row gap-6 mt-4"
             style={{width:"30rem"}}
           >
@@ -178,9 +178,9 @@ export default function App() {
           </div>
         </fieldset>
 
-          <InputField label="City" name="city" register={register} required/>
-          <InputField label="State" name="region" register={register} required/>
-          <InputField label="Address to delivered" name="deliveredAddress" register={register} required/>
+          <InputField label="Ciudad" name="city" register={register} required/>
+          <InputField label="Estado" name="region" register={register} required/>
+          <InputField label="Dirección de la Agencia" name="deliveredAddress" register={register} required/>
 
           <div className='flex justify-between items-center'>
             <label>
@@ -209,14 +209,14 @@ export default function App() {
       {/* Payment Info */}
       {step === 3 && (
         <form onSubmit={handleSubmit(onSubmitFormThree)}
-        style={{width:"30rem"}}
         >
-          <h2 className="text-base font-semibold leading-7 text-white-900">Payment Info.</h2>
+          <h2 className="text-base font-semibold leading-7 text-white-900">Información de Pago.</h2>
 
           {/* Radio Buttons */}
           <fieldset className='pt-5'>
-          <p className="mt-1 text-sm leading-6 text-white-600">Choose your favorite Payment Method.</p>
-          <div className="flex row gap-6 mt-4">
+          <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu Método de Pago.</p>
+          <div className="flex row gap-6 mt-4"
+          >
             <div className="flex items-center gap-x-1">
               <input
                 id="push-everything"
@@ -263,10 +263,8 @@ export default function App() {
             </div>
           </div>
         </fieldset>
-
-          <InputField label="Order ID (last 4 numbers)" name="payID" register={register} required/>
-          <InputField label="Date" name="date" register={register} required/>
-
+          <InputField label="Referencia (ultimos 6 números)" name="payID" register={register} required/>
+          <InputField label="Fecha" name="date" register={register} required/>
           <div className='flex justify-between items-center'>
             <label>
               {step} / 3

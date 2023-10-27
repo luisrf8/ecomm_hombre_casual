@@ -75,7 +75,7 @@ const Carousel = ({ carouselProducts, title }) => {
             onClick={handleLeftArrowClick}
           >
             <ChevronLeftIcon
-              className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-black-900')}
+              className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-black-900')}
             />
           </button>
           <button
@@ -83,7 +83,7 @@ const Carousel = ({ carouselProducts, title }) => {
             onClick={handleRightArrowClick}
           >
             <ChevronRightIcon
-              className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-black-900')}
+              className={clsx('h-5 md:h-12 transition-all ease-in-out hover:scale-110 text-black-900')}
             />
           </button>
         </div>

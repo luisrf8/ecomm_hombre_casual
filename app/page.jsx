@@ -14,16 +14,12 @@ export const metadata = {
 };
 const carouselProducts = [
   {
-    handle: 'product-1',
-    image: '/images/imgcarousel.jpg',
-  },
-  {
     handle: 'product-2',
-    image: '/images/imgcarousel.jpg',
+    image: '/images/Banner-1.jpg',
   },
   {
     handle: 'product-3',
-    image: '/images/imgcarousel.jpg',
+    image: '/images/Banner-2.jpg',
   },
 ];
 

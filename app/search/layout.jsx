@@ -1,3 +1,4 @@
+import Footer from 'components/layout/footer';
 import Collections from 'components/layout/search/collections';
 import { Suspense } from 'react';
 
@@ -13,7 +14,7 @@ export default function SearchLayout({ children }) {
           <FilterList list={sorting} title="Sort by" />
         </div> */}
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </Suspense>
   );
 }

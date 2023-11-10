@@ -25,7 +25,7 @@ export default function Search() {
 
   return (
     <form onSubmit={onSubmit} className="w-max-[550px] relative w-full lg:w-80 xl:w-full inline-flex">
-      <button className="bg-blue-900 hover:bg-gray-400 text-gray-100 py-2 px-4 rounded-l">
+      <button className="bg-[#022368] hover:bg-gray-400 text-gray-100 py-2 px-4 rounded-l">
         Todos
       </button>
       <input

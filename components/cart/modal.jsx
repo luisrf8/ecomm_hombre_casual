@@ -1,10 +1,12 @@
 'use client';
+import { Dialog, Transition } from '@headlessui/react';
 import { MinusIcon, PlusIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import LoadingDots from 'components/loading-dots';
+
 import { DEFAULT_OPTION } from 'lib/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../lib/axios';
 import Price from '../price';
@@ -19,7 +21,8 @@ export default function CartModal() {
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
   const [isPending, startTransition] = useTransition();
-
+  const openMobileMenu = () => setIsOpen(true);
+  const closeMobileMenu = () => setIsOpen(false);
   const [isOpen, setIsOpen] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   
@@ -73,11 +76,32 @@ export default function CartModal() {
       <button aria-label="Open cart" onClick={openCart}>
         <OpenCart quantity={cart.length} />
       </button>
-      
-      {isOpen && (
-        <><div style={{ zIndex: 35}} className="fixed inset-0 bg-black/30" aria-hidden="true" /><div style={{ zIndex: 35,}} className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px]" >
+      <Transition show={isOpen}>
+        <Dialog onClose={closeMobileMenu} className="relative z-50">
+          <Transition.Child
+            as={Fragment}
+            enter="transition-all ease-in-out duration-300"
+            enterFrom="opacity-0 backdrop-blur-none"
+            enterTo="opacity-100 backdrop-blur-[.5px]"
+            leave="transition-all ease-in-out duration-200"
+            leaveFrom="opacity-100 backdrop-blur-[.5px]"
+            leaveTo="opacity-0 backdrop-blur-none"
+          >
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          </Transition.Child>
+          <Transition.Child
+            as={Fragment}
+            enter="transition-all ease-in-out duration-300"
+            enterFrom="translate-x-[30%] xs:translate-x-[100%]"
+            enterTo="translate-x-"
+            leave="transition-all ease-in-out duration-200"
+            leaveFrom="translate-x-30"
+            leaveTo="translate-x-[30%] xs:translate-x-[100%]"
+          >
+          <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full flex-col pb-6">
+        <><div style={{ zIndex: 35, display: 'flex', transform: `translateX(-${0}%)`, transition: 'transform 0.52s ease-in-out'}} className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px]" >
           <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold">My Cart</p>
+            <p className="text-lg font-semibold">Carrito</p>
             <button aria-label="Close cart" onClick={closeCart}>
               <CloseCart />
             </button>
@@ -135,8 +159,8 @@ export default function CartModal() {
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
                             <Image
                               className="h-full w-full object-cover"
-                              width={64}
-                              height={64}
+                              width={100}
+                              height={100}
                               alt={item.featuredImage.url ||
                                 item.title}
                               src={item.featuredImage.url} />
@@ -199,14 +223,17 @@ export default function CartModal() {
               </div>
               <button
                 onClick={() => router.push('/form')}
-                className="block w-full rounded-full bg-blue-900 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
               >
                 PAGAR
               </button>
             </div>
           )}
         </div></>
-      )}
+            </Dialog.Panel>
+          </Transition.Child>
+        </Dialog>
+      </Transition>
     </>
   );
 }

@@ -15,7 +15,6 @@ function ThreeItemGridItem({
       <Link className="relative block aspect-square h-full w-full" href={`/product/${item.handle}`} product={item}>
         <GridTileImage
           src={item.featuredImage.url}
-          fill
           sizes={
             size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
           }
@@ -41,7 +40,7 @@ export function ThreeItemGrid() {
       <div className="mx-auto max-w-screen-2xl gap-4 px-3">
         <div className='flex gap-5 px-8 pb-6'>
         <p className="text-lg font-semibold flex items-center">Productos</p>
-        <button className='text-[#FFB406]'>Ver más</button>
+        <button className='text-[#022368]'>Ver más</button>
         </div>
         <section className="mx-auto grid max-w-screen-2xl gap-4 px-4 md:grid-cols-6 md:grid-rows-2">
           <ThreeItemGridItem size="full" item={firstProduct} priority={true} />

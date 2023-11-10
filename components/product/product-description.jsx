@@ -1,6 +1,6 @@
 'use client';
 import { AddToCart } from 'components/cart/add-to-cart';
-import Price from 'components/price';
+import Price from 'components/product-price';
 import Prose from 'components/prose';
 // import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -29,23 +29,21 @@ export function ProductDescription(data) {
   }
   return (
     <>
-      <div className="mb-6 flex flex-col border-b pb-6 ">
+      <div className="mb-4 flex flex-col border-b pb-6">
         <h1 className="mb-2 text-5xl font-medium">{product.title}</h1>
-        <div className="mr-auto w-auto rounded-full  p-2 text-sm text-white">
+        <div className="">
           <Price amount={product.priceRange.maxVariantPrice.amount} currencyCode={product.priceRange.maxVariantPrice.currencyCode} />
         </div> 
       </div>
-
-      {/* {product && (
-        <Image src={product.featuredImage.url} alt={product.title} 
-        width={100}
-        height={100}/>
-        )} */}
       <VariantSelector options={product.options} variants={product.variants} itemSelected={itemSelected} setItemSelected={setItemSelected}  />
       {product.descriptionHtml ? (
         <Prose className="mb-6 text-sm leading-tight " html={product.descriptionHtml} />
       ) : null}
+      <h4>Descripcion del producto:</h4>
+      <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique nisl vitae ligula varius, vitae laoreet urna feugiat. Nullam eu lacus vel nibh dignissim ullamcorper. Suspendisse potenti. Fusce nec mauris at ligula suscipit cursus a sit amet justo.</span>
+      <div className='flex justify-center mt-2'>
       <AddToCart variants={product.variants} item={product} availableForSale={product.availableForSale} newItem={newItem}/>
+      </div>
     </>
   );
 }

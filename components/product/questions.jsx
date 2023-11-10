@@ -14,7 +14,7 @@ export function Questions() {
                 style={{ border: '1px solid #BABABA'}}
                 className="md:w-[80%] w-full  border md:rounded-l rounded-md bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800"
             />
-            <button className="md:w-[20%] w-full bg-blue-900 hover:bg-gray-400 text-gray-100 py-2 md:rounded-r rounded-md">
+            <button className="md:w-[20%] w-full bg-[#022368] hover:bg-gray-400 text-gray-100 py-2 md:rounded-r rounded-md">
                 Enviar Respuesta
             </button>
         </form>

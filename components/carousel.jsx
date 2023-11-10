@@ -67,7 +67,7 @@ const Carousel = ({ carouselProducts, title }) => {
       <div className='flex justify-between mb-3 pl-[1rem] pr-[1rem]'>
         <div className='flex gap-5'>
         <p className="text-lg font-semibold flex items-center">{title}</p>
-        <button className='text-[#FFB406]'>Ver más</button>
+        <button className='text-[#022368]'>Ver más</button>
         </div>
         <div className='carousel-arrows'>
           <button
@@ -105,7 +105,6 @@ const Carousel = ({ carouselProducts, title }) => {
                     currencyCode: product.priceRange.maxVariantPrice.currencyCode
                   }}
                   src={product.featuredImage.url}
-                  fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                 />
               </Link>

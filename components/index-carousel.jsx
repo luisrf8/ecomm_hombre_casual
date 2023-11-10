@@ -46,16 +46,16 @@ const IndexCarousel = ({ products }) => {
   return (
     <>
       <div className='relative'>
-        <div id="slider" className='w-full' style={sliderContainerStyle}>
+        <div id="slider" className='w-full ' style={sliderContainerStyle}>
           <ul className="slider-list " style={sliderListStyle}>
             {items.map((item, index) => (
               <li key={index} className="slider-item" style={sliderItemStyle}>
                 <Image
                   src={item.image}
                   alt={item.handle}
-                  width={800}
-                  height={400}
-                  className='w-full h-[25rem]'
+                  width={2500}
+                  height={2500}
+                  className='w-full'
                 />
               </li>
             ))}
@@ -78,8 +78,8 @@ const IndexCarousel = ({ products }) => {
         </div>
         <div className="flex absolute bottom-[40%] left-8 z-30 space-x-3 -translate-y-1/2">
           <button
-            className='left-arrow'
-            style={{backgroundColor: "#ffffff3b", borderRadius: '50%'}}
+            className='left-arrow flex justify-center items-center'
+            style={{backgroundColor: "#ffffff3b", borderRadius: '50%', width: '4rem', height: '4rem'}}
             onClick={moveRight}
           >
             <ChevronLeftIcon
@@ -89,8 +89,8 @@ const IndexCarousel = ({ products }) => {
         </div>
         <div className="flex absolute bottom-[40%] right-8 z-30 space-x-3 -translate-y-1/2">
           <button
-            className='right-arrow'
-            style={{backgroundColor: "#ffffff3b", borderRadius: '50%'}}
+            className='right-arrow flex justify-center items-center'
+            style={{backgroundColor: "#ffffff3b", borderRadius: '50%', width: '4rem', height: '4rem'}}
             onClick={moveLeft}
           >
             <ChevronRightIcon

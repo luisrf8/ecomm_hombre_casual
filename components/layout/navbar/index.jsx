@@ -1,11 +1,10 @@
 'use client'
-import clsx from 'clsx';
 import Cart from 'components/cart';
 import OpenCart from 'components/cart/open-cart';
 import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
-import Favorite from './favorite';
+// import Favorite from './favorite';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 
@@ -57,14 +56,9 @@ export default function Navbar() {
   // Define datos simulados para el menú
   const menuItems = [
     { title: 'Productos', path: '/search' },
-    { title: 'Nosotros ', path: '/about' },
-    { title: 'Contacto', path: '/contact' },
-    { title: 'Productos', path: '/search' },
-    { title: 'Nosotros ', path: '/about' },
-    { title: 'Contacto', path: '/contact' },
-    { title: 'Productos', path: '/search' },
-    { title: 'Nosotros ', path: '/about' },
-    { title: 'Contacto', path: '/contact' },
+    { title: 'Vidrio Automotriz', path: '/glass', },
+    { title: 'Vidrio Arquitectónico', path: '/search/arq', },
+    { title: 'Aluminio', path: '/about' },
     // { title: 'Download App', path: '/sw.js' },
   ];
 
@@ -84,11 +78,11 @@ export default function Navbar() {
             <Search />
           </div>
           <div className="flex justify-center gap-5 md:w-1/3 xs:w-[4rem]">
-            <div className="hidden flex-none md:block">
+            {/* <div className="hidden flex-none md:block">
               <Favorite 
                 className={clsx('transition-all ease-in-out hover:scale-110')}
               />
-            </div>
+            </div> */}
             <Suspense fallback={<OpenCart />}>
               <Cart />
             </Suspense>

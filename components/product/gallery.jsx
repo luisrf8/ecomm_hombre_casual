@@ -18,9 +18,9 @@ export function Gallery({ images }) {
 
   return (
     <>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden ">
         <Image
-          className="h-full w-full object-contain"
+          className="h-full w-full object-contain p-12"
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
           src={images.url}

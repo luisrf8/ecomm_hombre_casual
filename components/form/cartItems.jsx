@@ -26,6 +26,7 @@ function totalCardAmount() {
 }
 return(
     <div className='column'>
+      <h2 className="text-base font-semibold leading-7 text-[#022368]">Carrito</h2>
       <ul className="flex-grow overflow-auto py-2"
         style={{height: '32rem',}}
       >
@@ -39,8 +40,8 @@ return(
                 <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
                   <Image
                   className="h-full w-full object-cover"
-                  width={64}
-                  height={64}
+                  width={150}
+                  height={150}
                   alt={item.featuredImage.url ||
                   item.title}
                   src={item.featuredImage.url} />
@@ -69,18 +70,26 @@ return(
           )
         })}
       </ul>
-      <div className="mt-3 flex items-center justify-between pb-1 pt-1 ">
+      <div className="mt-3 flex items-center justify-between"
+      >
         <p>Sub Total</p>
           <Price
           className="text-right text-base text-black"
-          amount={totalAmount}
+          amount={(totalAmount).toFixed(2)}
           />
       </div>
-      <div className="mb-3 flex items-center justify-between pb-1 pt-1 ">
+      <div className="mb-3 flex items-center justify-between pt-1">
+        <p>Impuesto</p>
+          <Price
+          className="text-right text-base text-black "
+          amount={(totalAmount * 0.12).toFixed(2)}
+          />
+      </div>
+      <div className="mb-3 flex items-center justify-between pt-1">
         <p>Total</p>
           <Price
           className="text-right text-base text-black "
-          amount={totalAmount + totalAmount * 0.12}
+          amount={(totalAmount + totalAmount * 0.12).toFixed(2)}
           />
       </div>
     </div>

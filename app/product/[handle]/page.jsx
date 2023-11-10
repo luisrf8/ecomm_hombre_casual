@@ -45,14 +45,15 @@ export default function ProductPage() {
         }}
       />
       <div className="mx-auto max-w-screen-2xl px-4 py-6">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8  md:p-12 lg:flex-row lg:gap-8">
-          <div className="h-full w-full basis-full lg:basis-4/6">
+        <div className="flex flex-col rounded-lg border border-neutral-200 bg-gray-100  lg:flex-row lg:gap-8">
+          <div className="h-full w-full basis-full lg:basis-3/6 bg-white">
             <Gallery
               images={product.featuredImage}
+              className="p-8 md:p-12"
             />
           </div>
 
-          <div className="basis-full lg:basis-2/6">
+          <div className="basis-full md:basis-3/6 md:pl-12 md:pt-12 xs:p-8">
             <ProductDescription product={product} />
           </div>
         </div>

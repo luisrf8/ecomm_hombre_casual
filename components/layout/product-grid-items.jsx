@@ -20,7 +20,6 @@ export default function ProductGridItems({ products }) {
               }}
               src={product.featuredImage?.url}
               available={product.availableForSale}
-              fill
               sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
           </Link>

@@ -1,5 +1,7 @@
 'use client'
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { GridTileImage } from './grid/tile';
 // import './IndexCarousel.css'; // Asegúrate de tener un archivo CSS para los estilos del carrusel.
 
 const Carousel = () => {
@@ -69,9 +71,6 @@ const Carousel = () => {
 
 export default Carousel;
 'use client'
-import Link from 'next/link';
-import { useState } from 'react'; // Import useState
-import { GridTileImage } from './grid/tile';
 <Link href={`/product/${product.handle}`} className="relative w-full">
                 <GridTileImage
                   alt={product.title}
@@ -81,7 +80,6 @@ import { GridTileImage } from './grid/tile';
                     currencyCode: product.priceRange.maxVariantPrice.currencyCode
                   }}
             // src={product.featuredImage?.url}
-            fill
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
         />
     </Link>

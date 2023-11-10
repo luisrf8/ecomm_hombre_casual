@@ -42,8 +42,8 @@ export function VariantSelector({ options, variants, setItemSelected }) {
   return (
     <>
       {options.map((opcion) => (
-        <div className="mb-8" key={opcion.id}>
-          <dt className="mb-4 text-sm uppercase tracking-wide">
+        <div className="" key={opcion.id}>
+          <dt className=" text-sm uppercase tracking-wide">
             {opcion.name}
           </dt>
           <dd className="flex flex-wrap gap-3">

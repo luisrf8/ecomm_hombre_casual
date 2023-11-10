@@ -1,16 +1,19 @@
-import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import LoadingDots from 'components/loading-dots';
-import { useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart, } from './reducers/cartReducer';
 export function AddToCart(data) {
   const dispatch = useDispatch();
+  const [isAble, setIsAble] = useState(false)
+
   const { newItem, item } = data
   const { variants } = item
   // console.log("luis data product item", { item: { img: item.featuredImage, handle: item.handle, variants: item.variants[0], id: item.id, quantity: 1, }});
   const [isPending, startTransition] = useTransition();
-  
+  useEffect(() => {
+    setIsAble(true)
+    console.log("dsadsa", isAble)
+  }, [newItem]);
   const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
   
   const variant = variants.find((element) =>
@@ -36,6 +39,7 @@ export function AddToCart(data) {
       aria-label="Add item to cart"
       // disabled={!newItem}
       title={title}
+      disabled={isAble === false}
       onClick={() => {
         // Salvaguarda en caso de que alguien manipule `disabled` en las devtools.
         if (!newItem) return;
@@ -49,19 +53,19 @@ export function AddToCart(data) {
           }
 
         });
-      }}
+      }} 
       className={clsx(
-        'relative flex w-full items-center justify-center rounded-full bg-blue-900 p-4 tracking-wide text-white hover:opacity-90',
+        'relative flex w-[15rem] items-center justify-center rounded-md bg-[#022368] p-4 tracking-wide text-white hover:opacity-90',
         {
           // 'cursor-not-allowed opacity-60 hover:opacity-60': !newItem.value,
           'cursor-not-allowed': isPending
         }
       )}
     >
-      <div className="absolute left-0 ml-4">
+      {/* <div className="absolute left-0 ml-4">
         {!isPending ? <PlusIcon className="h-5" /> : <LoadingDots className="mb-3 bg-white" />}
-      </div>
-      <span>{newItem ? 'Añadir al carrito' : 'Please select options'}</span>
+      </div> */}
+      <span>{isAble !== false ? 'Añadir al carrito' : 'Please select options'}</span>
     </button>
   );
 }

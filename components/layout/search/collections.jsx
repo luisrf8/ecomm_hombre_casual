@@ -2,27 +2,11 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 import FilterList from './filter';
 
-// Simulación de datos de colecciones
-const simulatedCollections = [
-  { id: 'collection1', title: 'Vidrio Laminado' },
-  { id: 'collection2', title: 'Vidrio Templado' },
-  { id: 'collection3', title: 'Vidrio Insulado' },
-  { id: 'collection4', title: 'Vidrio Antirreflectante' },
-  { id: 'collection5', title: 'Extras' },
-  { id: 'collection6', title: 'Electrodomesticos' },
-  // Agrega más colecciones simuladas si es necesario
-];
-
-// Componente para simular la lista de colecciones
-function CollectionList() {
-  return <FilterList list={simulatedCollections} title="Lineas de Venta"/>;
-}
-
 const skeleton = 'mb-3 h-4 w-5/6 animate-pulse rounded';
 const activeAndTitles = 'bg-neutral-800 ';
 const items = 'bg-neutral-400 ';
 
-export default function Collections() {
+export default function Collections({itemsCollections, title}) {
   return (
     <Suspense
       fallback={
@@ -40,7 +24,7 @@ export default function Collections() {
         </div>
       }
     >
-      <CollectionList />
+      <FilterList list={itemsCollections} title={title}/>
     </Suspense>
   );
 }

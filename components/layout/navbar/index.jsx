@@ -55,10 +55,13 @@ export default function Navbar() {
 
   // Define datos simulados para el menú
   const menuItems = [
-    { title: 'Productos', path: '/search' },
+    { title: 'Pegas y Otros', path: '/search' },
     { title: 'Vidrio Automotriz', path: '/glass', },
     { title: 'Vidrio Arquitectónico', path: '/search/arq', },
     { title: 'Aluminio', path: '/about' },
+    { title: 'Neumaticos', path: '/about' },
+    { title: 'Acumuladores', path: '/about' },
+    { title: 'Vidrio Hogar', path: '/search/arq', },
     // { title: 'Download App', path: '/sw.js' },
   ];
 
@@ -90,12 +93,11 @@ export default function Navbar() {
         </div>
       </div>
       {isMobileView ? ("") : (
-        <div className="flex justify-center p-6 bg-gray-100">
-          <div className="flex w-full md:w-1/3 justify-evenly ">
-            <ul className="hidden gap-6 text-sm md:flex md:items-center"
+        <div className="flex justify-center bg-gray-100 h-[5rem]">
+            <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
             style={{ fontWeight: "600"}}>
               {menuItems.map((item) => (
-                <li key={item.title}>
+                <li key={item.title} className="w-[11rem] flex justify-center">
                   <Link
                     href={item.path}
                     className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
@@ -105,7 +107,6 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-          </div>
         </div>
       )}
     </nav>

@@ -6,8 +6,29 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 
+import { RadioGroup } from '@headlessui/react';
 import axios from 'axios';
 export const runtime = 'edge';
+const product = {
+  name: 'Basic Tee 6-Pack ',
+  price: '$192',
+  rating: 3.9,
+  reviewCount: 117,
+  href: '#',
+  imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg',
+  imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
+  colors: [
+    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+  ],
+  sizes: [
+    { name: 'FORD', inStock: true },
+    { name: 'CHEVROLET', inStock: true },
+    { name: 'AUDI', inStock: true },
+    { name: 'TOYOTA', inStock: true },
+  ],
+}
 
 // export const metadata = {
 //   title: 'Glass',
@@ -94,55 +115,73 @@ export default function SearchPage() {
       setStep(step - 1);
     }
   };
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
+  const [open, setOpen] = useState(false)
+const [selectedColor, setSelectedColor] = useState(product.colors[0])
+const [selectedSize, setSelectedSize] = useState(product.sizes[2])
   return (
     <>
+    
           {/* Personal Info */}
-          {step === 1 && (
+        {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
+          <div className="mt-10">
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Seleccione Marca del Vehículo.</h2>
+      <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
+        <div className="grid grid-cols-4 gap-4">
+          {product.sizes.map((size) => (
+            <RadioGroup.Option
+              key={size.name}
+              value={size}
+              disabled={!size.inStock}
+              className={({ active }) =>
+                classNames(
+                  size.inStock
+                    ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
+                    : 'cursor-not-allowed bg-gray-50 text-gray-200',
+                    active ? 'ring-2 ring-indigo-500' : '',
+                    'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1'
+                )
+              }
+            >
+              {({ active, checked }) => (
+                <>
+                  <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
+                    {size.inStock ? (
+                      <span
+                        className={classNames(
+                        active ? 'border' : 'border-2',
+                        checked ? 'border-indigo-500' : 'border-transparent',
+                        'pointer-events-none absolute -inset-px rounded-md'
+                        )}
+                        aria-hidden="true"
+                      />
+                        ) : (
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
+                        >
+                          <svg
+                            className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
+                            viewBox="0 0 100 100"
+                            preserveAspectRatio="none"
+                            stroke="currentColor"
+                          >
+                            <line x1={0} y1={100} x2={100} y2={0} vectorEffect="non-scaling-stroke" />
+                          </svg>
+                        </span>
+                      )}
+                  </>
+                )}
+                </RadioGroup.Option>
+              ))}
+              </div>
+            </RadioGroup>
+          </div>
           <div className='flex gap-2'>
           <div>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Seleccione Marca del Vehículo.</h2>
-          <fieldset className='pt-5'>
-          <div className="flex row gap-6 mt-4"
-            style={{width:"30rem"}}
-          >
-            <div className="flex items-center gap-x-1" style={{border:'1px solid #404040', borderRadius: '14px', width: '10rem', height:'14rem'}}>
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-                FORD
-              </label>
-            </div>
-            <div className="flex items-center gap-x-1" style={{border:'1px solid #404040', borderRadius: '14px', width: '10rem', height:'14rem'}}>
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-                CHEVROLET
-              </label>
-            </div>
-            <div className="flex items-center gap-x-1" style={{border:'1px solid #404040', borderRadius: '14px', width: '10rem', height:'14rem'}}>
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-                TOYOTA
-              </label>
-            </div>
-          </div>
-        </fieldset>
-          
-          
           </div>
           </div>
           <div className='flex justify-between items-center'>

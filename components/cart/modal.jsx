@@ -40,7 +40,7 @@ export default function CartModal() {
     // URL de la ruta a la que deseas hacer la solicitud GET
     // const apiUrl = 'http://localhost:3008/items';
     // Realizar la solicitud GET usando Axios
-    api.get("/items")
+    api.get("/parent-categories")
       .then(response => {
         // La respuesta exitosa se almacena en el estado
         console.log("peticion", response.data);

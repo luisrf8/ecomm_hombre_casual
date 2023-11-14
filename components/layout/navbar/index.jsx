@@ -118,32 +118,19 @@ export default function Navbar() {
           {parentCategories ? (
           <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
           style={{ fontWeight: "600"}}>
-    {parentCategories.map((item) => (
-       <li key={item} className="w-[10rem] flex justify-center">
-       <Link
-         href={`/search/[id]`}
-         as={`/search/${item.id}`}
-         className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
-       >
-         {item.description}
-       </Link>
-     </li>
-        ))}
-      </ul>
+          {parentCategories.map((item) => (
+            <li key={item} className="w-[10rem] flex justify-center">
+              <Link
+                href={item.id != 1 ? `/search/[id]` : "/glass"}
+                as={item.id != 1 ? `/search/${item.id}` : "/glass"}
+                className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
+              >
+                {item.description}
+              </Link>
+            </li>
+          ))}
+          </ul>
           ) : ("")}
-            {/* <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
-            style={{ fontWeight: "600"}}>
-              {menuItems.map((item) => (
-                <li key={item.title} className="w-[11rem] flex justify-center">
-                  <Link
-                    href={item.path}
-                    className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul> */}
         </div>
       )}
     </nav>

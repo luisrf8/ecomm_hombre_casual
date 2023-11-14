@@ -8,7 +8,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import api from '../../lib/axios';
 import Price from '../price';
 import CloseCart from './close-cart';
 import DeleteItemButton from './delete-item-button';
@@ -35,20 +34,6 @@ export default function CartModal() {
 
   useEffect(() => {
   }, [totalAmount]);
-  
-  useEffect(() => {
-    // URL de la ruta a la que deseas hacer la solicitud GET
-    // const apiUrl = 'http://localhost:3008/items';
-    // Realizar la solicitud GET usando Axios
-    api.get("/parent-categories")
-      .then(response => {
-        // La respuesta exitosa se almacena en el estado
-        console.log("peticion", response.data);
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error);
-      });
-  }, []);
 
   function totalCardAmount() {
     let total = 0

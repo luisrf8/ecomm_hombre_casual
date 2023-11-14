@@ -5,11 +5,14 @@ import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 // import Favorite from './favorite';
+import api from '../../../lib/axios';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 
 export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [parentCategories, setParentCategories] = useState(null); 
+  const [hasFetchedData, setHasFetchedData] = useState(false)
   // eslint-disable-next-line no-unused-vars
   const [isMobileView, setIsMobileView] = useState(false);
 
@@ -27,6 +30,25 @@ export default function Navbar() {
       window.removeEventListener('resize', checkIfMobileView);
     };
   }, []);
+
+  useEffect(() => {
+    if (!hasFetchedData) {
+    // URL de la ruta a la que deseas hacer la solicitud GET
+    // const apiUrl = 'http://localhost:3008/items';
+    // Realizar la solicitud GET usando Axios
+    api.get("/parent-categories")
+      .then(response => {
+        // La respuesta exitosa se almacena en el estado
+        setParentCategories(response.data)
+        console.log("peticion2", parentCategories);
+        setHasFetchedData(true); 
+      })
+      .catch(error => {
+        console.error('Hubo un error al hacer la solicitud GET:', error);
+      });
+    }
+  }, [parentCategories]);
+  
   const handleInstallPWA = (event) => {
     // Comprueba si el evento 'beforeinstallprompt' está disponible en el navegador.
     if (deferredPrompt) {
@@ -64,7 +86,6 @@ export default function Navbar() {
     { title: 'Vidrio Hogar', path: '/search/arq', },
     // { title: 'Download App', path: '/sw.js' },
   ];
-
   return (
     <nav>
       <div className="relative flex items-center">
@@ -94,7 +115,23 @@ export default function Navbar() {
       </div>
       {isMobileView ? ("") : (
         <div className="flex justify-center bg-gray-100 h-[5rem]">
-            <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
+          {parentCategories ? (
+          <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
+          style={{ fontWeight: "600"}}>
+    {parentCategories.map((item) => (
+       <li key={item} className="w-[10rem] flex justify-center">
+       <Link
+         href={`/search/[id]`}
+         as={`/search/${item.id}`}
+         className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
+       >
+         {item.description}
+       </Link>
+     </li>
+        ))}
+      </ul>
+          ) : ("")}
+            {/* <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
             style={{ fontWeight: "600"}}>
               {menuItems.map((item) => (
                 <li key={item.title} className="w-[11rem] flex justify-center">
@@ -106,7 +143,7 @@ export default function Navbar() {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
         </div>
       )}
     </nav>

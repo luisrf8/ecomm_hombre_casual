@@ -22,6 +22,7 @@ export function VariantSelector({ options, variants, setItemSelected }) {
   useEffect(() => {
     // Maneja la selección del artículo aquí en función de las variantes filtradas.
     if (filteredVariants.length === 1) {
+      console.log("hola variant", filteredVariants[0])
       setItemSelected(filteredVariants[0]);
     } else {
       setItemSelected(null);

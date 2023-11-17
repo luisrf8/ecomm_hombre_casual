@@ -9,16 +9,16 @@ const collectionsData = [
     id: 'collection1',
     title: 'Colección 1',
     items: [
-      { itemId: 'item1', itemName: 'Producto 1', path: '/search/product' },
-      { itemId: 'item2', itemName: 'Producto 2', path: '/search/product' },
+      { itemId: 'item1', itemName: 'Producto 1', path: '/product' },
+      { itemId: 'item2', itemName: 'Producto 2', path: '/product' },
     ],
   },
   {
     id: 'collection2',
     title: 'Colección 2',
     items: [
-      { itemId: 'item3', itemName: 'Producto 3', path: '/search/product' },
-      { itemId: 'item4', itemName: 'Producto 4', path: '/search/product' },
+      { itemId: 'item3', itemName: 'Producto 3', path: '/product' },
+      { itemId: 'item4', itemName: 'Producto 4', path: '/product' },
     ],
   },
 ];

@@ -234,7 +234,7 @@ const [selectedSize, setSelectedSize] = useState(null)
           </div>
           <div className='flex justify-between items-center'>
           <span>
-           Paso {step} / 3
+           Paso {step} / 4
           </span>
             <button
               type="submit"
@@ -312,7 +312,7 @@ const [selectedSize, setSelectedSize] = useState(null)
         </div>
         <div className='flex justify-between items-center'>
         <span>
-         Paso {step} / 3
+         Paso {step} / 4
         </span>
         <div className="gap-6 flex items-center">
         <button

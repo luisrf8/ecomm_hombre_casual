@@ -8,6 +8,7 @@ import { VariantSelector } from './variant-selector';
 
 export function ProductDescription(data) {
   const {product} = data
+  console.log("hola product", product)
   const [itemSelected, setItemSelected] = useState()
   const [newItem , setNewItem] = useState({})
   
@@ -22,9 +23,12 @@ export function ProductDescription(data) {
         handle: product.handle,
         price: product.priceRange.maxVariantPrice.amount,
         title: product.title,
+        id: itemSelected.id,
         item: itemSelected,
-      }
+      } 
       setNewItem(newItemConcat)
+    } else {
+      setNewItem(product)
     }
   }
   return (
@@ -35,14 +39,16 @@ export function ProductDescription(data) {
           <Price amount={product.priceRange.maxVariantPrice.amount} currencyCode={product.priceRange.maxVariantPrice.currencyCode} />
         </div> 
       </div>
-      <VariantSelector options={product.options} variants={product.variants} itemSelected={itemSelected} setItemSelected={setItemSelected}  />
+      {product.variants ? (
+      <VariantSelector options={product.options} variants={product.variants} itemSelected={itemSelected} setItemSelected={setItemSelected} />
+      ) : null}
       {product.descriptionHtml ? (
         <Prose className="mb-6 text-sm leading-tight " html={product.descriptionHtml} />
       ) : null}
       <h4>Descripcion del producto:</h4>
       <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique nisl vitae ligula varius, vitae laoreet urna feugiat. Nullam eu lacus vel nibh dignissim ullamcorper. Suspendisse potenti. Fusce nec mauris at ligula suscipit cursus a sit amet justo.</span>
       <div className='flex justify-center mt-2'>
-      <AddToCart variants={product.variants} item={product} availableForSale={product.availableForSale} newItem={newItem}/>
+        <AddToCart item={product} availableForSale={product.availableForSale} newItem={newItem}/>
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 // import Favorite from './favorite';
+import LoadingDots from 'components/loading-dots';
 import api from '../../../lib/axios';
 import MobileMenu from './mobile-menu';
 import Search from './search';
@@ -33,22 +34,21 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!hasFetchedData) {
-    // URL de la ruta a la que deseas hacer la solicitud GET
-    // const apiUrl = 'http://localhost:3008/items';
-    // Realizar la solicitud GET usando Axios
-    api.get("/parent-categories")
-      .then(response => {
-        // La respuesta exitosa se almacena en el estado
-        setParentCategories(response.data)
-        console.log("peticion2", parentCategories);
-        setHasFetchedData(true); 
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error);
-      });
+      getParentCategories()
     }
   }, [parentCategories]);
-  
+  function getParentCategories() {
+  api.get("/parent-categories")
+  .then(response => {
+      // La respuesta exitosa se almacena en el estado
+      setParentCategories(response.data)
+      console.log("peticion2", parentCategories);
+      setHasFetchedData(true); 
+    })
+    .catch(error => {
+      console.error('Hubo un error al hacer la solicitud GET:', error);
+    });
+  }
   const handleInstallPWA = (event) => {
     // Comprueba si el evento 'beforeinstallprompt' está disponible en el navegador.
     if (deferredPrompt) {
@@ -115,22 +115,26 @@ export default function Navbar() {
       </div>
       {isMobileView ? ("") : (
         <div className="flex justify-center bg-gray-100 h-[5rem]">
-          {parentCategories ? (
-          <ul className="flex hidden justify-evenly text-sm md:flex md:items-center"
-          style={{ fontWeight: "600"}}>
-          {parentCategories.map((item) => (
-            <li key={item} className="w-[10rem] flex justify-center">
-              <Link
-                href={item.id != 1 ? `/search/[id]` : "/glass"}
-                as={item.id != 1 ? `/search/${item.id}` : "/glass"}
-                className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
-              >
-                {item.description}
-              </Link>
-            </li>
-          ))}
-          </ul>
-          ) : ("")}
+          {!hasFetchedData ? (
+            <LoadingDots className="bg-gray-900" />
+          ) : (
+            // Render the fetched data when available
+            parentCategories ? (
+              <ul className="flex hidden justify-evenly text-sm md:flex md:items-center" style={{ fontWeight: "600"}}>
+                {parentCategories.map((item) => (
+                  <li key={item} className="w-[10rem] flex justify-center">
+                    <Link
+                      href={item.id != 1 ? `/search/[id]` : "/glass"}
+                      as={item.id != 1 ? `/search/${item.id}` : "/glass"}
+                      className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
+                    >
+                      {item.description}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : ("")
+          )}
         </div>
       )}
     </nav>

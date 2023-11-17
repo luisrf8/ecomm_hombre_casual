@@ -56,6 +56,7 @@ const IndexCarousel = ({ products }) => {
                   width={2500}
                   height={2500}
                   className='w-full'
+                  loading="eager"
                 />
               </li>
             ))}
@@ -80,7 +81,8 @@ const IndexCarousel = ({ products }) => {
           <button
             className='left-arrow flex justify-center items-center'
             style={{backgroundColor: "#ffffff3b", borderRadius: '50%', width: '4rem', height: '4rem'}}
-            onClick={moveRight}
+            onClick={moveLeft}
+
           >
             <ChevronLeftIcon
               className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-white')}
@@ -91,7 +93,7 @@ const IndexCarousel = ({ products }) => {
           <button
             className='right-arrow flex justify-center items-center'
             style={{backgroundColor: "#ffffff3b", borderRadius: '50%', width: '4rem', height: '4rem'}}
-            onClick={moveLeft}
+            onClick={moveRight}
           >
             <ChevronRightIcon
               className={clsx('h-12 transition-all ease-in-out hover:scale-110 text-white')}

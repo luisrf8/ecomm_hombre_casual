@@ -12,22 +12,21 @@ export function AddToCart(data) {
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
     setIsAble(true)
-    console.log("dsadsa", isAble)
+    console.log("hola newitem", isAble)
   }, [newItem]);
-  const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
+
+  if (variants) {
+    const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
   
-  const variant = variants.find((element) =>
-  element.selectedOptions.every(
-    (option) => option === newItem.item
-    )
-  );
-    
-  // console.log("luis data product new item", newItem)
-  // console.log("luis data variant selected", variants);
-  const selectedVariantId = variant?.id || defaultVariantId;
-  // console.log("luis selectedVariantId", selectedVariantId);
-  
+    const variant = variants.find((element) =>
+    element.selectedOptions.every(
+      (option) => option === newItem.item
+      )
+    );
+    const selectedVariantId = variant?.id || defaultVariantId;
+  }
   function handleAddToCart(product) {
+    console.log("hola", product)
     dispatch(addToCart(product))
   }
   const title = !newItem
@@ -39,7 +38,6 @@ export function AddToCart(data) {
       aria-label="Add item to cart"
       // disabled={!newItem}
       title={title}
-      disabled={isAble === false}
       onClick={() => {
         // Salvaguarda en caso de que alguien manipule `disabled` en las devtools.
         if (!newItem) return;
@@ -65,7 +63,7 @@ export function AddToCart(data) {
       {/* <div className="absolute left-0 ml-4">
         {!isPending ? <PlusIcon className="h-5" /> : <LoadingDots className="mb-3 bg-white" />}
       </div> */}
-      <span>{isAble !== false ? 'Añadir al carrito' : 'Please select options'}</span>
+      <span>{variants || isAble ? 'Please select options' : '+ Añadir al carrito'}</span>
     </button>
   );
 }

@@ -1,14 +1,25 @@
 'use client'
+import { RadioGroup } from '@headlessui/react';
+import axios from 'axios';
+// import Carousel from 'components/carousel';
 import Grid from 'components/grid';
+// import IndexCarousel from 'components/index-carousel';
 import ProductGridItems from 'components/layout/product-grid-items';
 import { products } from 'lib/ddbb.js';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
-
-import { RadioGroup } from '@headlessui/react';
-import axios from 'axios';
 export const runtime = 'edge';
+// const carouselProducts = [
+//   {
+//     handle: 'product-2',
+//     image: '/images/Banner-1.jpg',
+//   },
+//   {
+//     handle: 'product-3',
+//     image: '/images/Banner-2.jpg',
+//   },
+// ];
 const product = {
   name: 'Basic Tee 6-Pack ',
   price: '$192',
@@ -43,7 +54,6 @@ const model = {
     { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
   ],
   sizes: [
-    { name: 'Corsa 1997-2008', inStock: true },
     { name: 'Corsa 1997-2008', inStock: true },
     { name: 'Cruze Sedan 2013-2015', inStock: true },
     { name: 'Silverado 2011-2013', inStock: true },
@@ -169,8 +179,8 @@ const [selectedColor, setSelectedColor] = useState(product.colors[0])
 const [selectedSize, setSelectedSize] = useState(null)
   return (
     <>
-    
-          {/* Personal Info */}
+      {/* <IndexCarousel products={carouselProducts}/> */}
+      {/* Personal Info */}
         {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className='bg-gray-100 rounded-md p-10 mt-10'>
           <div className="">
@@ -459,6 +469,7 @@ const [selectedSize, setSelectedSize] = useState(null)
           <span className="font-bold">&quot;{searchValue}&quot;</span>
         </p>
       ) : null} */}
+          {/* <Carousel carouselProducts={products} title="Ofertas"/> */}
      
     </>
   );

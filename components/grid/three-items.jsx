@@ -12,6 +12,7 @@ function ThreeItemGridItem({
     <div
       className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
     >
+      {products ? (""): (
       <Link className="relative block aspect-square h-full w-full" href={`/product/${item.handle}`} product={item}>
         <GridTileImage
           src={item.featuredImage.url}
@@ -28,6 +29,8 @@ function ThreeItemGridItem({
           }}
         />
       </Link>
+      )
+      }
     </div>
   );
 }

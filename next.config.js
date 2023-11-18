@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+const {parsed:env} = require('dotenv').config();
+const nextConfig = {
+  env
+}
 const withPWA = require('next-pwa')({
   pwa: {
     dest: 'public', // Path where PWA-related files are generated
@@ -11,6 +15,7 @@ const withPWA = require('next-pwa')({
 
 module.exports = {
   ...withPWA, // Merge the PWA configuration with other configurations
+  ...nextConfig,
   eslint: {
     ignoreDuringBuilds: true
   },

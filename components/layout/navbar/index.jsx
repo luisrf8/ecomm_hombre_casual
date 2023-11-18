@@ -14,11 +14,9 @@ export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [parentCategories, setParentCategories] = useState(null); 
   const [hasFetchedData, setHasFetchedData] = useState(false)
-  // eslint-disable-next-line no-unused-vars
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
-    // Verifica si la vista es móvil cuando se carga la página y cada vez que cambie el tamaño de la ventana.
     function checkIfMobileView() {
       setIsMobileView(window.innerWidth <= 768); // Ajusta este valor según tus necesidades.
     }
@@ -37,10 +35,10 @@ export default function Navbar() {
       getParentCategories()
     }
   }, [parentCategories]);
+  
   function getParentCategories() {
   api.get("/parent-categories")
   .then(response => {
-      // La respuesta exitosa se almacena en el estado
       setParentCategories(response.data)
       console.log("peticion2", parentCategories);
       setHasFetchedData(true); 
@@ -50,48 +48,31 @@ export default function Navbar() {
     });
   }
   const handleInstallPWA = (event) => {
-    // Comprueba si el evento 'beforeinstallprompt' está disponible en el navegador.
     if (deferredPrompt) {
-      // Evita que el navegador muestre su propia solicitud de instalación.
       event.preventDefault();
   
-      // Muestra una alerta o un mensaje personalizado para el usuario.
       if (window.confirm('¿Desea instalar esta aplicación?')) {
-        // Si el usuario confirma, utiliza el evento 'beforeinstallprompt' para mostrar la solicitud de instalación.
         deferredPrompt.prompt();
   
-        // Escucha la elección del usuario.
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
             console.log('Usuario aceptó la instalación de la PWA');
           }
   
-          // Limpia la variable deferredPrompt.
           setDeferredPrompt(null);
         });
       }
     }
   }
   
-// const { SITE_NAME } = process.env;
-
   // Define datos simulados para el menú
-  const menuItems = [
-    { title: 'Pegas y Otros', path: '/search' },
-    { title: 'Vidrio Automotriz', path: '/glass', },
-    { title: 'Vidrio Arquitectónico', path: '/search/arq', },
-    { title: 'Aluminio', path: '/about' },
-    { title: 'Neumaticos', path: '/about' },
-    { title: 'Acumuladores', path: '/about' },
-    { title: 'Vidrio Hogar', path: '/search/arq', },
-    // { title: 'Download App', path: '/sw.js' },
-  ];
   return (
+    <div>
     <nav>
       <div className="relative flex items-center">
         <div className="flex w-full items-center justify-evenly pt-4 pb-4">
           <div className="md:hidden flex justify-center w-1/3">
-            <MobileMenu menu={menuItems} />
+            <MobileMenu menu={parentCategories} />
           </div>
           <div className="flex w-full justify-center md:w-1/3">
             <Link href="/" className="flex w-full items-center justify-center md:w-auto">
@@ -138,5 +119,6 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+    </div>
   );
 }

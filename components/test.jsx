@@ -71,7 +71,7 @@ const Carousel = () => {
 
 export default Carousel;
 'use client'
-<Link href={`/product/${product.handle}`} className="relative w-full">
+<Link href={`/product/${product.id}`} className="relative w-full">
                 <GridTileImage
                   alt={product.title}
                   label={{

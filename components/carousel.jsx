@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react'; // Import useState
 import { GridTileImage } from './grid/tile';
 
-const Carousel = ({ carouselProducts, title }) => {
+export default function Carousel ({ carouselProducts, title }) {
   const [current, setCurrent] = useState(0);
   const numImages = carouselProducts.length;
   const [itemsPerPage, setItemsPerPage] = useState(1); // Inicialmente, muestra 1 elemento
@@ -89,7 +89,7 @@ const Carousel = ({ carouselProducts, title }) => {
         </div>
       </div>
       <div className='carousel flex justify-center'>
-        <ul className='slider-list h-[25rem] w-[100rem] gap-10' style={sliderListStyle}>
+        <ul className='flex slider-list h-[25rem] w-[100rem] gap-10' >
           {carouselProducts.slice(startIndex, endIndex).map((product, i) => (
             <li
               key={`${product.id}${i}`}
@@ -117,5 +117,3 @@ const Carousel = ({ carouselProducts, title }) => {
     </div>
   );
 };
-
-export default Carousel;

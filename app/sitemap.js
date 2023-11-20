@@ -30,7 +30,7 @@ export default async function sitemap() {
   }));
 
   const productsRoutes = simulatedProducts.map((product) => ({
-    url: `${baseUrl}/search/${product.handle}`,
+    url: `${baseUrl}/search/${product.id}`,
     lastModified: product.updatedAt,
   }));
 

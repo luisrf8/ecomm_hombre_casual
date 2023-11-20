@@ -4,7 +4,6 @@ import { MinusIcon, PlusIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/rea
 import LoadingDots from 'components/loading-dots';
 
 import { DEFAULT_OPTION } from 'lib/constants';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -142,17 +141,17 @@ export default function CartModal() {
                           <DeleteItemButton item={item} />
                         </div>
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
-                            <Image
+                            {/* <Image
                               className="h-full w-full object-cover"
                               width={100}
                               height={100}
-                              alt={item.featuredImage.url ||
+                              alt={item.featuredImage?.url ||
                                 item.title}
-                              src={item.featuredImage.url} />
+                              src={item.featuredImage?.url} /> */}
                           </div>
                           <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">
-                              {item.title}
+                              {item.name}
                             </span>
                             {item && item.item && item.item.title !== DEFAULT_OPTION ? (
                             <p className="text-sm text-neutral-500 ">
@@ -163,6 +162,7 @@ export default function CartModal() {
                         <div className="flex h-16 flex-col justify-between">
                           <Price
                             className="flex justify-end space-y-2 text-right text-sm"
+                            // amount={item.price ? item.price : item.priceRange?.maxVariantPrice?.amount}
                             amount={item.price}
                             />
                           <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 ">
@@ -191,18 +191,19 @@ export default function CartModal() {
                 })}
               </ul>
               <div className="py-4 text-sm text-neutral-500 ">
-                <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 ">
+                {/* <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 ">
                   <p>Sub Total</p>
                   <Price
                     className="text-right text-base text-black "
                     amount={(totalAmount).toFixed(2)}
                   />
-                </div>
+                </div> */}
                 <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 ">
                   <p>Total</p>
                   <Price
                     className="text-right text-base text-black "
-                    amount={ (totalAmount + totalAmount * 0.12).toFixed(2) }
+                    // amount={ (totalAmount + totalAmount * 0.12).toFixed(2) }
+                    amount={ (totalAmount).toFixed(2) }
                   />
                 </div>
               </div>
@@ -210,7 +211,8 @@ export default function CartModal() {
                 onClick={() => router.push('/form')}
                 className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
               >
-                PAGAR
+                {/* PAGAR */}
+                CREAR ORDEN
               </button>
             </div>
           )}

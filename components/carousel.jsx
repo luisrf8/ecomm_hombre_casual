@@ -92,19 +92,21 @@ const Carousel = ({ carouselProducts, title }) => {
         <ul className='slider-list h-[25rem] w-[100rem] gap-10' style={sliderListStyle}>
           {carouselProducts.slice(startIndex, endIndex).map((product, i) => (
             <li
-              key={`${product.handle}${i}`}
+              key={`${product.id}${i}`}
               className='w-full'
               
             >
-             <Link href={`/product/${product.handle}`} className="relative w-full">
+             <Link href={`/product/${product.id}`} className="relative w-full">
                 <GridTileImage
-                  alt={product.title}
+                  alt={product.name}
                   label={{
-                    title: product.title,
-                    amount: product.priceRange.maxVariantPrice.amount,
-                    currencyCode: product.priceRange.maxVariantPrice.currencyCode
+                    title: product.name,
+                    // amount: product.priceRange.maxVariantPrice.amount,
+                    amount: product.price,
+                    // currencyCode: product.priceRange.maxVariantPrice.currencyCode
+                    currencyCode: "BS"
                   }}
-                  src={product.featuredImage.url}
+                  // src={product.featuredImage.url}
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                 />
               </Link>

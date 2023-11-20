@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from "react-hook-form";
 
 import axios from 'axios';
@@ -63,24 +62,24 @@ export default function App() {
     console.log('Formulario 3 enviado:', data);
   };
   
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
 
-  const handleNextStep = () => {
-    if (step < 3) {
-      setStep(step + 1);
-    }
-  };
+  // const handleNextStep = () => {
+  //   if (step < 3) {
+  //     setStep(step + 1);
+  //   }
+  // };
 
-  const handlePreviousStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
+  // const handlePreviousStep = () => {
+  //   if (step > 1) {
+  //     setStep(step - 1);
+  //   }
+  // };
   
   return (
     <>
       {/* Personal Info */}
-      {step === 1 && (
+      {/* {step === 1 && ( */}
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <div className='flex gap-2'>
           <div>
@@ -112,7 +111,9 @@ export default function App() {
           </div>
           
           <InputField label="Email" name="email" register={register} required/>
-          <InputField label="Dirección" name="address" register={register} required/>
+          <InputField label="Ciudad" name="city" register={register} required/>
+          <InputField label="Estado" name="region" register={register} required/>
+          {/* <InputField label="Dirección" name="address" register={register} required/> */}
           </div>
           {/* <div>
           <h2 className="text-base font-semibold leading-7 text-[#022368]">Datos del Vehículo</h2>
@@ -122,24 +123,24 @@ export default function App() {
           <InputField label="Año" name="year" register={register} required/>
           </div> */}
           </div>
-          <div className='flex justify-between items-center'>
-          <label>
+          <div className='flex justify-end items-center'>
+          {/* <label>
             {step} / 3
-          </label>
+          </label> */}
             <button
               type="submit"
-              style={{width: '6rem'}}
-              className="rounded-md flex justify-center items-center mt-4 bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              style={{width: '8rem'}}
+              className="rounded-md flex justify-center items-center mt-4 bg-[#022368] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-              Siguiente
+              Crear Orden
             </button>
           </div>
           
         </form>
-      )}
+      {/* )} */}
 
       {/* Delivery Info */}
-      {step === 2 && (
+      {/* {step === 2 && (
         <form onSubmit={handleSubmit(onSubmitFormTwo)}>
           <h2 className="text-base font-semibold leading-7 text-[#022368]">Tipo de Envío</h2>
           <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
@@ -239,16 +240,16 @@ export default function App() {
             </div>
           </div>
         </form>
-      )}
+      )} */}
 
       {/* Payment Info */}
-      {step === 3 && (
+      {/* {step === 3 && (
         <form onSubmit={handleSubmit(onSubmitFormThree)}
         >
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2> */}
 
           {/* Radio Buttons */}
-          <fieldset className='pt-5'>
+          {/* <fieldset className='pt-5'>
           <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
           <div className="flex row gap-6 mt-4"
           >
@@ -310,7 +311,7 @@ export default function App() {
             </div>
           </div>
         </form>
-      )}
+      )} */}
     </>
   );
 }

@@ -1,6 +1,6 @@
-import { GridTileImage } from 'components/grid/tile';
-import { products } from 'lib/ddbb.js';
+// import { products } from 'lib/ddbb.js';
 import Link from 'next/link';
+import { GridTileImage } from './tile';
 // Define datos simulados
 
 function ThreeItemGridItem({
@@ -12,19 +12,20 @@ function ThreeItemGridItem({
     <div
       className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
     >
-      <Link className="relative block aspect-square h-full w-full" href={`/product/${item.handle}`} product={item}>
+      <Link className="relative block aspect-square h-full w-full" href={`/product/${item.id}`} product={item}>
         <GridTileImage
-          src={item.featuredImage.url}
+          // src={item.featuredImage.url}
           sizes={
             size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
           }
           priority={priority}
-          alt={item.title}
+          alt={item.name}
           label={{
             position: size === 'full' ? 'center' : 'bottom',
-            title: item.title,
-            amount: item.priceRange.maxVariantPrice.amount,
-            currencyCode: item.priceRange.maxVariantPrice.currencyCode
+            title: item.name,
+            amount: item.price,
+            // currencyCode: item.price
+            currencyCode: "BS"
           }}
         />
       </Link>
@@ -32,8 +33,9 @@ function ThreeItemGridItem({
   );
 }
 
-export function ThreeItemGrid() {
-  const [firstProduct, secondProduct, thirdProduct] = products;
+export function ThreeItemGrid({itemProducts}) {
+  console.log("hola sadas", itemProducts)
+  const [firstProduct, secondProduct, thirdProduct] = itemProducts;
 
   return (
     <>

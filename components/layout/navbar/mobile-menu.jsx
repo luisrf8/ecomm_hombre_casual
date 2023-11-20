@@ -18,7 +18,8 @@ const menuOptions = [
   { title: 'Contact', path: '/contact' },
 ];
 
-export default function MobileMenu() {
+export default function MobileMenu({menu}) {
+  console.log("hola menu dasdas", menu)
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -83,16 +84,21 @@ export default function MobileMenu() {
                 <div className="mb-4 w-full">
                   <Search />
                 </div>
-                {menuOptions.length ? (
+                {menu.length ? (
                   <ul className="flex w-full flex-col">
-                    {menuOptions.map((item, index) => (
+                    {menu.map((item, index) => (
                       <li
                         className="py-2 text-xl text-black transition-colors hover:text-neutral-500 "
                         key={index}
                       >
-                        <Link href={item.path} onClick={closeMobileMenu}>
-                          {item.title}
-                        </Link>
+                        <Link
+                      href={item.id != 1 ? `/search/[id]` : "/glass"}
+                      as={item.id != 1 ? `/search/${item.id}` : "/glass"}
+                      className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
+                      onClick={closeMobileMenu}
+                    >
+                      {item.description}
+                    </Link>
                       </li>
                     ))}
                   </ul>

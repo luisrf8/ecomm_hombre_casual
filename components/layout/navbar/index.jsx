@@ -91,7 +91,7 @@ export default function Navbar() {
       <div className="relative flex items-center">
         <div className="flex w-full items-center justify-evenly pt-4 pb-4">
           <div className="md:hidden flex justify-center w-1/3">
-            <MobileMenu menu={menuItems} />
+            <MobileMenu menu={parentCategories} />
           </div>
           <div className="flex w-full justify-center md:w-1/3">
             <Link href="/" className="flex w-full items-center justify-center md:w-auto">

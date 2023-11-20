@@ -45,7 +45,7 @@ const IndexCarousel = ({ products }) => {
 
   return (
     <>
-      <div className='relative'>
+      <div className='relative hidden md:block'>
         <div id="slider" className='w-full ' style={sliderContainerStyle}>
           <ul className="slider-list " style={sliderListStyle}>
             {items.map((item, index) => (

@@ -84,7 +84,7 @@ export default function MobileMenu({menu}) {
                 <div className="mb-4 w-full">
                   <Search />
                 </div>
-                {menu.length ? (
+                {menu ? (
                   <ul className="flex w-full flex-col">
                     {menu.map((item, index) => (
                       <li

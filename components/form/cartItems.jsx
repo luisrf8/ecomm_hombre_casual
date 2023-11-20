@@ -25,6 +25,8 @@ function totalCardAmount() {
 }
 return(
     <div className='column'>
+      { cart.length ? (
+      <> 
       <h2 className="text-base font-semibold leading-7 text-[#022368]">Carrito</h2>
       <ul className="flex-grow overflow-auto py-2"
         style={{height: '100%',}}
@@ -92,6 +94,9 @@ return(
           amount={(totalAmount).toFixed(2)}
           />
       </div>
+      </>
+      )
+      : ("")}
     </div>
   )
 }

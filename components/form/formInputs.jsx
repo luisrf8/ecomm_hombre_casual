@@ -1,6 +1,11 @@
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import api from 'lib/axios';
+import { useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAllCart } from '../cart/reducers/cartReducer';
 
-import axios from 'axios';
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {
   return (
@@ -37,10 +42,29 @@ function SelectField({ label, name, register, options }) {
 
 export default function App() {
   const { register, handleSubmit } = useForm();
-  
+  const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch();
+
+  function handleCleanCart() {
+    console.log("hola", )
+    dispatch(removeAllCart())
+  }
   const onSubmitFormOne = (data) => {
-    console.log('Formulario 1 enviado:', data);
-    handleNextStep();
+    console.log('Formulario 1 enviado:', data)
+    const order = {
+      form: data,
+      items: cart,
+    }
+    console.log("hola order", order)
+    handleCleanCart()
+    handleNextStep()
+    api.post(`/`)
+      .then(response => {
+        console.log("post",response.data)
+      })
+      .catch(error => {
+        console.error('Hubo un error al hacer la solicitud GET:', error)
+      });
   };
 
   const onSubmitFormTwo = (data) => {
@@ -62,24 +86,24 @@ export default function App() {
     console.log('Formulario 3 enviado:', data);
   };
   
-  // const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
 
-  // const handleNextStep = () => {
-  //   if (step < 3) {
-  //     setStep(step + 1);
-  //   }
-  // };
+  const handleNextStep = () => {
+    if (step < 3) {
+      setStep(step + 1);
+    }
+  };
 
-  // const handlePreviousStep = () => {
-  //   if (step > 1) {
-  //     setStep(step - 1);
-  //   }
-  // };
+  const handlePreviousStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
   
   return (
     <>
       {/* Personal Info */}
-      {/* {step === 1 && ( */}
+      {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <div className='flex gap-2'>
           <div>
@@ -137,13 +161,19 @@ export default function App() {
           </div>
           
         </form>
-      {/* )} */}
+      )}
 
       {/* Delivery Info */}
-      {/* {step === 2 && (
+      {step === 2 && (
         <form onSubmit={handleSubmit(onSubmitFormTwo)}>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Tipo de Envío</h2>
-          <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
+          Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2>
+          <div className='flex justify-center'>
+            <CheckCircleIcon
+              className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
+            />
+          </div>
+          {/* <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
           <fieldset className='pt-5'>
           <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
           <div className="flex row gap-6 mt-4"
@@ -238,9 +268,9 @@ export default function App() {
                 Siguiente
               </button>
             </div>
-          </div>
+          </div> */}
         </form>
-      )} */}
+      )}
 
       {/* Payment Info */}
       {/* {step === 3 && (

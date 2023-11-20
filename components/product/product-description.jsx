@@ -7,9 +7,7 @@ import { useEffect, useState } from 'react';
 import { VariantSelector } from './variant-selector';
 
 export function ProductDescription(data) {
-  console.log("hola data",data)
   const {product} = data
-  console.log("hola product", product)
   const [itemSelected, setItemSelected] = useState()
   const [newItem , setNewItem] = useState({})
   

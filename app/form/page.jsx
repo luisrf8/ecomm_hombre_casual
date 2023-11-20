@@ -9,7 +9,6 @@ export const runtime = 'edge';
 
 export default function FormPage() {
   const router = usePathname()
-  console.log("luis router", router)
 
   return (
     <Provider store={store}>

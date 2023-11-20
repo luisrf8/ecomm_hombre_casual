@@ -29,7 +29,6 @@ function getArticles(id) {
   api.get(`/articles/${id}`)
   .then(response => {
       setProduct(response.data)
-      console.log("hola product", response.data)
       setHasFetchedData(true); 
     })
     .catch(error => {
@@ -39,7 +38,6 @@ function getArticles(id) {
   }
   
   // if (!product) return notFound();
-  console.log(product);
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',

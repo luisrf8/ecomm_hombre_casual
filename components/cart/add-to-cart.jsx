@@ -12,7 +12,6 @@ export function AddToCart(data) {
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
     setIsAble(true)
-    console.log("hola newitem", isAble)
   }, [newItem]);
 
   if (variants) {
@@ -26,7 +25,6 @@ export function AddToCart(data) {
     const selectedVariantId = variant?.id || defaultVariantId;
   }
   function handleAddToCart(product) {
-    console.log("hola", product)
     dispatch(addToCart(product))
   }
   const title = !newItem

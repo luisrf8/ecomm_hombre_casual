@@ -132,16 +132,13 @@ export default function SearchPage() {
   const { register, handleSubmit } = useForm();
   
   const onSubmitFormOne = (data) => {
-    console.log('Formulario 1 enviado:', {...data, vehicle: selectedSize.name});
     handleNextStep();
   };
 
   const onSubmitFormTwo = (data) => {
-    console.log('Formulario 2 enviado:', data);
     handleNextStep();
   };
 const onSubmitFormThree = (data) => {
-    console.log('Formulario 3 enviado:', data);
     handleNextStep();
   };
   const onSubmitFormFour = (data) => {
@@ -150,12 +147,10 @@ const onSubmitFormThree = (data) => {
     axios.post(apiUrl, data)
       .then(response => {
         // La respuesta exitosa se almacena en el estado
-        console.log("peticion",response.data);
       })
       .catch(error => {
         console.error('Hubo un error al hacer la solicitud GET:', error);
       });
-    console.log('Formulario 3 enviado:', data);
   };
   
   const [step, setStep] = useState(1);

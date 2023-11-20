@@ -46,21 +46,17 @@ export default function App() {
   const dispatch = useDispatch();
 
   function handleCleanCart() {
-    console.log("hola", )
     dispatch(removeAllCart())
   }
   const onSubmitFormOne = (data) => {
-    console.log('Formulario 1 enviado:', data)
     const order = {
       form: data,
       items: cart,
     }
-    console.log("hola order", order)
     handleCleanCart()
     handleNextStep()
     api.post(`/`)
       .then(response => {
-        console.log("post",response.data)
       })
       .catch(error => {
         console.error('Hubo un error al hacer la solicitud GET:', error)
@@ -68,7 +64,6 @@ export default function App() {
   };
 
   const onSubmitFormTwo = (data) => {
-    console.log('Formulario 2 enviado:', data);
     handleNextStep();
   };
 
@@ -78,12 +73,10 @@ export default function App() {
     axios.post(apiUrl, data)
       .then(response => {
         // La respuesta exitosa se almacena en el estado
-        console.log("peticion",response.data);
       })
       .catch(error => {
         console.error('Hubo un error al hacer la solicitud GET:', error);
       });
-    console.log('Formulario 3 enviado:', data);
   };
   
   const [step, setStep] = useState(1);

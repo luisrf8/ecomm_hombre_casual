@@ -40,7 +40,6 @@ export default function Navbar() {
   api.get("/parent-categories")
   .then(response => {
       setParentCategories(response.data)
-      console.log("peticion2", parentCategories);
       setHasFetchedData(true); 
     })
     .catch(error => {
@@ -56,7 +55,6 @@ export default function Navbar() {
   
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            console.log('Usuario aceptó la instalación de la PWA');
           }
   
           setDeferredPrompt(null);

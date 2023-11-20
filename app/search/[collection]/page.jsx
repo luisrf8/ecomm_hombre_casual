@@ -25,7 +25,6 @@ export default async function CategoryPage() {
     .then(response => {
         setArticles(response.data)
         const enabledItems = response.data.filter(item => item.enabled === true);
-        console.log("hola peticion3", enabledItems);
         setHasFetchedData(true); 
       })
       .catch(error => {
@@ -40,7 +39,6 @@ export default async function CategoryPage() {
       .then(response => {
           // La respuesta exitosa se almacena en el estado
           setCollectionsData(response.data)
-          console.log("hola categories", response.data)
           getArticles(response.data[0].id)
           setHasFetchedData(true); 
         })

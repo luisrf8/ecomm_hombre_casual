@@ -19,7 +19,6 @@ const menuOptions = [
 ];
 
 export default function MobileMenu({menu}) {
-  console.log("hola menu dasdas", menu)
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);

@@ -8,17 +8,14 @@ export default function App() {
 
   
   const onSubmitFormOne = (data) => {
-    console.log('Formulario 1 enviado:', data);
     handleNextStep();
     // Aquí puedes realizar cualquier acción adicional con los datos enviados, incluyendo el procesamiento del pago.
   };
   const onSubmitFormTwo = (data) => {
-    console.log('Formulario 2 enviado:', data);
     handleNextStep();
     // Aquí puedes realizar cualquier acción adicional con los datos enviados, incluyendo el procesamiento del pago.
   };
   const onSubmitFormThree = (data) => {
-    console.log('Formulario 3 enviado:', data);
     // handleNextStep();
     // Aquí puedes realizar cualquier acción adicional con los datos enviados, incluyendo el procesamiento del pago.
   };

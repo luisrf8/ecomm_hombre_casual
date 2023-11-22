@@ -1,3 +1,4 @@
+'use client'
 import { GridTileImage } from 'components/grid/tile';
 import Link from 'next/link';
 import { useState } from 'react';

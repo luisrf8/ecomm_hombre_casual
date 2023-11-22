@@ -31,7 +31,7 @@ export default function Search() {
       <input
         type="text"
         name="search"
-        placeholder="Buscar un producto"
+        placeholder="Buscar"
         autoComplete="off"
         defaultValue={searchParams?.get('q') || ''}
         style={{ border: '1px solid #BABABA'}}

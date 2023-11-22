@@ -1,15 +1,12 @@
 "use client"
 import { store } from 'components/cart/store';
 import FormInputs from 'components/form/formInputs';
-import { usePathname } from 'next/navigation';
 import { Provider } from 'react-redux';
 import CarItems from '../../components/form/cartItems';
 
 export const runtime = 'edge';
 
 export default function FormPage() {
-  const router = usePathname()
-
   return (
     <Provider store={store}>
     <>

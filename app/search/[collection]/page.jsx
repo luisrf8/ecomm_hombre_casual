@@ -1,5 +1,4 @@
 'use client'
-import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
 // import Collections from 'components/layout/search/collections';
 import LoadingDots from 'components/loading-dots';
@@ -69,9 +68,9 @@ export default async function CategoryPage() {
           {products.length === 0 ? (
             <p className="py-3 text-lg">{`No products found in this collection`}</p>
           ) : (
-            <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            // <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <ProductGridItems products={articles} />
-          </Grid>
+          // </Grid>
           )}
         </div>
       </div>

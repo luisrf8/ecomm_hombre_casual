@@ -50,13 +50,22 @@ export default function App() {
   }
   const onSubmitFormOne = (data) => {
     const order = {
-      form: data,
-      items: cart,
-    }
-    handleCleanCart()
-    handleNextStep()
-    api.post(`/`)
-      .then(response => {
+      city: data.city,
+      firstName: data.firstName,
+      phoneCode: data.phoneCode,
+      phoneNumber: data.phoneNumber,
+      region: data.region,
+      articles: cart.map(item => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      }))
+    };
+    api.post(`/send-mail`, order)
+    .then(response => {
+      console.log("hola resp", response)
+      handleCleanCart()
+      handleNextStep();
       })
       .catch(error => {
         console.error('Hubo un error al hacer la solicitud GET:', error)
@@ -158,7 +167,7 @@ export default function App() {
 
       {/* Delivery Info */}
       {step === 2 && (
-        <form onSubmit={handleSubmit(onSubmitFormTwo)}>
+        <form onSubmit={handleSubmit(onSubmitFormTwo)} className='text-center'>
           <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
           Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2>
           <div className='flex justify-center'>

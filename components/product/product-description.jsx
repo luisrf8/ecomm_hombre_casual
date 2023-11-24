@@ -34,7 +34,7 @@ export function ProductDescription(data) {
   return (
     <>
       <div className="mb-4 flex flex-col border-b pb-6">
-        <h1 className="mb-2 text-5xl font-medium">{product.name}</h1>
+        <h1 className="mb-2 text-xl md:text-5xl font-medium wrap">{product.name}</h1>
         <div className="">
           <Price amount={product.price} currencyCode={"BS"} />
         </div> 
@@ -47,7 +47,7 @@ export function ProductDescription(data) {
       ) : null}
       <h4>Descripcion del producto:</h4>
       {/* <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique nisl vitae ligula varius, vitae laoreet urna feugiat. Nullam eu lacus vel nibh dignissim ullamcorper. Suspendisse potenti. Fusce nec mauris at ligula suscipit cursus a sit amet justo.</span> */}
-      <div className='flex justify-center mt-2'>
+      <div className='flex justify-center mt-2 mb-2'>
         <AddToCart item={product} availableForSale={product.enabled} newItem={newItem}/>
       </div>
     </>

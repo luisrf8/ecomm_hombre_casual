@@ -4,7 +4,7 @@ import { MinusIcon, PlusIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/rea
 import LoadingDots from 'components/loading-dots';
 
 import { DEFAULT_OPTION } from 'lib/constants';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Price from '../price';
@@ -13,8 +13,8 @@ import DeleteItemButton from './delete-item-button';
 import OpenCart from './open-cart';
 import { addToCart, removeAllCart, removeFromCart } from './reducers/cartReducer';
 
-
 export default function CartModal() {
+  const pathname = usePathname();
   const router = useRouter();
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
@@ -27,6 +27,11 @@ export default function CartModal() {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
+  useEffect(() => {
+    if( pathname === "/form" ) {
+      setIsOpen(false);
+    }
+  }, [pathname])
   useEffect(() => {
     totalCardAmount()
   }, [cart])

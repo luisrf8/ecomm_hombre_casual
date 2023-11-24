@@ -12,9 +12,9 @@ function InputField({ label, name, register, required }) {
     <div className="sm:col-span-3 mt-4">
       <input
         {...register(name,   { required })}
-        style={{height: '2.5rem', width: '100%'}}
+        style={{height: '2.5rem',}}
         placeholder={label}
-        className="block w-250 bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        className="block w-[80vw] md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
       />
     </div>
   );
@@ -26,9 +26,9 @@ function SelectField({ label, name, register, options }) {
     <div className="sm:col-span-3 mt-4">
       <select
         {...register(name)}
-        style={{height: '2.5rem', width:'3.5rem', background: 'transparent'}}
+        style={{height: '2.5rem', background: 'transparent'}}
         placeholder={label}
-        className="block w-250 flex justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        className="block md:w-[3.5rem] w-[80vw] flex justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value} className=''>
@@ -101,7 +101,15 @@ export default function App() {
       setStep(step - 1);
     }
   };
-  
+
+  // leonardo: 20$
+  // Freddy: 15$ 
+  // Binance: 30$ 
+  // Adrian: 100$ + 25$ intereses
+  // Rivero: 100$
+  // Jairo: 75$
+  // mama: 40$ 
+
   return (
     <>
       {/* Personal Info */}
@@ -109,10 +117,9 @@ export default function App() {
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <div className='flex gap-2'>
           <div>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Datos Peronales</h2>
-          
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Datos Personales</h2>
           <InputField label="Nombre y Apellido" name="firstName" register={register} required/>
-          <div className='flex row gap-x-4'>
+          <div className='md:flex md:row md:gap-x-4'>
             <SelectField label="ID  " name="IDCode" register={register} options={[
               { value: "V", label: "V" },
               { value: "J", label: "J" },
@@ -123,7 +130,7 @@ export default function App() {
               <InputField label="Número de Cédula" name="IDNumber" register={register} required/>
             </div>
           </div>
-          <div className='flex row gap-x-4'>
+          <div className='md:flex md:row md:gap-x-4'>
             <SelectField label="Código" name="phoneCode" register={register} options={[
               { value: "+58414", label: "0414" },
               { value: "+58424", label: "0424" },

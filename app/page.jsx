@@ -29,7 +29,6 @@ function getArticles() {
   api.get(`/articles`)
   .then(response => {
       setProducts(response.data)
-      console.log("hola product", response.data)
       setHasFetchedData(true); 
     })
     .catch(error => {

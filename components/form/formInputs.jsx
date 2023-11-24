@@ -63,7 +63,6 @@ export default function App() {
     };
     api.post(`/send-mail`, order)
     .then(response => {
-      console.log("hola resp", response)
       handleCleanCart()
       handleNextStep();
       })

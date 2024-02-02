@@ -34,8 +34,8 @@ const menuOptions = [
     title: <span style={fontStyle}>Legal</span>,
     path: '/services',
     submenus: [
-      { id: 'acerca-opcion1', title: 'Términos y condiciones', path: '/about/opcion1' },
-      { id: 'acerca-opcion1', title: 'Acuerdos de Privacidad', path: '/about/opcion1' },
+      { id: 'acerca-opcion3', title: 'Términos y condiciones', path: '/about/opcion1' },
+      { id: 'acerca-opcion4', title: 'Acuerdos de Privacidad', path: '/about/opcion1' },
       // Submenús para Servicios
     ],
   },
@@ -44,9 +44,9 @@ const menuOptions = [
     title: <span style={fontStyle}>Aliados</span>,
     path: '/contact',
     submenus: [
-      { id: 'acerca-opcion1', title: 'ZuliaGlass', path: '/about/opcion1' },
-      { id: 'acerca-opcion1', title: 'BariGlass', path: '/about/opcion1' },
-      { id: 'acerca-opcion1', title: 'LaraGlass', path: '/about/opcion1' },
+      { id: 'acerca-opcion5', title: 'ZuliaGlass', path: '/about/opcion1' },
+      { id: 'acerca-opcion6', title: 'BariGlass', path: '/about/opcion1' },
+      { id: 'acerca-opcion7', title: 'LaraGlass', path: '/about/opcion1' },
       // Submenús para Contacto
     ],
   },

@@ -11,7 +11,7 @@ export default function ProductGridItems({ products }) {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className='mx-7 md:m-0 lg:m-0' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width:'75vw', }}>
       {/* Agregar el campo de búsqueda */}
       <input
         type="text"
@@ -23,7 +23,7 @@ export default function ProductGridItems({ products }) {
         style={{ marginBottom: '20px', padding: '5px', borderRadius: '5px' }}
         className="w-[22.5rem] h-[2.5rem] border rounded-r bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800 "
       />
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }} className='flex wrap justify-center gap-6'>
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', }} className='flex wrap justify-center gap-6'>
         {filteredProducts.map((product) => (
           <div key={product.id} className="animate-fadeIn w-[22.5rem] h-[25rem]">
             <Link className="relative inline-block h-full w-full" href={`/product/${product.id}`}>

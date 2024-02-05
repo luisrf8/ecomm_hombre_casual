@@ -76,15 +76,15 @@ export default function App() {
   };
 
   const onSubmitFormThree = (data) => {
-    const apiUrl = 'http://localhost:3008/Order';
+    console.log("onSubmitForm", data, cart)
     // Realizar la solicitud GET usando Axios
-    axios.post(apiUrl, data)
-      .then(response => {
-        // La respuesta exitosa se almacena en el estado
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error);
-      });
+    // api.post('/payments', data)
+    //   .then(response => {
+    //     // La respuesta exitosa se almacena en el estado
+    //   })
+    //   .catch(error => {
+    //     console.error('Hubo un error al hacer la solicitud GET:', error);
+    //   });
   };
   
   const [step, setStep] = useState(1);
@@ -160,8 +160,8 @@ export default function App() {
             {step} / 3
           </label> */}
             <button
-              type="submit"
               style={{width: '8rem'}}
+              onClick={handleNextStep}
               className="rounded-md flex justify-center items-center mt-4 bg-[#022368] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
               Crear Orden
@@ -181,7 +181,7 @@ export default function App() {
               className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
             />
           </div>
-          {/* <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
+          <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
           <fieldset className='pt-5'>
           <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
           <div className="flex row gap-6 mt-4"
@@ -276,18 +276,18 @@ export default function App() {
                 Siguiente
               </button>
             </div>
-          </div> */}
+          </div>
         </form>
       )}
 
       {/* Payment Info */}
-      {/* {step === 3 && (
+      {step === 3 && (
         <form onSubmit={handleSubmit(onSubmitFormThree)}
         >
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2> */}
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
 
           {/* Radio Buttons */}
-          {/* <fieldset className='pt-5'>
+          <fieldset className='pt-5'>
           <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
           <div className="flex row gap-6 mt-4"
           >
@@ -349,7 +349,7 @@ export default function App() {
             </div>
           </div>
         </form>
-      )} */}
+      )}
     </>
   );
 }

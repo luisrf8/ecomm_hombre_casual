@@ -34,7 +34,7 @@ function ThreeItemGridItem({
 }
 
 export function ThreeItemGrid({itemProducts}) {
-  const [firstProduct, secondProduct, thirdProduct] = itemProducts;
+  const [firstProduct, secondProduct, thirdProduct] = itemProducts.data;
 
   return (
     <>

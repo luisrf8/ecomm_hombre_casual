@@ -100,7 +100,7 @@ export default function Navbar() {
             // Render the fetched data when available
             parentCategories ? (
               <ul className="flex hidden justify-evenly text-sm md:flex md:items-center" style={{ fontWeight: "600"}}>
-                {parentCategories.map((item) => (
+                {parentCategories.data.map((item) => (
                   <li key={item} className="w-[10rem] flex justify-center">
                     <Link
                       href={item.id != 1 ? `/search/[id]` : "/glass"}

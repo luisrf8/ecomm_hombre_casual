@@ -21,7 +21,11 @@ export default function ProductPage() {
     // const match = pathname.match(/\/search\/(\d+)/);
     // const categoriaId = match ? match[1] : null;
     // getArticles(categoriaId)
-      const match = pathname.match(/\/product\/(\d+)/);
+      // const match = pathname.match(/\/product\/(\d+)/);
+    console.log("URL:", pathname); // Verifica que la URL sea correcta
+      const match = pathname.match(/\/product\/([a-f\d-]+)/);
+    console.log("Match:", match); // Verifica la coincidencia obtenida
+      
       const categoriaId = match ? match[1] : null;
       getArticles(categoriaId)
 }, [pathname])

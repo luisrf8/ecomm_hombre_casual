@@ -8,6 +8,7 @@ import { VariantSelector } from './variant-selector';
 
 export function ProductDescription(data) {
   const {product} = data
+  console.log("qwe", product)
   const [itemSelected, setItemSelected] = useState()
   const [newItem , setNewItem] = useState({})
   
@@ -23,10 +24,11 @@ export function ProductDescription(data) {
         // price: product.priceRange.maxVariantPrice.amount,
         price: product.price,
         title: product.name,
-        id: itemSelected.id,
+        id: itemSelected._id,
         item: itemSelected,
       } 
       setNewItem(newItemConcat)
+      console.log("New item", newItemConcat);
     } else {
       setNewItem(product)
     }
@@ -34,21 +36,21 @@ export function ProductDescription(data) {
   return (
     <>
       <div className="mb-4 flex flex-col border-b pb-6">
-        <h1 className="mb-2 text-xl md:text-5xl font-medium wrap">{product.name}</h1>
+        <h1 className="mb-2 text-xl md:text-5xl font-medium wrap">{product.data.name}</h1>
         <div className="">
-          <Price amount={product.price} currencyCode={"BS"} />
+          <Price amount={product.data.price} currencyCode={"BS"} />
         </div> 
       </div>
-      {product.variants ? (
-      <VariantSelector options={product.options} variants={product.variants} itemSelected={itemSelected} setItemSelected={setItemSelected} />
+      {product.data.variants ? (
+      <VariantSelector options={product.data.options} variants={product.data.variants} itemSelected={itemSelected} setItemSelected={setItemSelected} />
       ) : null}
-      {product.descriptionHtml ? (
-        <Prose className="mb-6 text-sm leading-tight " html={product.descriptionHtml} />
+      {product.data.descriptionHtml ? (
+        <Prose className="mb-6 text-sm leading-tight " html={product.data.descriptionHtml} />
       ) : null}
       <h4>Descripcion del producto:</h4>
       {/* <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique nisl vitae ligula varius, vitae laoreet urna feugiat. Nullam eu lacus vel nibh dignissim ullamcorper. Suspendisse potenti. Fusce nec mauris at ligula suscipit cursus a sit amet justo.</span> */}
       <div className='flex justify-center mt-2 mb-2'>
-        <AddToCart item={product} availableForSale={product.enabled} newItem={newItem}/>
+        <AddToCart item={product.data} availableForSale={product.data.enabled} newItem={newItem}/>
       </div>
     </>
   );

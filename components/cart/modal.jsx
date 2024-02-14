@@ -34,15 +34,15 @@ export default function CartModal() {
   }, [pathname])
   useEffect(() => {
     totalCardAmount()
+    console.log("Total", cart)
   }, [cart])
-
   useEffect(() => {
   }, [totalAmount]);
 
   function totalCardAmount() {
     let total = 0
     for (let i = 0; i < cart.length; i++) {
-      const amount = cart[i].quantity * cart[i].price
+      const amount = cart[i].quantity * cart[i].data.price
       total += amount      
     }
     setTotalAmount(total)
@@ -156,7 +156,7 @@ export default function CartModal() {
                           </div>
                           <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">
-                              {item.name}
+                              {item.data.name}
                             </span>
                             {item && item.item && item.item.title !== DEFAULT_OPTION ? (
                             <p className="text-sm text-neutral-500 ">
@@ -168,7 +168,7 @@ export default function CartModal() {
                           <Price
                             className="flex justify-end space-y-2 text-right text-sm"
                             // amount={item.price ? item.price : item.priceRange?.maxVariantPrice?.amount}
-                            amount={item.price}
+                            amount={item.data.price}
                             />
                           <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 ">
                             <button

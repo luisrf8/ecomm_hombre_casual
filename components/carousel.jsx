@@ -7,7 +7,6 @@ import { GridTileImage } from './grid/tile';
 
 export default function Carousel ({ carouselProducts, title }) {
   const [current, setCurrent] = useState(0);
-  console.log("carousel", carouselProducts)
   const numImages = carouselProducts.length;
   const [itemsPerPage, setItemsPerPage] = useState(1); // Inicialmente, muestra 1 elemento
 
@@ -97,7 +96,7 @@ export default function Carousel ({ carouselProducts, title }) {
               className='w-full'
               
             >
-             <Link href={`/product/${product.id}`} className="relative w-full">
+             <Link href={`/product/${product._id}`} className="relative w-full">
                 <GridTileImage
                   alt={product.name}
                   label={{

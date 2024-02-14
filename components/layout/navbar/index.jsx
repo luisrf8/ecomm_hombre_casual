@@ -103,8 +103,8 @@ export default function Navbar() {
                 {parentCategories.data.map((item) => (
                   <li key={item} className="w-[10rem] flex justify-center">
                     <Link
-                      href={item.id != 1 ? `/search/[id]` : "/glass"}
-                      as={item.id != 1 ? `/search/${item.id}` : "/glass"}
+                      href={item.id != 1 ? `/search/[_id]` : "/glass"}
+                      as={item.id != 1 ? `/search/${item._id}` : "/glass"}
                       className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
                     >
                       {item.description}

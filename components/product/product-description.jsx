@@ -8,7 +8,6 @@ import { VariantSelector } from './variant-selector';
 
 export function ProductDescription(data) {
   const {product} = data
-  console.log("qwe", product)
   const [itemSelected, setItemSelected] = useState()
   const [newItem , setNewItem] = useState({})
   
@@ -28,7 +27,6 @@ export function ProductDescription(data) {
         item: itemSelected,
       } 
       setNewItem(newItemConcat)
-      console.log("New item", newItemConcat);
     } else {
       setNewItem(product)
     }

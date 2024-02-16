@@ -34,7 +34,6 @@ export default function CartModal() {
   }, [pathname])
   useEffect(() => {
     totalCardAmount()
-    console.log("Total", cart)
   }, [cart])
   useEffect(() => {
   }, [totalAmount]);

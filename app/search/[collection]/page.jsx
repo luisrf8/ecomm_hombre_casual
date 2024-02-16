@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-async-client-component */
 'use client'
 import ProductGridItems from 'components/layout/product-grid-items';
 // import Collections from 'components/layout/search/collections';
@@ -14,19 +15,16 @@ export default async function CategoryPage() {
   const [hasFetchedData, setHasFetchedData] = useState(false)
   const pathname = usePathname();
   useEffect(() => {
-    console.log("URL:", pathname); // Verifica que la URL sea correcta
     const match = pathname.match(/\/search\/([a-f\d-]+)/);
-    console.log("Match:", match); // Verifica la coincidencia obtenida
     const categoriaId = match ? match[1] : null;
-    console.log("Categoria:", categoriaId);
-    getArticles(categoriaId)
     getParentCategories()
+    getArticles(categoriaId)
 }, [pathname])
   function getArticles(id) {
     api.get(`/article-categories/${id}/articles`)
     .then(response => {
-        setArticles(response.data)
-        console.log("articles", articles)
+      // console.log("articlesdsadas", response.data.data)
+        setArticles(response.data.data)
         // const enabledItems = response.data.filter(item => item.enabled === true);
         setHasFetchedData(true); 
       })
@@ -38,13 +36,12 @@ export default async function CategoryPage() {
     function getParentCategories() {
       // const match = pathname.match(/\/search\/(\d+)/);
       const match = pathname.match(/\/search\/([a-f\d-]+)/);
-      console.log("getParent", match);
       const categoriaId = match ? match[1] : null;
       api.get(`/parent-categories/${categoriaId}/article-categories`)
       .then(response => {
           // La respuesta exitosa se almacena en el estado
           setCollectionsData(response.data)
-          getArticles(response.data[0]._id)
+          getArticles(response.data.data[0]._id)
           setHasFetchedData(true); 
         })
         .catch(error => {
@@ -54,7 +51,7 @@ export default async function CategoryPage() {
       }
   return (
     <section>
-      <div className="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 mt-6 pb-4 text-black  md:flex-row">
+      <div className="mx-auto flex max-w-screen-2xl flex-col gap-8 mt-6 pb-4 text-black  md:flex-row">
         {!hasFetchedData ? (
             <LoadingDots className="bg-gray-900" />
           ) : 
@@ -76,7 +73,7 @@ export default async function CategoryPage() {
         }
         <div className="order-last min-h-screen w-full md:order-none ">
           {products.length === 0 ? (
-            <p className="py-3 text-lg">{`No products found in this collection`}</p>
+            <p className="text-lg">{`No products found in this collection`}</p>
           ) : (
             // <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <ProductGridItems products={articles} />

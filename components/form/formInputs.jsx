@@ -1,5 +1,6 @@
+import { RadioGroup } from '@headlessui/react';
 import api from 'lib/axios';
-import { useState } from 'react'; // Import useState
+import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllCart } from '../cart/reducers/cartReducer';
@@ -43,12 +44,25 @@ export default function App() {
   const cart = useSelector(state => state.cart)
   const dispatch = useDispatch();
   const [user, setUser] = useState({})
+  const [logisticCenters, setLogisticCenters] = useState(null)
+  const [selectedLogisticCenter, setSelectedLogisticCenter] = useState(null)
 
+  useEffect(() => {
+    getLogisticCenters()
+  }, [])
+  function getLogisticCenters() {
+    api.get(`/logistic-centers`)
+    .then(response => {
+      setLogisticCenters(response.data.data)
+      })
+      .catch(error => {
+        console.error('Hubo un error al hacer la solicitud GET:', error);
+      });
+    }
   function handleCleanCart() {
     dispatch(removeAllCart())
   }
   const onSubmitFormOne = (data) => {
-    console.log("data 1", data)
     const phoneNumber = `${data.phoneCode}${data.phoneNumber}`
     const client = {
         names: data.firstName,
@@ -60,7 +74,6 @@ export default function App() {
       }
     api.post(`/customers`, client)
     .then(response => {
-      console.log("res", response);
       setUser(response.data.data);
       handleNextStep();
       })
@@ -90,7 +103,6 @@ export default function App() {
         articleId: item.data._id
       }))
     };
-    console.log('order', order);
     api.post(`/payments`, order)
     .then(response => {
       console.log("res", response);
@@ -124,7 +136,9 @@ export default function App() {
       setStep(step - 1);
     }
   };
-
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
   // leonardo: 20$
   // Freddy: 15$ 
   // Binance: 30$ 
@@ -199,20 +213,20 @@ export default function App() {
       {/* Delivery Info */}
       {step === 2 && (
         <form onSubmit={handleSubmit(onSubmitFormTwo)} className='text-center'>
-        <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
-        Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2>
+        {/* <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
+        Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2> */}
         <div className='flex justify-center'>
           {/* <CheckCircleIcon
             className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
           /> */}
         </div>
-        <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span>
+        {/* <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span> */}
         <fieldset className='pt-5'>
         <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
         <div className="flex row gap-6 mt-4"
           style={{width:"30rem"}}
         >
-        <div className="flex items-center gap-x-1">
+        {/* <div className="flex items-center gap-x-1">
             <input
               id="push-everything"
               name="push-notifications"
@@ -223,7 +237,7 @@ export default function App() {
             <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
               Retiro por Agencia
             </label>
-          </div>
+          </div> */}
           <div className="flex items-center gap-x-1">
             <input
               id="push-everything"
@@ -241,7 +255,9 @@ export default function App() {
         <div className="flex row gap-6 mt-4"
           style={{width:"30rem"}}
         >
-          <div className="flex items-center gap-x-1">
+        
+          {/* {logisticCenters.map((logisticCenter) => (
+          <div className="flex items-center gap-x-1" key={logisticCenter.id}>
             <input
               id="push-everything"
               name="push-notifications"
@@ -249,10 +265,17 @@ export default function App() {
               className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
             />
             <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              ZOOM
+              Centro Logistico: {logisticCenter.name}
+            </label>
+            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
+              Ciudad: {logisticCenter.city}
+            </label>
+            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
+              Direccion: {logisticCenter.address}
             </label>
           </div>
-          <div className="flex items-center gap-x-1">
+              ))} */}
+          {/* <div className="flex items-center gap-x-1">
             <input
               id="push-email"
               name="push-notifications"
@@ -273,13 +296,51 @@ export default function App() {
             <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-white-900">
               TEALCA
             </label>
-          </div>
+          </div> */}
         </div>
       </fieldset>
-
-        <InputField label="Ciudad" name="city" register={register} required/>
+      <RadioGroup value={selectedLogisticCenter} onChange={setSelectedLogisticCenter} className="mt-4 gap-4">
+          {logisticCenters.map((logisticCenter) => (
+            <RadioGroup.Option
+              key={logisticCenter._id}
+              value={logisticCenter._id}
+              // disabled={!size.inStock}
+              className={({ active }) =>
+              classNames(
+                // size.inStock
+                // ? 'cursor-pointer bg-white text-gray-900 shadow-sm h-[15rem] hover:border-blue-400'
+                // : 'cursor-not-allowed bg-gray-50 text-gray-200',
+                active ? 'ring-2 ring-blue-500' : '',
+                'cursor-pointer relative rounded-md h-[5rem] border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 mb-4'
+                )
+              }
+              style={{display:'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', textAlign: 'start',}}
+              >
+              {({ active, checked }) => (
+                <>
+                  {/* <RadioGroup.Label as="span">Centro Logistico: {logisticCenter.name}</RadioGroup.Label>
+                  <RadioGroup.Label as="span">Ciudad: {logisticCenter.city}</RadioGroup.Label>
+                  <RadioGroup.Label as="span">Direccion: {logisticCenter.address}</RadioGroup.Label> */}
+                  <label as="span">Centro Logistico: {logisticCenter.name}</label>
+                  <label as="span">Ciudad: {logisticCenter.city}</label>
+                  <label as="span">Direccion: {logisticCenter.address}</label> 
+                    {/* {size.inStock ? ( */}
+                      <span
+                        className={classNames(
+                        active ? 'border' : 'border-2',
+                        checked ? 'border-blue-500' : 'border-transparent',
+                        'pointer-events-none absolute -inset-px rounded-md'
+                        )}
+                        aria-hidden="true"
+                      />
+                  </>
+                )}
+                </RadioGroup.Option>
+              ))}
+            </RadioGroup>
+        {/* <InputField label="Ciudad" name="city" register={register} required/>
         <InputField label="Estado" name="region" register={register} required/>
-        <InputField label="Dirección de la Agencia" name="deliveredAddress" register={register} required/>
+        <InputField label="Dirección de la Agencia" name="deliveredAddress" register={register} required/> */}
 
         <div className='flex justify-between items-center'>
           <label>
@@ -295,7 +356,8 @@ export default function App() {
             </button>
             <button
               style={{width: '6rem'}}
-              type="submit"
+              // type="submit"
+              onClick={handleNextStep}
               className="rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Siguiente
@@ -303,6 +365,7 @@ export default function App() {
           </div>
         </div>
       </form>
+      
         // <form onSubmit={handleSubmit(onSubmitFormThree)}>
         //   <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
         //   {/* Radio Buttons */}

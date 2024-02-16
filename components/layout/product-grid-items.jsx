@@ -20,11 +20,11 @@ export default function ProductGridItems({ products }) {
         autoComplete="off"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginBottom: '20px', padding: '5px', borderRadius: '5px' }}
+        style={{ marginBottom: '20px', borderRadius: '5px' }}
         className="w-[22.5rem] h-[2.5rem] border rounded-r bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800 "
       />
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', }} className='flex wrap justify-center gap-6'>
-        {products?.data.map((product) => (
+        {products.map((product) => (
           <div key={product.id} className="animate-fadeIn w-[22.5rem] h-[25rem]">
             <Link className="relative inline-block h-full w-full" href={`/product/${product._id}`}>
               <GridTileImage

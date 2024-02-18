@@ -50,6 +50,20 @@ export default function App() {
   useEffect(() => {
     getLogisticCenters()
   }, [])
+  const paymentMethods = [
+    {
+      id: 1,
+      name: "Pago movil"
+    },
+    {
+      id: 2,
+      name: "Transferencia"
+    },
+    {
+      id: 3,
+      name: "Zelle"
+    }
+  ]
   function getLogisticCenters() {
     api.get(`/logistic-centers`)
     .then(response => {
@@ -82,8 +96,14 @@ export default function App() {
       });
   };
 
-  const onSubmitFormTwo = (data) => {
-    handleNextStep();
+  const onSubmitFormTwo = () => {
+    console.log("user", user)
+    console.log("logistic center", selectedLogisticCenter)
+    if(!selectedLogisticCenter || selectedLogisticCenter === null) {
+      console.log("debe seleccionar un centro logistico")
+    } else {
+      handleNextStep();
+    }
   };
 
   const onSubmitFormThree = (data) => {
@@ -125,8 +145,8 @@ export default function App() {
   const [step, setStep] = useState(1);
 
   const handleNextStep = () => {
-    // if (step < 3) {
-    if (step < 2) {
+    if (step < 3) {
+    // if (step < 2) {
       setStep(step + 1);
     }
   };
@@ -139,13 +159,6 @@ export default function App() {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
-  // leonardo: 20$
-  // Freddy: 15$ 
-  // Binance: 30$ 
-  // Adrian: 100$ + 25$ intereses
-  // Rivero: 100$
-  // Jairo: 75$
-  // mama: 40$ 
 
   return (
     <>
@@ -243,6 +256,7 @@ export default function App() {
               id="push-everything"
               name="push-notifications"
               type="radio"
+              checked
               className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
               disabled={true}
             />
@@ -356,8 +370,9 @@ export default function App() {
             </button>
             <button
               style={{width: '6rem'}}
-              // type="submit"
-              onClick={handleNextStep}
+              type="submit"
+              // onClick={handleSubmit(onSubmitFormTwo)}
+              // onClick={handleNextStep}
               className="rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Siguiente
@@ -446,43 +461,42 @@ export default function App() {
           {/* Radio Buttons */}
           <fieldset className='pt-5'>
           <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
-          <div className="flex row gap-6 mt-4"
-          >
-            <div className="flex items-center gap-x-1">
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-                Pago Movil
-              </label>
-            </div>
-            <div className="flex items-center gap-x-1">
-              <input
-                id="push-email"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-white-900">
-                Binance Pay
-              </label>
-            </div>
-            <div className="flex items-center gap-x-1">
-              <input
-                id="push-nothing"
-                name="push-notifications"
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              />
-              <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-white-900">
-                Zinli
-              </label>
-            </div>
-          </div>
+          
+          
         </fieldset>
+        <RadioGroup value={selectedLogisticCenter} onChange={setSelectedLogisticCenter} className="mt-4 gap-4">
+          {paymentMethods.map((paymentMethod) => (
+            <RadioGroup.Option
+              key={logisticCenter.id}
+              value={logisticCenter.id}
+              // disabled={!size.inStock}
+              className={({ active }) =>
+              classNames(
+                // size.inStock
+                // ? 'cursor-pointer bg-white text-gray-900 shadow-sm h-[15rem] hover:border-blue-400'
+                // : 'cursor-not-allowed bg-gray-50 text-gray-200',
+                active ? 'ring-2 ring-blue-500' : '',
+                'cursor-pointer relative rounded-md h-[5rem] border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 mb-4'
+                )
+              }
+              style={{display:'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', textAlign: 'start',}}
+              >
+              {({ active, checked }) => (
+                <>
+                  <label as="span">{paymentMethod.name}</label>
+                      <span
+                        className={classNames(
+                        active ? 'border' : 'border-2',
+                        checked ? 'border-blue-500' : 'border-transparent',
+                        'pointer-events-none absolute -inset-px rounded-md'
+                        )}
+                        aria-hidden="true"
+                      />
+                  </>
+                )}
+                </RadioGroup.Option>
+              ))}
+            </RadioGroup>
           <InputField label="Referencia (ultimos 6 números)" name="payID" register={register} required/>
           <InputField label="Fecha" name="date" register={register} required/>
           <div className='flex justify-between items-center'>

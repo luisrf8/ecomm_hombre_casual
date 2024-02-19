@@ -41,7 +41,7 @@ export default function CartModal() {
   function totalCardAmount() {
     let total = 0
     for (let i = 0; i < cart.length; i++) {
-      const amount = cart[i].quantity * cart[i].data.price
+      const amount = cart[i].quantity * cart[i].price
       total += amount      
     }
     setTotalAmount(total)
@@ -155,7 +155,7 @@ export default function CartModal() {
                           </div>
                           <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">
-                              {item.data.name}
+                              {item.name}
                             </span>
                             {item && item.item && item.item.title !== DEFAULT_OPTION ? (
                             <p className="text-sm text-neutral-500 ">
@@ -167,7 +167,7 @@ export default function CartModal() {
                           <Price
                             className="flex justify-end space-y-2 text-right text-sm"
                             // amount={item.price ? item.price : item.priceRange?.maxVariantPrice?.amount}
-                            amount={item.data.price}
+                            amount={item.price}
                             />
                           <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 ">
                             <button

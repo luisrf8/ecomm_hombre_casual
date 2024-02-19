@@ -25,13 +25,13 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.push({ ...action.payload, quantity: 1 });
+        state.push({ ...action.payload.data, quantity: 1 });
       }
       localStorage.setItem('cart', JSON.stringify(state));
     },
 
     removeFromCart: (state, action) => {
-      const existingItem = state.find(item => item.data._id === action.payload.data._id);
+      const existingItem = state.find(item => item._id === action.payload.data._id);
       if (existingItem) {
         if (existingItem.quantity === 1) {
           state.splice(state.indexOf(existingItem), 1);
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
     },
 
     removeItemFromCart: (state, action) => {
-      const updatedCart = state.filter(item => item.data._id !== action.payload.data._id);
+      const updatedCart = state.filter(item => item._id !== action.payload.data._id);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       return updatedCart;
     },

@@ -18,7 +18,7 @@ useEffect(() => {
 function totalCardAmount() {
   let total = 0
   for (let i = 0; i < cart.length; i++) {
-    const amount = cart[i].quantity * cart[i].data.price
+    const amount = cart[i].quantity * cart[i].price
     total += amount      
   }
   setTotalAmount(total)
@@ -49,7 +49,7 @@ return(
                 </div>
                 <div className="flex flex-1 flex-col text-base px-3">
                   <span className="leading-tight">
-                    {item.data.name}
+                    {item.name}
                   </span>
                   {item && item.item && item.item.title !== DEFAULT_OPTION ? (
                   <p className="text-sm text-neutral-500 ">
@@ -63,7 +63,7 @@ return(
                 <div className="flex h-16 flex-col justify-between">
                   <Price
                     className="flex justify-end text-right text-sm"
-                    amount={item.data.price}
+                    amount={item.price}
                   />
                 </div>
               </div>

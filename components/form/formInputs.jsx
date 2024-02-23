@@ -504,10 +504,9 @@ function handleRemoveFromCart() {
       {step === 3 && (
         <div>
           <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
-          
-        <form onSubmit={handleSubmit(onSubmitFormThree)} className='flex gap-8'
+        <form onSubmit={handleSubmit(onSubmitFormThree)} className='flex md:flex-row flex-col gap-8'
         >
-          <div>
+          <div className=''>
             <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
             <div className='flex items-center gap-2 mt-1'>
               <input
@@ -528,7 +527,7 @@ function handleRemoveFromCart() {
                   id="country"
                   name="country"
                   autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-[80vw] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
                   onChange={handleBankEmiterChange}
                   value={bankEmiter}
                 >
@@ -539,7 +538,7 @@ function handleRemoveFromCart() {
                 </select>
               </div>
             <p className="mt-1 text-sm leading-6 text-white-600">Datos:</p>
-              <div className='gap-2 px-4 h-[6rem] mt-1 cursor-pointer relative rounded-md border text-sm  hover:bg-gray-50 focus:outline-none sm:flex-1 '
+              <div className='gap-2 px-4 md:h-[6rem] md:w-[100%] w-[80vw] h-[6rem] mt-1 cursor-pointer relative rounded-md border text-sm  hover:bg-gray-50 focus:outline-none sm:flex-1 '
               style={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start', textAlign: 'start',}}
               >
               <label>
@@ -558,7 +557,7 @@ function handleRemoveFromCart() {
                   id="country"
                   name="country"
                   autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-[80vw] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
                   onChange={handleBankRecepChange}
                   value={bankRecep}
                 >
@@ -601,8 +600,8 @@ function handleRemoveFromCart() {
           </div>
           <div className='items-center'>
             <p className="text-sm leading-6 text-white-600">Ingrese Referencias de pago.</p>
-            <div className='flex gap-5'>
-            <div className='w-[8.5rem] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
+            <div className='flex gap-5  md:flex-row flex-col '>
+            <div className='md:w-[8.5rem]  w-[80vw] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
             style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'start' }}>
             <input
                 type="file"

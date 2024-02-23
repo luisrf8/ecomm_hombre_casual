@@ -5,10 +5,9 @@ import { useState } from 'react';
 
 export default function ProductGridItems({ products }) {
   const [searchTerm, setSearchTerm] = useState('');
-  console.log("products", products)
-  // const filteredProducts = products.data.filter(product =>
-  //   product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className='mx-7 md:m-0 lg:m-0' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width:'75vw', }}>
@@ -24,7 +23,7 @@ export default function ProductGridItems({ products }) {
         className="w-[22.5rem] h-[2.5rem] border rounded-r bg-white px-4 py-4 text-sm text-black placeholder:text-neutral-800 "
       />
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', }} className='flex wrap justify-center gap-6'>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <div key={product.id} className="animate-fadeIn w-[22.5rem] h-[25rem]">
             <Link className="relative inline-block h-full w-full" href={`/product/${product._id}`}>
               <GridTileImage

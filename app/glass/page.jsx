@@ -6,7 +6,7 @@ import Grid from 'components/grid';
 // import IndexCarousel from 'components/index-carousel';
 import ProductGridItems from 'components/layout/product-grid-items';
 import { products } from 'lib/ddbb.js';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 export const runtime = 'edge';
@@ -120,7 +120,7 @@ function SelectField({ label, name, register, options }) {
   );
 }
 export default function SearchPage() {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const pathname = usePathname();
 
   // const { q: searchValue } = searchParams;

@@ -5,13 +5,13 @@ import ProductGridItems from 'components/layout/product-grid-items';
 import LoadingDots from 'components/loading-dots';
 import api from 'lib/axios';
 import { products } from 'lib/ddbb.js';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 export const runtime = 'edge';
 export default async function CategoryPage() {
   const [articles, setArticles] = useState([])
   const [collectionsData, setCollectionsData] = useState([])
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const [hasFetchedData, setHasFetchedData] = useState(false)
   const pathname = usePathname();
   useEffect(() => {

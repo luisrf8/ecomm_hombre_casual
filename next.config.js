@@ -20,7 +20,8 @@ module.exports = {
     ignoreDuringBuilds: true
   },
   experimental: {
-    serverActions: true
+    serverActions: true,
+    missingSuspenseWithCSRBailout: false,
   },
   async redirects() {
     return [

@@ -1,14 +1,14 @@
 'use client'
 import Cart from 'components/cart';
 import OpenCart from 'components/cart/open-cart';
+import LoadingDots from 'components/loading-dots';
 import LogoSquare from 'components/logo-square';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
-// import Favorite from './favorite';
-import LoadingDots from 'components/loading-dots';
 import api from '../../../lib/axios';
+import Favorite from './favorite';
 import MobileMenu from './mobile-menu';
-import Search from './search';
+// import Search from './search';
 
 export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -37,8 +37,9 @@ export default function Navbar() {
   }, [parentCategories]);
   
   function getParentCategories() {
-  api.get("/parent-categories")
+  api.get("api/categories")
   .then(response => {
+    console.log("categories", response.data)
       setParentCategories(response.data)
       setHasFetchedData(true); 
     })
@@ -78,14 +79,14 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="hidden justify-center md:flex md:w-1/3">
-            <Search />
+            {/* <Search /> */}
           </div>
           <div className="flex justify-center gap-5 md:w-1/3 xs:w-[4rem]">
-            {/* <div className="hidden flex-none md:block">
+            <div className="hidden flex-none md:block">
               <Favorite 
-                className={clsx('transition-all ease-in-out hover:scale-110')}
+                className='transition-all ease-in-out hover:scale-110'
               />
-            </div> */}
+            </div>
             <Suspense fallback={<OpenCart />}>
               <Cart />
             </Suspense>
@@ -100,14 +101,13 @@ export default function Navbar() {
             // Render the fetched data when available
             parentCategories ? (
               <ul className="flex hidden justify-evenly text-sm md:flex md:items-center" style={{ fontWeight: "600"}}>
-                {parentCategories.data.map((item) => (
+                {parentCategories.map((item) => (
                   <li key={item} className="w-[10rem] flex justify-center">
                     <Link
-                      href={item.id != 1 ? `/search/[_id]` : "/glass"}
-                      as={item.id != 1 ? `/search/${item._id}` : "/glass"}
+                      href={`/search/${item.id}`}
                       className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
                     >
-                      {item.description}
+                      {item.name}
                     </Link>
                   </li>
                 ))}

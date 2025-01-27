@@ -1,6 +1,5 @@
 'use client'
 import Footer from 'components/layout/footer';
-import Collections from 'components/layout/search/collections';
 import LoadingDots from 'components/loading-dots';
 import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
@@ -30,7 +29,7 @@ export default function SearchLayout({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    getParentCategories()
+    // getParentCategories()
   }, [pathname])
   // const pathname = "/search/5"; // Puedes reemplazar esto con usePathname();
   function getParentCategories() {
@@ -39,7 +38,7 @@ export default function SearchLayout({ children }) {
     api.get(`/parent-categories/${categoriaId}/article-categories`)
     .then(response => {
         // La respuesta exitosa se almacena en el estado
-        setCollectionsData(response.data.data)
+        setCollectionsData(response.data)
         setHasFetchedData(true); 
       })
       .catch(error => {
@@ -61,9 +60,9 @@ const categoriaId2 = partes[2];
           ) : (
           // collectionsData ? (
             <div className="order-first w-full flex-none md:max-w-[125px] md:mt-10">
-              {collectionsData.map((collection) => (
+              {/* {collectionsData.map((collection) => (
                 <Collections key={collection.id} id={collection.id} description={collection.description} />
-              ))}
+              ))} */}
             </div>
           // ) : ("")
         )}

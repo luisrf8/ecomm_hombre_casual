@@ -40,15 +40,15 @@ const menuOptions = [
     ],
   },
   {
-    id: 'Aliados',
+    id: 'Info',
     title: <span style={fontStyle}>Aliados</span>,
     path: '/contact',
-    submenus: [
-      { id: 'acerca-opcion5', title: 'ZuliaGlass', path: '/about/opcion1' },
-      { id: 'acerca-opcion6', title: 'BariGlass', path: '/about/opcion1' },
-      { id: 'acerca-opcion7', title: 'LaraGlass', path: '/about/opcion1' },
-      // Submenús para Contacto
-    ],
+    // submenus: [
+    //   { id: 'acerca-opcion5', title: 'ZuliaGlass', path: '/about/opcion1' },
+    //   { id: 'acerca-opcion6', title: 'BariGlass', path: '/about/opcion1' },
+    //   { id: 'acerca-opcion7', title: 'LaraGlass', path: '/about/opcion1' },
+    //   // Submenús para Contacto
+    // ],
   },
 ];
 

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'; // Import useState
 import { GridTileImage } from './grid/tile';
 
 export default function Carousel ({ carouselProducts, title }) {
+  console.log("carouselProducts", carouselProducts)
   const [current, setCurrent] = useState(0);
   const numImages = carouselProducts.length;
   const [itemsPerPage, setItemsPerPage] = useState(1); // Inicialmente, muestra 1 elemento
@@ -90,7 +91,7 @@ export default function Carousel ({ carouselProducts, title }) {
       </div>
       <div className='carousel flex justify-center'>
         <ul className='flex slider-list h-[25rem] w-[100rem] gap-10' >
-          {carouselProducts.data.slice(startIndex, endIndex).map((product, i) => (
+          {carouselProducts.slice(startIndex, endIndex).map((product, i) => (
             <li
               key={`${product.id}${i}`}
               className='w-full'
@@ -102,11 +103,11 @@ export default function Carousel ({ carouselProducts, title }) {
                   label={{
                     title: product.name,
                     // amount: product.priceRange.maxVariantPrice.amount,
-                    amount: product.price,
+                    amount: product.variants[0].price,
                     // currencyCode: product.priceRange.maxVariantPrice.currencyCode
-                    currencyCode: "BS"
+                    currencyCode: "USD"
                   }}
-                  // src={product.featuredImage.url}
+                  src={`${process.env.BASE_URL}/storage/${product.images[0].path}`}
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                 />
               </Link>

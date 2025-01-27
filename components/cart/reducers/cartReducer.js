@@ -17,21 +17,19 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initialCartState,
   reducers: {
-
     addToCart: (state, action) => {
-      const existingItem = state.find(item => item._id === action.payload._id);
-      console.log("hola state", state)
-      console.log("hola payload", action.payload)
+      console.log("action.payload", action.payload)
+      const existingItem = state.find(item => item.id === action.payload.id);
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.push({ ...action.payload.data, quantity: 1 });
+        state.push({ ...action.payload, quantity: 1 });
       }
-      localStorage.setItem('cart', JSON.stringify(state));
+      localStorage.setItem('cart', JSON.stringify(state));  // Actualiza localStorage
     },
 
     removeFromCart: (state, action) => {
-      const existingItem = state.find(item => item._id === action.payload._id);
+      const existingItem = state.find(item => item.id === action.payload.id);
       if (existingItem) {
         if (existingItem.quantity === 1) {
           state.splice(state.indexOf(existingItem), 1);
@@ -39,23 +37,22 @@ const cartSlice = createSlice({
           existingItem.quantity -= 1;
         }
       }
-      localStorage.setItem('cart', JSON.stringify(state));
+      localStorage.setItem('cart', JSON.stringify(state));  // Actualiza localStorage
     },
 
     removeItemFromCart: (state, action) => {
-      const updatedCart = state.filter(item => item._id !== action.payload._id);
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      const updatedCart = state.filter(item => item.id !== action.payload.id);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));  // Actualiza localStorage
       return updatedCart;
     },
 
     removeAllCart: () => {
-      const updatedCart = []
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      const updatedCart = [];
+      localStorage.setItem('cart', JSON.stringify(updatedCart));  // Actualiza localStorage
       return updatedCart;
-    }
-
+    },
   },
 });
 
-export const { addToCart, removeFromCart, removeAllCart, removeItemFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeItemFromCart, removeAllCart } = cartSlice.actions;
 export default cartSlice.reducer;

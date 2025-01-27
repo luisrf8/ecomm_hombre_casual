@@ -1,28 +1,28 @@
 {
-    "name": "Cargas y Suministros Ruedas del Centro",
-    "short_name": "CSRC",
+    "name": "Hombre Casual",
+    "short_name": "HC",
     "start_url": "/",
     "theme_color": "#000000",
     "background_color": "#000000",
     "display": "standalone",
     "icons": [
         {
-            "src": "/icon-192x192.png",
+            "src": "/hc.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/icon-256x256.png",
+            "src": "/hc.png",
             "sizes": "256x256",
             "type": "image/png"
         },
         {
-            "src": "/icon-384x384.png",
+            "src": "/hc.png",
             "sizes": "384x384",
             "type": "image/png"
         },
         {
-            "src": "/icon-512x512.png",
+            "src": "/hc.png",
             "sizes": "512x512",
             "type": "image/png"
         }

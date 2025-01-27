@@ -1,35 +1,9 @@
+"use client"
 import Navbar from 'components/layout/navbar';
-import { ensureStartsWith } from 'lib/utils';
 import { Inter } from 'next/font/google';
+import { usePathname } from 'next/navigation'; // Importa useRouter
 import { Suspense } from 'react';
 import './globals.css';
-
-const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : 'http://localhost:3000';
-const twitterCreator = TWITTER_CREATOR ? ensureStartsWith(TWITTER_CREATOR, '@') : undefined;
-const twitterSite = TWITTER_SITE ? ensureStartsWith(TWITTER_SITE, 'https://') : undefined;
-
-export const metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`
-  },
-  robots: {
-    follow: true,
-    index: true
-  },
-  ...(twitterCreator &&
-    twitterSite && {
-      twitter: {
-        card: 'summary_large_image',
-        creator: twitterCreator,
-        site: twitterSite
-      }
-    })
-};
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,6 +12,19 @@ const inter = Inter({
 });
 
 export default async function RootLayout({ children }) {
+  // const [user, setUser] = useState();
+  const pathname = usePathname(); 
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   console.log("aqui tokem", token)
+  //   if (token && token != null) {
+  //     try {
+  //       setUser(token);
+  //     } catch (err) {
+  //       console.error('Token inválido');
+  //     }
+  //   }
+  // }, []);
   return (
     <html lang="en" className={inter.variable}>
       <head>
@@ -71,7 +58,9 @@ export default async function RootLayout({ children }) {
         <meta name="theme-color" content="#fff" />
       </head>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 ">
-        <Navbar />
+        <>
+          {pathname == '/login' || pathname == '/register'  ? '' : <Navbar />}
+        </>
         <Suspense>
           <main>{children}</main>
         </Suspense>

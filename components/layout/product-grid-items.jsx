@@ -25,15 +25,15 @@ export default function ProductGridItems({ products }) {
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', }} className='flex wrap justify-center gap-6'>
         {filteredProducts.map((product) => (
           <div key={product.id} className="animate-fadeIn w-[22.5rem] h-[25rem]">
-            <Link className="relative inline-block h-full w-full" href={`/product/${product._id}`}>
+            <Link className="relative inline-block h-full w-full" href={`/product/${product.id}`}>
               <GridTileImage
                 alt={product.name}
                 label={{
                   title: product.name,
-                  amount: product.price,
-                  currencyCode: "BS"
+                  amount: product.variants[0].price,
+                  currencyCode: "USD"
                 }}
-                src={product.featuredImage?.url}
+                src={`${process.env.BASE_URL}/storage/${product.images[0].path}`}
                 available={product.enabled}
                 sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
               />

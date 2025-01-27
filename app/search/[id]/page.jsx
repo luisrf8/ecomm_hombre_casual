@@ -4,7 +4,6 @@ import ProductGridItems from 'components/layout/product-grid-items';
 // import Collections from 'components/layout/search/collections';
 import LoadingDots from 'components/loading-dots';
 import api from 'lib/axios';
-import { products } from 'lib/ddbb.js';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 export const runtime = 'edge';
@@ -21,10 +20,10 @@ export default async function CategoryPage() {
     getArticles(categoriaId)
 }, [pathname])
   function getArticles(id) {
-    api.get(`/article-categories/${id}/articles`)
+    api.get(`api/products/${id}`)
     .then(response => {
-      // console.log("articlesdsadas", response.data.data)
-        setArticles(response.data.data)
+      console.log("articlesdsadas", response.data)
+        setArticles(response.data)
         // const enabledItems = response.data.filter(item => item.enabled === true);
         setHasFetchedData(true); 
       })
@@ -72,8 +71,8 @@ export default async function CategoryPage() {
         // )
         }
         <div className="order-last min-h-screen w-full md:order-none ">
-          {products.length === 0 ? (
-            <p className="text-lg">{`No products found in this collection`}</p>
+          {articles.length === 0 ? (
+            <p className="text-lg">{`No hay productos en esta categoría.`}</p>
           ) : (
             // <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <ProductGridItems products={articles} />

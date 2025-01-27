@@ -38,7 +38,7 @@ export default async function CategoryPage({ params, searchParams }) {
   return (
     <section>
       {simulatedProducts.length === 0 ? (
-        <p className="py-3 text-lg">{`No products found in this collection`}</p>
+        <p className="py-3 text-lg">{`No hay productos en esta categoría`}</p>
       ) : (
         /* Renderiza los productos simulados aquí */
         null

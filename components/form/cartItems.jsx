@@ -1,6 +1,6 @@
 "use client"
 import Price from 'components/price';
-import { DEFAULT_OPTION } from 'lib/constants';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -39,23 +39,18 @@ return(
             >
               <div className="relative flex w-full flex-row justify-between px-1 py-4">
                 <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
-                  {/* <Image
+                  <Image
                   className="h-full w-full object-cover"
                   width={150}
                   height={150}
-                  alt={item.featuredImage.url ||
-                  item.title}
-                  src={item.featuredImage.url} /> */}
+                  src={`${process.env.BASE_URL}/storage/${item.images[0].path}`}
+                  />
                 </div>
                 <div className="flex flex-1 flex-col text-base px-3">
                   <span className="leading-tight">
-                    {item.name}
+                    {item.title}
                   </span>
-                  {item && item.item && item.item.title !== DEFAULT_OPTION ? (
-                  <p className="text-sm text-neutral-500 ">
-                    {item.item.title}
-                  </p>
-                  ) : null}
+                  <span className="leading-tight text-sm text-neutral-500 ">Talla:{item.item.size}</span>
                   <span className="leading-tight text-sm text-neutral-500 ">
                     Cantidad: {item.quantity}
                   </span>

@@ -55,6 +55,7 @@ const IndexCarousel = ({ products }) => {
                   alt={item.handle}
                   width={2500}
                   height={2500}
+                  style={{height: '35rem'}}
                   className='w-full'
                   loading="eager"
                 />

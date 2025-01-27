@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const {parsed:env} = require('dotenv').config();
 const nextConfig = {
-  env
+  env,
+  images: {
+    domains: ['localhost'], // Agrega "localhost" aquí
+  },
 }
 const withPWA = require('next-pwa')({
   pwa: {

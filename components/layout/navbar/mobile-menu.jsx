@@ -4,19 +4,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
+import Favorite from './favorite';
 import Search from './search';
-
-const menuOptions = [
-  { title: 'Products', path: '/search' },
-  { title: 'About ', path: '/about' },
-  { title: 'Contact', path: '/contact' },
-  { title: 'Products', path: '/search' },
-  { title: 'About ', path: '/about' },
-  { title: 'Contact', path: '/contact' },
-  { title: 'Products', path: '/search' },
-  { title: 'About ', path: '/about' },
-  { title: 'Contact', path: '/contact' },
-];
 
 export default function MobileMenu({menu}) {
   const pathname = usePathname();
@@ -85,21 +74,21 @@ export default function MobileMenu({menu}) {
                 </div>
                 {menu ? (
                   <ul className="flex w-full flex-col">
-                    {menu.data.map((item, index) => (
+                    {menu.map((item, index) => (
                       <li
                         className="py-2 text-xl text-black transition-colors hover:text-neutral-500 "
                         key={index}
                       >
                         <Link
-                      href={item.id != 1 ? `/search/[id]` : "/glass"}
-                      as={item.id != 1 ? `/search/${item.id}` : "/glass"}
+                        href={`/search/${item.id}`}
                       className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
                       onClick={closeMobileMenu}
                     >
-                      {item.description}
+                      {item.name}
                     </Link>
                       </li>
                     ))}
+                    <Favorite />
                   </ul>
                 ) : null}
               </div>

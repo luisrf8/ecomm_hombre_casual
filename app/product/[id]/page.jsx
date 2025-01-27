@@ -1,4 +1,5 @@
 "use client"
+import { Gallery } from 'components/product/gallery';
 // import Carousel from 'components/carousel';
 import { store } from 'components/cart/store';
 import Footer from 'components/layout/footer';
@@ -28,9 +29,10 @@ export default function ProductPage() {
       getArticles(categoriaId)
 }, [pathname])
 function getArticles(id) {
-  api.get(`/articles/${id}`)
+  api.get(`api/getProduct/${id}`)
   .then(response => {
       setProduct(response.data)
+      console.log("response.data", response.data)
       setHasFetchedData(true); 
     })
     .catch(error => {
@@ -68,10 +70,10 @@ function getArticles(id) {
       <div className="mx-auto max-w-screen-2xl px-4 py-6">
         <div className="flex flex-col rounded-lg border border-neutral-200 bg-gray-100  lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-3/6 bg-white">
-            {/* <Gallery
-              images={product.featuredImage ? product.featuredImage : ""}
+            <Gallery
+              images={product.images ? product.images[0] : ""}
               className="p-8 md:p-12"
-            /> */}
+            />
           </div>
 
           <div className="basis-full md:basis-3/6 md:p-10 xs:p-8">

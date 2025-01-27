@@ -1,7 +1,7 @@
 'use client'
 import Carousel from 'components/carousel';
 import { ThreeItemGrid } from 'components/grid/three-items';
-import IndexCarousel from 'components/index-carousel';
+// import IndexCarousel from 'components/index-carousel';
 import Footer from 'components/layout/footer';
 import api from 'lib/axios';
 import { Suspense, useEffect, useState } from 'react';
@@ -11,11 +11,11 @@ export const runtime = 'edge';
 const carouselProducts = [
   {
     handle: 'product-2',
-    image: '/images/Banner-1.jpg',
+    image: '/images/img1.png',
   },
   {
     handle: 'product-3',
-    image: '/images/Banner-2.jpg',
+    image: '/images/img2.png',
   },
 ];
 
@@ -26,7 +26,8 @@ export default async function HomePage() {
     getArticles()
 }, [])
 function getArticles() {
-  api.get(`/articles`)
+  console.log("hola")
+  api.get(`api/get-products`)
   .then(response => {
       setProducts(response.data)
       setHasFetchedData(true); 
@@ -38,11 +39,11 @@ function getArticles() {
   }
   return (
     <>
-        <IndexCarousel products={carouselProducts}/>
+        {/* <IndexCarousel products={carouselProducts}/> */}
         {products ? (
           <div>
-            <Carousel carouselProducts={products} title="Ofertas"/>
             <ThreeItemGrid itemProducts={products} />
+            <Carousel carouselProducts={products} title="Ofertas"/>
             <Carousel carouselProducts={products} title="Trending"/>
           </div>
         ) : ("") }

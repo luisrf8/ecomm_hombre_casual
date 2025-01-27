@@ -2,8 +2,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MinusIcon, PlusIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import LoadingDots from 'components/loading-dots';
+import Image from 'next/image';
 
-import { DEFAULT_OPTION } from 'lib/constants';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,6 +34,7 @@ export default function CartModal() {
   }, [pathname])
   useEffect(() => {
     totalCardAmount()
+    console.log("cart", cart)
   }, [cart])
   useEffect(() => {
   }, [totalAmount]);
@@ -145,23 +146,18 @@ export default function CartModal() {
                           <DeleteItemButton item={item} />
                         </div>
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
-                            {/* <Image
+                            <Image
                               className="h-full w-full object-cover"
                               width={100}
                               height={100}
-                              alt={item.featuredImage?.url ||
-                                item.title}
-                              src={item.featuredImage?.url} /> */}
+                              src={`${process.env.BASE_URL}/storage/${item.images[0].path}`}
+                              />
                           </div>
                           <div className="flex flex-1 flex-col text-base px-3">
                             <span className="leading-tight">
-                              {item.name}
+                              {item.title}
                             </span>
-                            {item && item.item && item.item.title !== DEFAULT_OPTION ? (
-                            <p className="text-sm text-neutral-500 ">
-                              {item.item.title}
-                            </p>
-                          ) : null}
+                            <span className="leading-tight text-sm text-neutral-500 ">Talla:{item.item.size}</span>
                           </div>
                         <div className="flex h-16 flex-col justify-between">
                           <Price

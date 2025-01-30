@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Navbar from 'components/layout/navbar';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation'; // Importa useRouter
@@ -11,20 +11,22 @@ const inter = Inter({
   variable: '--font-inter'
 });
 
-export default async function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   // const [user, setUser] = useState();
   const pathname = usePathname(); 
+
   // useEffect(() => {
   //   const token = localStorage.getItem('token');
-  //   console.log("aqui tokem", token)
-  //   if (token && token != null) {
+  //   console.log("aqui token", token);
+  //   if (token && token !== null) {
   //     try {
   //       setUser(token);
   //     } catch (err) {
   //       console.error('Token inválido');
   //     }
   //   }
-  // }, []);
+  // }, []); // useEffect se ejecuta una vez cuando el componente se monta
+
   return (
     <html lang="en" className={inter.variable}>
       <head>
@@ -42,7 +44,6 @@ export default async function RootLayout({ children }) {
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-        <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
@@ -59,9 +60,9 @@ export default async function RootLayout({ children }) {
       </head>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 ">
         <>
-          {pathname == '/login' || pathname == '/register'  ? '' : <Navbar />}
+          {pathname == '/login' || pathname == '/register' ? '' : <Navbar />}
         </>
-        <Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
           <main>{children}</main>
         </Suspense>
       </body>

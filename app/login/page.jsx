@@ -10,20 +10,21 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   function login(e) {
-    e.preventDefault(); // Evita que la página se recargue
-    api.post(`api/loginEcomm`, {
-      email: email,
-      password: password
-    })
-    .then(response => {
-      console.log("response", response);
-      // Redirige o maneja el inicio de sesión exitoso
-      // router.push('/dashboard'); // Cambia '/dashboard' por la página que corresponda
-    })
-    .catch(error => {
-      console.log("error", error);
-      // Maneja el error, como mostrar un mensaje de error
-    });
+    e.preventDefault(); 
+    api.post('api/loginEcomm', { email, password })
+      .then(response => {
+        console.log("response", response.data);
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token); // Guarda el token en localStorage
+          router.push('/'); // Redirige a la página de inicio
+        } else {
+          console.error("No se recibió un token válido");
+        }
+      })
+      .catch(error => {
+        console.error("Error al iniciar sesión", error.response?.data || error.message);
+        alert(error.response?.data?.message || "Error al iniciar sesión");
+      });
   }
 
   return (

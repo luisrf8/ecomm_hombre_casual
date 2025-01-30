@@ -11,6 +11,7 @@ import MobileMenu from './mobile-menu';
 // import Search from './search';
 
 export default function Navbar() {
+  const [user, setUser] = useState();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [parentCategories, setParentCategories] = useState(null); 
   const [hasFetchedData, setHasFetchedData] = useState(false)
@@ -29,6 +30,29 @@ export default function Navbar() {
       window.removeEventListener('resize', checkIfMobileView);
     };
   }, []);
+  // Obtener el token y los datos del usuario desde el backend
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("Token:", token);
+
+    if (token) {
+      setUser(token); // Almacenar el token (para uso futuro)
+
+      // Llamar a la API para obtener el usuario con el token
+      api.get('/api/user', {
+        headers: {
+          Authorization: `Bearer ${token}` // Enviar el token en los encabezados
+        }
+      })
+      .then(response => {
+        console.log("Datos del usuario:", response.data.user);
+        setUser(response.data.user); // Almacenar los datos del usuario en el estado
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos del usuario:', error);
+      });
+    }
+  }, []); // Solo se ejecuta una vez al montar el componente
 
   useEffect(() => {
     if (!hasFetchedData) {

@@ -17,7 +17,6 @@ export default function Login() {
     api
       .post("api/loginEcomm", { email, password })
       .then((response) => {
-        console.log("response", response.data);
         if (response.data.token) {
           dispatch(login(response.data)); // Guardar usuario en Redux
           router.push("/"); // Redirigir a home

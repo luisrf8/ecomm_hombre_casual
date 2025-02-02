@@ -13,12 +13,13 @@ import CloseCart from './close-cart';
 import DeleteItemButton from './delete-item-button';
 import OpenCart from './open-cart';
 
-export default function CartModal({ user }) {
+export default function CartModal() {
   const pathname = usePathname();
   const router = useRouter();
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
   const [isPending, startTransition] = useTransition();
+  const user = useSelector(state => state.auth);
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +35,6 @@ export default function CartModal({ user }) {
   }, [pathname])
   useEffect(() => {
     totalCardAmount()
-    console.log("cart", cart)
   }, [cart])
   useEffect(() => {
   }, [totalAmount]);
@@ -208,19 +208,20 @@ export default function CartModal({ user }) {
                 </div>
               </div>
               {user ? (
-              <button
-              onClick={() => router.push('/form')}
-              className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
-            >
-              {/* PAGAR */}
-              CREAR ORDEN
-            </button>
-      ) : (
-        // Si no está autenticado, mostrar el botón de "Iniciar Sesión"
-        <button
-        onClick={() => router.push('/login')}
-        >Iniciar Sesión</button>
-      )}
+                <button
+                onClick={() => router.push('/form')}
+                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
+                >
+                  {/* PAGAR */}
+                  CREAR ORDEN
+                </button>
+              ) : (
+                // Si no está autenticado, mostrar el botón de "Iniciar Sesión"
+                <button
+                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
+                onClick={() => router.push('/login')}
+                >Iniciar Sesión</button>
+              )}
             </div>
           )}
         </div></>

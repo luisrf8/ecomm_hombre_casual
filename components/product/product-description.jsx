@@ -13,12 +13,10 @@ export function ProductDescription(data) {
   
   useEffect(() => {
     newItemObject()
-    console.log("itemSelected1", itemSelected)
   }, [itemSelected]);
 
   function newItemObject() {
     if (itemSelected) {
-      console.log("itemSelected", itemSelected)
       const newItemConcat = {
         // featuredImage: {url: product.featuredImage.url},
         // handle: product.handle,

@@ -18,7 +18,6 @@ export function VariantSelector({ variants, setItemSelected }) {
 
   // useEffect para observar cambios en selectedOptions
   useEffect(() => {
-    console.log("selectedOptions", selectedOptions); // Aquí puedes ver el valor actualizado
     setItemSelected(selectedOptions)
   }, [selectedOptions]);
 

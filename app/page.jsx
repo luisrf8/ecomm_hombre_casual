@@ -26,14 +26,12 @@ export default async function HomePage() {
     getArticles()
 }, [])
 function getArticles() {
-  console.log("hola")
   api.get(`api/get-products`)
   .then(response => {
       setProducts(response.data)
       setHasFetchedData(true); 
     })
     .catch(error => {
-      console.error('Hubo un error al hacer la solicitud GET:', error);
       setHasFetchedData(true); 
     });
   }

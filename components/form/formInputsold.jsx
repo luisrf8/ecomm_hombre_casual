@@ -3,7 +3,7 @@ import { CheckCircleIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import api from 'lib/axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react'; // Import useState
+import { useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllCart } from '../cart/reducers/cartReducer';
@@ -55,16 +55,6 @@ export default function App() {
   const [paymentDate, setPaymentDate] = useState(null)
   
   // const [bankRecep, setBankRecep] = useState(null)
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    console.log("storedUser", storedUser); // Aquí veremos una cadena JSON
-    const parsedUser = JSON.parse(storedUser);  // Usamos JSON.parse para convertirlo de nuevo en objeto
-    console.log("parsedUser", parsedUser);
-    if (parsedUser) {
-      setUser(parsedUser); // Parseamos el objeto almacenado si existe
-    }
-  }, [])
   const paymentMethods = [
     {
       id: 1,
@@ -150,17 +140,13 @@ function handleRemoveFromCart() {
   };
 
   const onSubmitFormTwo = () => {
-    console.log("user", user)
-    console.log("logistic center", selectedLogisticCenter)
     if(!selectedLogisticCenter || selectedLogisticCenter === null) {
-      console.log("debe seleccionar un centro logistico")
     } else {
       handleNextStep();
     }
   };
 
   const onSubmitFormThree = (data) => {
-    console.log("form", data)
     const order = {
       paymentDate: data.paymentDate,
       amount: Number(data.amount),
@@ -175,10 +161,8 @@ function handleRemoveFromCart() {
         quantity: item.quantity
       }))
     };
-    console.log("payment", order)
     api.post(`/payments`, order)
     .then(response => {
-      console.log("res", response)
       handleNextStep()
       handleRemoveFromCart()
       })
@@ -604,6 +588,7 @@ function handleRemoveFromCart() {
                 ))}
             </RadioGroup> */}
           </div>
+
           <div className='items-center'>
             <p className="text-sm leading-6 text-white-600">Ingrese Referencias de pago.</p>
             <div className='flex gap-5  md:flex-row flex-col '>
@@ -624,21 +609,21 @@ function handleRemoveFromCart() {
             </div>
               <div className='w-[16rem]'>
               <input
-        {...register("payID")}
-        style={{height: '2.5rem',}}
-        required
-        type='number'
-        placeholder="Referencia (ultimos 6 números)"
-        className="block w-[80vw]  mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      />
-      <input
-        {...register("amount")}
-        style={{height: '2.5rem',}}
-        required
-        type='number'
-        placeholder="Monto"
-        className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      />
+                {...register("payID")}
+                style={{height: '2.5rem',}}
+                required
+                type='number'
+                placeholder="Referencia (ultimos 6 números)"
+                className="block w-[80vw]  mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+              />
+              <input
+                {...register("amount")}
+                style={{height: '2.5rem',}}
+                required
+                type='number'
+                placeholder="Monto"
+                className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+              />
                 {/* <InputField label="Monto" name="amount" register={register} required/> */}
                 <input type="date"
                 {...register("paymentDate")}

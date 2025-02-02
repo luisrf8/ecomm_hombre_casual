@@ -11,10 +11,7 @@ const [totalAmount, setTotalAmount] = useState(0);
 useEffect(() => {
   totalCardAmount()
 }, [cart])
-useEffect(() => {
-}, [totalAmount]);
-useEffect(() => {
-})
+
 function totalCardAmount() {
   let total = 0
   for (let i = 0; i < cart.length; i++) {

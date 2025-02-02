@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export function Gallery({ images }) {
-  console.log("images", `${process.env.BASE_URL}/${images.path}`)
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const imageSearchParam = searchParams.get('image');

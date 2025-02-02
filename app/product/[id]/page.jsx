@@ -30,7 +30,6 @@ function getArticles(id) {
   api.get(`api/getProduct/${id}`)
   .then(response => {
       setProduct(response.data)
-      console.log("response.data", response.data)
       setHasFetchedData(true); 
     })
     .catch(error => {

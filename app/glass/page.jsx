@@ -124,8 +124,6 @@ export default function SearchPage() {
   const pathname = usePathname();
 
   // const { q: searchValue } = searchParams;
-  // console.log("hola",pathname)
-  // console.log("como estas", searchParams)
   // Simula la obtención de productos con un array de ejemplo
 
   // const resultsText = products.length > 1 ? 'results' : 'result';
@@ -149,7 +147,6 @@ const onSubmitFormThree = (data) => {
         // La respuesta exitosa se almacena en el estado
       })
       .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error);
       });
   };
   

@@ -1,4 +1,3 @@
-import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import api from 'lib/axios';
@@ -6,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAllCart } from '../../lib/slices/cartReducer';
 
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {
@@ -43,125 +41,126 @@ function SelectField({ label, name, register, options }) {
 }
 
 export default function App() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const cart = useSelector(state => state.cart)
+  const [totalAmount, setTotalAmount] = useState(0);
+  const user = useSelector((state) => state.user);
+  const [preference, setPreference] = useState('retiro-en-tienda'); // valor inicial para Envío Nacional
+  const [direccion, setDireccion] = useState('');
+  const [selectedCurrency, setSelectedCurrency] = useState('');
+  const [preferencePayment, setPreferencePayment] = useState('');
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [image, setImage] = useState(null);
+  const [payments, setPayments] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [user, setUser] = useState(null)
-  const [logisticCenters, setLogisticCenters] = useState(null)
-  const [selectedLogisticCenter, setSelectedLogisticCenter] = useState(null)
-  const [bankEmiter, setBankEmiter] = useState(null)
-  const [image, setImage] = useState(null);
-  const [paymentDate, setPaymentDate] = useState(null)
-
+  
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    console.log("storedUser", storedUser); // Aquí veremos una cadena JSON
-    const parsedUser = JSON.parse(storedUser);  // Usamos JSON.parse para convertirlo de nuevo en objeto
-    console.log("parsedUser", parsedUser);
-    if (parsedUser) {
-      setUser(parsedUser); // Parseamos el objeto almacenado si existe
+    totalCardAmount()
+  }, [cart])
+  
+  function totalCardAmount() {
+    let total = 0
+    for (let i = 0; i < cart.length; i++) {
+      const amount = cart[i].quantity * cart[i].price
+      total += amount      
     }
-  }, [])
-
-  const bancosVenezuela = [
-    { id: 1, name: "Banco de Venezuela" },
-    { id: 2, name: "Banco Mercantil" },
-    { id: 3, name: "Banco Provincial" },
-    { id: 4, name: "Banco Banesco" },
-    { id: 5, name: "Banco Exterior" },
-    { id: 6, name: "Banco Fondo Común" },
-    { id: 7, name: "Banco Occidental de Descuento (BOD)" },
-    { id: 8, name: "Banco Nacional de Crédito (BNC)" },
-    { id: 9, name: "Banco del Tesoro" },
-    { id: 10, name: "Banco Industrial de Venezuela (BIV)" },
-    { id: 11, name: "Banco Activo" },
-    { id: 12, name: "Banco Caroní" },
-    { id: 13, name: "Banco Agrícola de Venezuela" },
-    { id: 14, name: "Banco Sofitasa" },
-    { id: 15, name: "Banco Plaza" },
-    { id: 16, name: "Banco de la Gente Emprendedora (BanGente)" },
-    { id: 17, name: "Banco del Caribe" },
-    { id: 18, name: "Banco Mi Casa" },
-    { id: 19, name: "Banco Occidental de Descuento (BOD Internacional)" },
-    { id: 20, name: "Banco Venezolano de Crédito" },
-];
-
-
-const handleImageChange = (event) => {
-  const selectedImage = event.target.files[0];
-  setImage(selectedImage);
+    setTotalAmount(total)
+  }
+const onSubmitFormOne = (data) => {
+  // Aquí puedes manejar los datos según la preferencia y la dirección
+  const formData = {
+    preference,
+    direccion,
+    ...data, // Incluir otros campos del formulario si los tienes
+  };
+  api.get('api/payment-methods/ecomm',)
+  .then((response) => {
+    console.log("response.data", response.data)
+    setPaymentMethods(response.data)
+    handleNextStep(formData); // Pasa los datos al siguiente paso
+  })
+  .catch((error) => {
+    console.log("error", error)
+  })
 };
 
-function handleRemoveFromCart() {
-  dispatch(removeAllCart())
-}
-  function getLogisticCenters() {
-    api.get(`/logistic-centers`)
-    .then(response => {
-      setLogisticCenters(response.data.data)
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error);
-      });
-    }
+const handlePreferenceChange = (e) => {
+  setPreference(e.target.value);
+};
 
-  const onSubmitFormOne = (data) => {
-    const phoneNumber = `${data.phoneCode}${data.phoneNumber}`
-    const client = {
-        names: data.firstName,
-        dni: data.IDNumber,
-        phone: phoneNumber,
-        email: data.email,
-        address: data.address,
-        postalCode: data.postalCode
-      }
-    api.post(`/customers`, client)
-    .then(response => {
-      setUser(response.data.data);
-      handleNextStep();
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error)
-      });
+const handleCurrencyChange = (e) => {
+  setSelectedCurrency(e.target.value);
+  setPreferencePayment(null);
+};
+
+const handlePreferencePaymentChange = (e) => {
+  const selectedMethod = paymentMethods[selectedCurrency].find(
+    (method) => method.name === e.target.value
+  );
+  setPreferencePayment(selectedMethod);
+};
+
+const methodsForCurrency = paymentMethods[selectedCurrency] || [];
+
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  setImage(file);
+};
+  // Agregar un nuevo pago
+  const addPayment = (data) => {
+    setPayments((prevPayments) => [
+      ...prevPayments,
+      {
+        currency: selectedCurrency,
+        preferencePayment,
+        reference: data.payID,
+        amount: data.amount,
+        paymentDate: data.paymentDate,
+        image,
+      },
+    ]);
+    // Limpiar la imagen y los campos después de agregar el pago
+    setImage(null);
+    setValue("payID", "");
+    setValue("amount", "");
+    setValue("paymentDate", "");
+  };
+  // Enviar todos los pagos
+  const onSubmit = () => {
+    console.log("Pagos enviados:", payments);
+    // Aquí puedes enviar los datos de pagos al servidor
   };
 
   const onSubmitFormTwo = () => {
-    console.log("user", user)
-    console.log("logistic center", selectedLogisticCenter)
-    if(!selectedLogisticCenter || selectedLogisticCenter === null) {
-      console.log("debe seleccionar un centro logistico")
-    } else {
       handleNextStep();
-    }
   };
-
+  const getTotalPayments = () => {
+    return payments.reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
+  };
+  const totalPayments = getTotalPayments();
+  
   const onSubmitFormThree = (data) => {
-    console.log("form", data)
-    const order = {
-      paymentDate: data.paymentDate,
-      amount: Number(data.amount),
-      paymentMethod: "Pagomovil",
-      bankDestine: "Bancamiga",
-      bankOrigin: bankEmiter,
-      reference: data.payID,
-      customerId: user._id,
-      logisticCenterId: selectedLogisticCenter,
-      orderDetails: cart.map(item => ({
-        articleId: item._id,
-        quantity: item.quantity
-      }))
+    // Combinar todos los datos relevantes
+    const formData = {
+      user, // Usuario desde el estado
+      paymentMethod: preferencePayment, // Método de pago seleccionado
+      payments, // Lista de pagos
+      ...data, // Otros datos que puedan venir del formulario en este paso
     };
-    console.log("payment", order)
-    api.post(`/payments`, order)
-    .then(response => {
-      console.log("res", response)
-      handleNextStep()
-      handleRemoveFromCart()
-      })
-      .catch(error => {
-        console.error('Hubo un error al hacer la solicitud GET:', error)
-      });
+  
+    // Aquí puedes hacer algo con formData, como enviarlo al servidor
+    console.log("Datos para enviar:", formData);
+  
+    // // Enviar al servidor o procesar los datos
+    // api.post('api/submit-payment', formData) // Asegúrate de usar el endpoint adecuado
+    //   .then((response) => {
+    //     console.log("Respuesta del servidor:", response.data);
+    //     // Lógica adicional después de enviar los datos
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error al enviar los datos:", error);
+    //   });
   };
   
   const [step, setStep] = useState(1);
@@ -177,445 +176,244 @@ function handleRemoveFromCart() {
       setStep(step - 1);
     }
   };
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+
 
   return (
     <>
-      {/* Personal Info */}
+        {/* Personal Info */}
       {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <div className='flex gap-2'>
-          <div>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Datos Personales</h2>
-          <InputField label="Nombre y Apellido" name="firstName" register={register} required/>
-          <div className='md:flex md:row md:gap-x-4'>
-            <SelectField label="ID  " name="IDCode" register={register} options={[
-              { value: "V", label: "V" },
-              { value: "J", label: "J" },
-              { value: "E", label: "E" },
-              { value: "G", label: "G" },
-            ]} />
-            <div style={{width:"27rem"}}>
-              <InputField label="Número de Cédula" name="IDNumber" register={register} required/>
+            <div>
+              <h2 className="text-base font-semibold leading-7 text-[#022368]">
+                Hola! {user?.user?.name}.
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
+              <div className="flex row gap-6 mt-4" style={{ width: "30rem" }}>
+                <div className="flex items-center gap-x-1">
+                  <input
+                    id="retiro-en-tienda"
+                    name="preference"
+                    type="radio"
+                    value="retiro-en-tienda"
+                    checked={preference === 'retiro-en-tienda'}
+                    onChange={handlePreferenceChange}
+                    className="h-4 w-4 border-blue-300 text-white-600 focus:ring-blue-600"
+                  />
+                  <label htmlFor="retiro-en-tienda" className="block text-sm font-medium leading-6 text-white-900">
+                    Retiro en Tienda
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-1">
+                  <input
+                    id="envio-nacional"
+                    name="preference"
+                    type="radio"
+                    value="envio-nacional"
+                    checked={preference === 'envio-nacional'}
+                    onChange={handlePreferenceChange}
+                    className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
+                  />
+                  <label htmlFor="envio-nacional" className="block text-sm font-medium leading-6 text-white-900">
+                    Envío Nacional
+                  </label>
+                </div>
+              </div>
+
+              {/* Condicional: Mostrar campo de dirección solo si "Envío Nacional" está seleccionado */}
+              {preference === 'envio-nacional' && (
+                <div className="mt-4">
+                  <label className="block text-sm font-medium leading-6 text-white-900">
+                    Por favor ingrese la dirección de la agencia Zoom de su preferencia:
+                  </label>
+                  <input
+                    type="text"
+                    value={direccion}
+                    onChange={(e) => setDireccion(e.target.value)}
+                    className="block w-[80vw]  mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    placeholder="Dirección de la agencia Zoom"
+                  />
+                </div>
+              )}
             </div>
           </div>
-          <div className='md:flex md:row md:gap-x-4'>
-            <SelectField label="Código" name="phoneCode" register={register} options={[
-              { value: "+58414", label: "0414" },
-              { value: "+58424", label: "0424" },
-              { value: "+58412", label: "0412" },
-              { value: "+58416", label: "0416" },
-              { value: "+58426", label: "0426" },
-            ]} />
-            <div style={{width:"27rem"}}>
-              <InputField label="Número de Teléfono" name="phoneNumber" register={register} required/>
-            </div>
-          </div>
-          
-          <InputField label="Email" name="email" register={register} required/>
-          <InputField label="Direccion" name="address" register={register} required/>
-          <InputField label="Codigo Postal" name="postalCode" register={register} required/>
-          {/* <InputField label="Estado" name="region" register={register} required/> */}
-          {/* <InputField label="Dirección" name="address" register={register} required/> */}
-          </div>
-          {/* <div>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Datos del Vehículo</h2>
-          
-          <InputField label="Marca del Vehículo" name="vehicle" register={register} required/>
-          <InputField label="Modelo" name="model" register={register} required/>
-          <InputField label="Año" name="year" register={register} required/>
-          </div> */}
-          </div>
-          <div className='flex justify-end items-center'>
-          {/* <label>
-            {step} / 3
-          </label> */}
+
+          <div className="flex justify-end items-center">
+            <label>{step} / 3</label>
             <button
-              style={{width: '8rem'}}
+              style={{ width: '8rem' }}
               onClick={handleSubmit(onSubmitFormOne)}
               className="rounded-md flex justify-center items-center mt-4 bg-[#022368] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-              >
-              Crear Orden
-            </button>
-          </div>
-          
-        </form>
-      )}
-
-      {/* Delivery Info */}
-      {step === 2 && (
-        <form onSubmit={handleSubmit(onSubmitFormTwo)} className='text-center'>
-        {/* <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
-        Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2> */}
-        <div className='flex justify-center'>
-          {/* <CheckCircleIcon
-            className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
-          /> */}
-        </div>
-        {/* <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span> */}
-        <fieldset className='pt-5'>
-        <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
-        <div className="flex row gap-6 mt-4"
-          style={{width:"30rem"}}
-        >
-        {/* <div className="flex items-center gap-x-1">
-            <input
-              id="push-everything"
-              name="push-notifications"
-              type="radio"
-              disabled={true}
-              className="h-4 w-4 border-blue-300 text-white-600 focus:ring-blue-600"
-            />
-            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              Retiro por Agencia
-            </label>
-          </div> */}
-          <div className="flex items-center gap-x-1">
-            <input
-              id="push-everything"
-              name="push-notifications"
-              type="radio"
-              checked
-              className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-              disabled={true}
-            />
-            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-            Retiro por Centro logistico
-            </label>
-          </div>
-          </div>
-        <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu Agencia Favorita.</p>
-        <div className="flex row gap-6 mt-4"
-          style={{width:"30rem"}}
-        >
-        
-          {/* {logisticCenters.map((logisticCenter) => (
-          <div className="flex items-center gap-x-1" key={logisticCenter.id}>
-            <input
-              id="push-everything"
-              name="push-notifications"
-              type="radio"
-              className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-            />
-            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              Centro Logistico: {logisticCenter.name}
-            </label>
-            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              Ciudad: {logisticCenter.city}
-            </label>
-            <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              Direccion: {logisticCenter.address}
-            </label>
-          </div>
-              ))} */}
-          {/* <div className="flex items-center gap-x-1">
-            <input
-              id="push-email"
-              name="push-notifications"
-              type="radio"
-              className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-            />
-            <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-white-900">
-              MRW
-            </label>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <input
-              id="push-nothing"
-              name="push-notifications"
-              type="radio"
-              className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-            />
-            <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-white-900">
-              TEALCA
-            </label>
-          </div> */}
-        </div>
-      </fieldset>
-      <RadioGroup value={selectedLogisticCenter} onChange={setSelectedLogisticCenter} className="mt-4 gap-4">
-          {logisticCenters.map((logisticCenter) => (
-            <RadioGroup.Option
-              key={logisticCenter._id}
-              value={logisticCenter._id}
-              // disabled={!size.inStock}
-              className={({ active }) =>
-              classNames(
-                // size.inStock
-                // ? 'cursor-pointer bg-white text-gray-900 shadow-sm h-[15rem] hover:border-blue-400'
-                // : 'cursor-not-allowed bg-gray-50 text-gray-200',
-                active ? 'ring-2 ring-blue-500' : '',
-                'cursor-pointer relative rounded-md h-[5rem] border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 mb-4'
-                )
-              }
-              style={{display:'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', textAlign: 'start',}}
-              >
-              {({ active, checked }) => (
-                <>
-                  {/* <RadioGroup.Label as="span">Centro Logistico: {logisticCenter.name}</RadioGroup.Label>
-                  <RadioGroup.Label as="span">Ciudad: {logisticCenter.city}</RadioGroup.Label>
-                  <RadioGroup.Label as="span">Direccion: {logisticCenter.address}</RadioGroup.Label> */}
-                  <label as="span">Centro Logistico: {logisticCenter.name}</label>
-                  <label as="span">Ciudad: {logisticCenter.city}</label>
-                  <label as="span">Direccion: {logisticCenter.address}</label> 
-                    {/* {size.inStock ? ( */}
-                      <span
-                        className={classNames(
-                        active ? 'border' : 'border-2',
-                        checked ? 'border-blue-500' : 'border-transparent',
-                        'pointer-events-none absolute -inset-px rounded-md'
-                        )}
-                        aria-hidden="true"
-                      />
-                  </>
-                )}
-                </RadioGroup.Option>
-              ))}
-            </RadioGroup>
-        {/* <InputField label="Ciudad" name="city" register={register} required/>
-        <InputField label="Estado" name="region" register={register} required/>
-        <InputField label="Dirección de la Agencia" name="deliveredAddress" register={register} required/> */}
-
-        <div className='flex justify-between items-center'>
-          <label>
-            {step} / 3
-          </label>
-          <div className="sm:col-span-2 mt-4 flex items-center justify-end gap-x-6">
-            <button
-              type="button"
-              onClick={handlePreviousStep}
-              className="text-sm font-semibold leading-6 text-white-900"
-            >
-              Atras
-            </button>
-            <button
-              style={{width: '6rem'}}
-              type="submit"
-              // onClick={handleSubmit(onSubmitFormTwo)}
-              // onClick={handleNextStep}
-              className="rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Siguiente
             </button>
           </div>
-        </div>
-      </form>
-      
-        // <form onSubmit={handleSubmit(onSubmitFormThree)}>
-        //   <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
-        //   {/* Radio Buttons */}
-        //   <fieldset className='pt-5'>
-        //   <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
-        //   <div className="flex row gap-6 mt-4"
-        //   >
-        //     <div className="flex items-center gap-x-1">
-        //       <input
-        //         id="push-everything"
-        //         name="push-notifications"
-        //         type="radio"
-        //         className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-        //       />
-        //       <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-        //         Pago Movil
-        //       </label>
-        //     </div>
-        //     <div className="flex items-center gap-x-1">
-        //       <input
-        //         disabled
-        //         id="push-email"
-        //         name="push-notifications"
-        //         type="radio"
-        //         className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-        //       />
-        //       <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-white-900">
-        //         Binance Pay
-        //       </label>
-        //     </div>
-        //     <div className="flex items-center gap-x-1">
-        //       <input
-        //         disabled
-        //         id="push-nothing"
-        //         name="push-notifications"
-        //         type="radio"
-        //         className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-        //       />
-        //       <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-white-900">
-        //         Zinli
-        //       </label>
-        //     </div>
-        //   </div>
-        // </fieldset>
-        //   <InputField label="Referencia (ultimos 6 números)" name="payID" register={register} required/>
-        //   <InputField label="Fecha" name="date" register={register} required/>
-        //   <div className='flex justify-between items-center'>
-        //     <label>
-        //       {step} / 2
-        //     </label>
-        //     <div className="sm:col-span-2 mt-6 flex items-center justify-end gap-x-6">
-        //       <button
-        //         type="button"
-        //         onClick={handlePreviousStep}
-        //         className="text-sm font-semibold leading-6 text-white-900"
-        //       >
-        //         Atras
-        //       </button>
-        //       <button
-        //         type="submit"
-        //         className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-        //       >
-        //         Cargar pago
-        //       </button>
-        //     </div>
-        //   </div>
-        // </form>
-        
-        
+        </form>
       )}
-
       {/* Payment Info */}
-      {step === 3 && (
+      {step === 2 && (
         <div>
           <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
-        <form onSubmit={handleSubmit(onSubmitFormThree)} className='flex md:flex-row flex-col gap-8'
-        >
-          <div className=''>
-            <p className="mt-1 text-sm leading-6 text-white-600">Seleccione tu Método de Pago.</p>
-            <div className='flex items-center gap-2 mt-1'>
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                checked
-                className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
-                disabled={true}
-              />
-              <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-white-900">
-              Pago Movil
-              </label>
-            </div>
-            <div className="mt-2">
-            <p className="mt-1 text-sm leading-6 text-white-600">Seleccione Banco Emisor.</p>
-              <select
-                  id="country"
-                  name="country"
-                  autoComplete="country-name"
-                  className="block w-[80vw] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
-                  onChange={handleBankEmiterChange}
-                  value={bankEmiter}
-                >
-                <option value="">Selecciona un banco</option>
-                {bancosVenezuela.map((bank) => (
-                    <option key={bank.id} value={bank.name}>{bank.name}</option>
-                ))}
-                </select>
+          <form onSubmit={handleSubmit(addPayment)} className="flex md:flex-row flex-col gap-8">
+        {/* Selección de moneda */}
+        <div>
+          <div className="flex row gap-6" style={{ width: "30rem" }}>
+            {Object.keys(paymentMethods).map((currency) => (
+              <div className="flex items-center gap-x-1" key={currency}>
+                <input
+                  id={currency}
+                  name="currency"
+                  type="radio"
+                  value={currency}
+                  checked={selectedCurrency === currency}
+                  onChange={handleCurrencyChange}
+                  className="h-4 w-4 border-blue-300 text-white-600 focus:ring-blue-600"
+                />
+                <label htmlFor={currency} className="block text-sm font-medium leading-6 text-white-900">
+                  {currency}
+                </label>
               </div>
-            <p className="mt-1 text-sm leading-6 text-white-600">Datos:</p>
-              <div className='gap-2 px-4 md:h-[6rem] md:w-[100%] w-[80vw] h-[6rem] mt-1 cursor-pointer relative rounded-md border text-sm  hover:bg-gray-50 focus:outline-none sm:flex-1 '
-              style={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start', textAlign: 'start',}}
-              >
-              <label>
-                Banco: Bancamiga
-              </label>
-              <label>
-                Teléfono: 04148859372 
-              </label>
-              <label>
-                DNI: 27195915 
-              </label>
-              </div>
-              {/* <div className="mt-2">
-              <p className="mt-1 text-sm leading-6 text-white-600">Seleccione Banco Receptor.</p>
-                <select
-                  id="country"
-                  name="country"
-                  autoComplete="country-name"
-                  className="block w-[80vw] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:max-w-xs sm:text-sm sm:leading-6"
-                  onChange={handleBankRecepChange}
-                  value={bankRecep}
-                >
-                <option value="">Selecciona un banco</option>
-                {bancosVenezuela.map((bank) => (
-                    <option key={bank.id} value={bank.name}>{bank.name}</option>
-                ))}
-                </select>
-              </div> */}
-
-            {/* <RadioGroup value={selectedLogisticCenter} onChange={setSelectedLogisticCenter} className="flex mt-4 gap-4">
-              {paymentMethods.map((paymentMethod) => (
-                <RadioGroup.Option
-                  key={paymentMethod.id}
-                  value={paymentMethod.id}
-                  className={({ active }) =>
-                  classNames(
-                    active ? 'ring-2 ring-blue-500' : '',
-                    'cursor-pointer w-[8.5rem] h-[2.5rem] relative rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 mb-4'
-                    )
-                  }
-                  style={{display:'flex', justifyContent: 'center', alignItems: 'start', textAlign: 'center',}}
-                  >
-                  {({ active, checked }) => (
-                    <>
-                    <label as="span">{paymentMethod.name}</label>
-                        <span
-                          className={classNames(
-                          active ? 'border' : 'border-2',
-                          checked ? 'border-blue-500' : 'border-transparent',
-                          'pointer-events-none absolute -inset-px rounded-md'
-                          )}
-                          aria-hidden="true"
-                        />
-                    </>
-                  )}
-                  </RadioGroup.Option>
-                ))}
-            </RadioGroup> */}
+            ))}
           </div>
-          <div className='items-center'>
-            <p className="text-sm leading-6 text-white-600">Ingrese Referencias de pago.</p>
-            <div className='flex gap-5  md:flex-row flex-col '>
-            <div className='md:w-[8.5rem]  w-[80vw] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
-            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'start' }}>
-            <input
+
+          {/* Mostrar los métodos de pago según la moneda seleccionada */}
+          {methodsForCurrency.length > 0 && (
+            <div>
+              <div className="flex row gap-6 mt-2">
+                {methodsForCurrency.map((method) => (
+                  <div className="flex items-center gap-x-1" key={method.id}>
+                    <input
+                      id={method.name}
+                      name="preferencePayment"
+                      type="radio"
+                      value={method.name}
+                      checked={preferencePayment?.name === method.name}
+                      onChange={handlePreferencePaymentChange}
+                      className="h-4 w-4 border-blue-300 text-white-600 focus:ring-blue-600"
+                    />
+                    <label htmlFor={method.name} className="block text-sm font-medium leading-6 text-white-900">
+                      {method.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mostrar detalles del método de pago seleccionado */}
+              {preferencePayment && (
+                <div className='mt-2'>
+                  <div>ID: {preferencePayment.dni}</div>
+                  <div>Banco: {preferencePayment.bank}</div>
+                  <div>Nombre del Beneficiario: {preferencePayment.admin_name}</div>
+                  <div>QR:</div>
+                  <div>
+                    {preferencePayment.qr_image && preferencePayment.qr_image !== '[]' ? (
+                      <div
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          backgroundImage: `url(${process.env.BASE_URL}/storage/${JSON.parse(preferencePayment.qr_image)[0]})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          border: '1px solid #ddd',
+                          borderRadius: '8px',
+                        }}
+                      ></div>
+                    ) : (
+                      <PhotoIcon className='h-10 cursor-pointer transition-all ease-in-out hover:scale-110 text-black-900' />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Campos de referencia, monto, imagen y fecha */}
+        <div className='items-center'>
+          <p className="text-sm leading-6 text-white-600">Ingrese Referencias de pago.</p>
+          <div className='flex gap-5 md:flex-row flex-col'>
+            <div className='md:w-[8.5rem] w-[80vw] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
+              style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'start' }}>
+              <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 style={{ display: 'none' }}
                 id="imageInput"
-            />
-            <label htmlFor="imageInput">
-              {image && <img src={URL.createObjectURL(image)} alt="Preview" />}
-              {!image && <PhotoIcon className='h-10 cursor-pointer transition-all ease-in-out hover:scale-110 text-black-900' />}
-            </label>
-            <label htmlFor="imageInput" className='cursor-pointer'>Referencia</label>
+              />
+              <label htmlFor="imageInput">
+                {image && <img src={URL.createObjectURL(image)} alt="Preview" />}
+                {!image && <PhotoIcon className='h-10 cursor-pointer transition-all ease-in-out hover:scale-110 text-black-900' />}
+              </label>
+              <label htmlFor="imageInput" className='cursor-pointer'>Referencia</label>
             </div>
-              <div className='w-[16rem]'>
+
+            <div className='w-[16rem]'>
               <input
-        {...register("payID")}
-        style={{height: '2.5rem',}}
-        required
-        type='number'
-        placeholder="Referencia (ultimos 6 números)"
-        className="block w-[80vw]  mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      />
-      <input
-        {...register("amount")}
-        style={{height: '2.5rem',}}
-        required
-        type='number'
-        placeholder="Monto"
-        className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      />
-                {/* <InputField label="Monto" name="amount" register={register} required/> */}
-                <input type="date"
+                {...register("payID")}
+                style={{ height: '2.5rem' }}
+                required
+                type='number'
+                placeholder="Referencia (últimos 6 números)"
+                className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+              />
+              <input
+                {...register("amount")}
+                style={{ height: '2.5rem' }}
+                required
+                type='number'
+                placeholder="Monto"
+                className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+              />
+              <input
+                type="date"
                 {...register("paymentDate")}
-                 name="paymentDate"
-                 className=" block w-[80vw] mt-4 md:w-250 md:w-[100%]  justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+                name="paymentDate"
+                className=" block w-[80vw] mt-4 md:w-250 md:w-[100%] justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+              />
             </div>
           </div>
-        </form>
+        </div>
+
+        {/* Agregar pago */}
+        <div className='flex justify-between items-center'>
+          <div className="sm:col-span-2 mt-6 flex items-center justify-end gap-x-6">
+            <button
+              type="button"
+              onClick={() => setPayments([])}
+              className="text-sm font-semibold leading-6 text-white-900"
+            >
+              Limpiar pagos
+            </button>
+            {totalPayments < totalAmount ? (
+                <button
+                  onClick={handleSubmit(addPayment)}
+                  className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                >
+                  Agregar pago
+                </button>
+              ) : (
+                ''
+              )}
+
+          </div>
+        </div>
+      </form>
+      <div>
+        {/* Mostrar pagos agregados */}
+        {payments.length > 0 && (
+          <div>
+            <h3>Pagos agregados:</h3>
+            <ul>
+              {payments.map((payment, index) => (
+                <li key={index}>
+                  Referencia: {payment.reference} - Monto: {payment.amount} USD - Fecha: {payment.paymentDate}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
         <div className='flex justify-between items-center'>
             <label>
               {step} / 3
@@ -628,52 +426,44 @@ function handleRemoveFromCart() {
               >
                 Atras
               </button>
-              <button
+              {totalPayments < totalAmount ? (
+                ''
+              ) : (
+                <button
                 onClick={handleSubmit(onSubmitFormThree)}
                 className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-              >
-                Cargar pago
-              </button>
+                >
+                  Cargar pago
+                </button>
+              )}
             </div>
           </div>
         </div>
       )}
-      {step === 4 && (
+      {step === 3 && (
         <form onSubmit={handleSubmit(onSubmitFormTwo)} className='text-center'>
-        <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
-        Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2>
-        <div className='flex justify-center'>
-          <CheckCircleIcon
-            className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
-          />
-        </div>
-        {/* <span>Recibe tus productos con seguridad, el tiempo de entrega dependera de la zona geografica de destino</span> */}
-        
-        <div className='flex justify-between items-center'>
-          {/* <label>
-            {step} / 3
-          </label> */}
-          <div className="sm:col-span-2 mt-4 flex items-center justify-end gap-x-6">
-            {/* <button
-              type="button"
-              onClick={handlePreviousStep}
-              className="text-sm font-semibold leading-6 text-white-900"
-            >
-              Atras
-            </button> */}
-            <button
-              style={{width: '6rem'}}
-              type="submit"
-              // onClick={handleSubmit(onSubmitFormTwo)}
-              // onClick={handleNextStep}
-              onClick={() => router.push('/')}
-              className="rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Siguiente
-            </button>
+          <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
+          Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra</h2>
+          <div className='flex justify-center'>
+            <CheckCircleIcon
+              className={clsx('h-5 mr-4 md:h-12 transition-all ease-in-out hover:scale-110 text-green-500')}
+            />
           </div>
-        </div>
-      </form>
+          <div className='flex justify-between items-center'>
+
+            <div className="sm:col-span-2 mt-4 flex items-center justify-end gap-x-6">
+
+              <button
+                style={{width: '6rem'}}
+                type="submit"
+                onClick={() => router.push('/')}
+                className="rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </form>
       )}
     </>
   );

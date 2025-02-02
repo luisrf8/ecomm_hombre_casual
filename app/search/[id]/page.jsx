@@ -22,7 +22,6 @@ export default async function CategoryPage() {
   function getArticles(id) {
     api.get(`api/products/${id}`)
     .then(response => {
-      console.log("articlesdsadas", response.data)
         setArticles(response.data)
         // const enabledItems = response.data.filter(item => item.enabled === true);
         setHasFetchedData(true); 

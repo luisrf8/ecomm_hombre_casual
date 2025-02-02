@@ -6,7 +6,6 @@ import { addToCart } from '../../lib/slices/cartReducer';
 export function AddToCart(data) {
   const dispatch = useDispatch();
   const [isAble, setIsAble] = useState(false);
-  console.log("data", data)
   const { newItem, item } = data;
   const { variants } = item;
   const [isPending, startTransition] = useTransition();

@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'; // Import useState
 import { GridTileImage } from './grid/tile';
 
 export default function Carousel ({ carouselProducts, title }) {
-  console.log("carouselProducts", carouselProducts)
   const [current, setCurrent] = useState(0);
   const numImages = carouselProducts.length;
   const [itemsPerPage, setItemsPerPage] = useState(1); // Inicialmente, muestra 1 elemento

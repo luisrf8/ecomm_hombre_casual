@@ -8,10 +8,10 @@ import { Suspense, useEffect, useState } from 'react';
 import api from '../../../lib/axios';
 import Favorite from './favorite';
 import MobileMenu from './mobile-menu';
+
 // import Search from './search';
 
 export default function Navbar() {
-  const [user, setUser] = useState(null);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [parentCategories, setParentCategories] = useState(null); 
   const [hasFetchedData, setHasFetchedData] = useState(false)
@@ -25,32 +25,9 @@ export default function Navbar() {
     checkIfMobileView();
 
     window.addEventListener('resize', checkIfMobileView);
-
     return () => {
       window.removeEventListener('resize', checkIfMobileView);
     };
-  }, []);
-  // Obtener el token y los datos del usuario desde el backend
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    console.log("Token obtenido del localStorage:", token);
-  
-    if (token) {
-      // if(!user){}
-      api.get('/api/user', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(response => {
-        console.log("Datos del usuario:", response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user)); // Actualiza en localStorage
-        setUser(response.data.user);
-      })
-      .catch(error => {
-        console.error('Error al obtener los datos del usuario:', error.response?.data || error.message);
-      });
-    }
   }, []);
 
   useEffect(() => {
@@ -62,7 +39,6 @@ export default function Navbar() {
   function getParentCategories() {
   api.get("api/categories")
   .then(response => {
-    console.log("categories", response.data)
       setParentCategories(response.data)
       setHasFetchedData(true); 
     })
@@ -107,7 +83,6 @@ export default function Navbar() {
           <div className="flex justify-center gap-5 md:w-1/3 xs:w-[4rem]">
             <div className="hidden flex-none md:block">
               <Favorite 
-                user={user} 
                 className='transition-all ease-in-out hover:scale-110'
               />
             </div>

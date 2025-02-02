@@ -53,6 +53,8 @@ export default function App() {
   const [bankEmiter, setBankEmiter] = useState(null)
   const [image, setImage] = useState(null);
   const [paymentDate, setPaymentDate] = useState(null)
+  
+  // const [bankRecep, setBankRecep] = useState(null)
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -63,7 +65,20 @@ export default function App() {
       setUser(parsedUser); // Parseamos el objeto almacenado si existe
     }
   }, [])
-
+  const paymentMethods = [
+    {
+      id: 1,
+      name: "Pago movil"
+    },
+    // {
+    //   id: 2,
+    //   name: "Transferencia"
+    // },
+    // {
+    //   id: 3,
+    //   name: "Zelle"
+    // }
+  ]
   const bancosVenezuela = [
     { id: 1, name: "Banco de Venezuela" },
     { id: 2, name: "Banco Mercantil" },
@@ -85,11 +100,17 @@ export default function App() {
     { id: 18, name: "Banco Mi Casa" },
     { id: 19, name: "Banco Occidental de Descuento (BOD Internacional)" },
     { id: 20, name: "Banco Venezolano de Crédito" },
+    // Puedes seguir añadiendo más bancos si lo deseas
 ];
-
-
+const handleBankEmiterChange = (event) => {
+  setBankEmiter(event.target.value);
+};
+// const handleBankRecepChange = (event) => {
+//   setBankRecep(event.target.value);
+// };
 const handleImageChange = (event) => {
   const selectedImage = event.target.files[0];
+  // Aquí puedes realizar validaciones adicionales si lo deseas
   setImage(selectedImage);
 };
 
@@ -105,7 +126,9 @@ function handleRemoveFromCart() {
         console.error('Hubo un error al hacer la solicitud GET:', error);
       });
     }
-
+  // function handleCleanCart() {
+  //   dispatch(removeAllCart())
+  // }
   const onSubmitFormOne = (data) => {
     const phoneNumber = `${data.phoneCode}${data.phoneNumber}`
     const client = {
@@ -162,12 +185,22 @@ function handleRemoveFromCart() {
       .catch(error => {
         console.error('Hubo un error al hacer la solicitud GET:', error)
       });
+
+    // Realizar la solicitud GET usando Axios
+    // api.post('/payments', data)
+    //   .then(response => {
+    //     // La respuesta exitosa se almacena en el estado
+    //   })
+    //   .catch(error => {
+    //     console.error('Hubo un error al hacer la solicitud GET:', error);
+    //   });
   };
   
   const [step, setStep] = useState(1);
 
   const handleNextStep = () => {
     if (step < 4) {
+    // if (step < 2) {
       setStep(step + 1);
     }
   };

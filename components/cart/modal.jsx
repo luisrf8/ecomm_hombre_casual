@@ -13,7 +13,7 @@ import DeleteItemButton from './delete-item-button';
 import OpenCart from './open-cart';
 import { addToCart, removeAllCart, removeFromCart } from './reducers/cartReducer';
 
-export default function CartModal() {
+export default function CartModal({ user }) {
   const pathname = usePathname();
   const router = useRouter();
   const cart = useSelector(state => state.cart);
@@ -207,13 +207,20 @@ export default function CartModal() {
                   />
                 </div>
               </div>
+              {user ? (
               <button
-                onClick={() => router.push('/form')}
-                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
-              >
-                {/* PAGAR */}
-                CREAR ORDEN
-              </button>
+              onClick={() => router.push('/form')}
+              className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
+            >
+              {/* PAGAR */}
+              CREAR ORDEN
+            </button>
+      ) : (
+        // Si no está autenticado, mostrar el botón de "Iniciar Sesión"
+        <button
+        onClick={() => router.push('/login')}
+        >Iniciar Sesión</button>
+      )}
             </div>
           )}
         </div></>

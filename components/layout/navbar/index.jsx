@@ -11,7 +11,7 @@ import MobileMenu from './mobile-menu';
 // import Search from './search';
 
 export default function Navbar() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [parentCategories, setParentCategories] = useState(null); 
   const [hasFetchedData, setHasFetchedData] = useState(false)
@@ -33,26 +33,25 @@ export default function Navbar() {
   // Obtener el token y los datos del usuario desde el backend
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("Token:", token);
-
+    console.log("Token obtenido del localStorage:", token);
+  
     if (token) {
-      setUser(token); // Almacenar el token (para uso futuro)
-
-      // Llamar a la API para obtener el usuario con el token
+      // if(!user){}
       api.get('/api/user', {
         headers: {
-          Authorization: `Bearer ${token}` // Enviar el token en los encabezados
+          Authorization: `Bearer ${token}`
         }
       })
       .then(response => {
         console.log("Datos del usuario:", response.data.user);
-        setUser(response.data.user); // Almacenar los datos del usuario en el estado
+        localStorage.setItem('user', JSON.stringify(response.data.user)); // Actualiza en localStorage
+        setUser(response.data.user);
       })
       .catch(error => {
-        console.error('Error al obtener los datos del usuario:', error);
+        console.error('Error al obtener los datos del usuario:', error.response?.data || error.message);
       });
     }
-  }, []); // Solo se ejecuta una vez al montar el componente
+  }, []);
 
   useEffect(() => {
     if (!hasFetchedData) {
@@ -108,6 +107,7 @@ export default function Navbar() {
           <div className="flex justify-center gap-5 md:w-1/3 xs:w-[4rem]">
             <div className="hidden flex-none md:block">
               <Favorite 
+                user={user} 
                 className='transition-all ease-in-out hover:scale-110'
               />
             </div>

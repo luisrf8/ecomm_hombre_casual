@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAllCart } from '../cart/reducers/cartReducer';
+import { removeAllCart } from '../../lib/slices/cartReducer';
 
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {

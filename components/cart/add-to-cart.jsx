@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useEffect, useState, useTransition } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart } from './reducers/cartReducer';
+import { addToCart } from '../../lib/slices/cartReducer';
 
 export function AddToCart(data) {
   const dispatch = useDispatch();

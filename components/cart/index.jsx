@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
 import CartModal from './modal';
-import { store } from './store';
 
 export default function Cart() {
   const [user, setUser] = useState(null);
@@ -20,9 +18,9 @@ export default function Cart() {
   }, []); // Solo se ejecuta una vez cuando el componente se monta
 
   return (
-    <Provider store={store}>
+    <>
       {/* Pasamos el estado de user a CartModal */}
       <CartModal user={user} />
-    </Provider>
+    </>
   );
 }

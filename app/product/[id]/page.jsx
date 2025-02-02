@@ -1,14 +1,12 @@
 "use client"
 import { Gallery } from 'components/product/gallery';
 // import Carousel from 'components/carousel';
-import { store } from 'components/cart/store';
 import Footer from 'components/layout/footer';
 import { ProductDescription } from 'components/product/product-description';
 // import { Questions } from 'components/product/questions';
 import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
 export const runtime = 'edge';
 
 export default function ProductPage() {
@@ -58,7 +56,6 @@ function getArticles(id) {
   };
 
   return (
-    <Provider store={store}>
     <>
       <script
         type="application/ld+json"
@@ -92,6 +89,5 @@ function getArticles(id) {
         <Footer />
       </Suspense>
     </>
-    </Provider>
   );
 }

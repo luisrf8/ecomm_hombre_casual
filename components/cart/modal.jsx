@@ -7,11 +7,11 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeAllCart, removeFromCart } from '../../lib/slices/cartReducer';
 import Price from '../price';
 import CloseCart from './close-cart';
 import DeleteItemButton from './delete-item-button';
 import OpenCart from './open-cart';
-import { addToCart, removeAllCart, removeFromCart } from './reducers/cartReducer';
 
 export default function CartModal({ user }) {
   const pathname = usePathname();

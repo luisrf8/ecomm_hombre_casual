@@ -2,7 +2,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
 import { useDispatch } from 'react-redux';
-import { removeItemFromCart, } from './reducers/cartReducer';
+import { removeItemFromCart, } from '../../lib/slices/cartReducer';
 
 import { useTransition } from 'react';
 

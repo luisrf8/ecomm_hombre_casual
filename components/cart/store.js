@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cartReducer from './reducers/cartReducer.js';
+import cartReducer from '../../lib/slices/cartReducer.js/index.js';
 
 const initialCart = (() => {
   if (typeof localStorage !== 'undefined') {

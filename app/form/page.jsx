@@ -1,14 +1,11 @@
 "use client"
-import { store } from 'components/cart/store';
 import FormInputs from 'components/form/formInputs';
-import { Provider } from 'react-redux';
 import CarItems from '../../components/form/cartItems';
 
 export const runtime = 'edge';
 
 export default function FormPage() {
   return (
-    <Provider store={store}>
     <>
       <div className="mx-auto my-[2rem] max-w-screen-2xl px-4">
         <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8  md:p-12 lg:flex-row lg:gap-8">
@@ -21,6 +18,5 @@ export default function FormPage() {
         </div>
       </div>
     </>
-    </Provider>
   );
 }

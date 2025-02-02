@@ -1,27 +1,31 @@
 "use client";
-import api from 'lib/axios';
+import api from "lib/axios";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../lib/slices/auth.js"; // Importar la acción de login
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  function login(e) {
-    e.preventDefault(); 
-    api.post('api/loginEcomm', { email, password })
-      .then(response => {
+  function handleLogin(e) {
+    e.preventDefault();
+    api
+      .post("api/loginEcomm", { email, password })
+      .then((response) => {
         console.log("response", response.data);
         if (response.data.token) {
-          localStorage.setItem('token', response.data.token); // Guarda el token en localStorage
-          router.push('/'); // Redirige a la página de inicio
+          dispatch(login(response.data)); // Guardar usuario en Redux
+          router.push("/"); // Redirigir a home
         } else {
           console.error("No se recibió un token válido");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al iniciar sesión", error.response?.data || error.message);
         alert(error.response?.data?.message || "Error al iniciar sesión");
       });
@@ -31,9 +35,11 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-md">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
-        <form onSubmit={login}>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Correo Electrónico
+            </label>
             <input
               type="email"
               id="email"
@@ -44,7 +50,9 @@ export default function Login() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Contraseña
+            </label>
             <input
               type="password"
               id="password"
@@ -62,7 +70,7 @@ export default function Login() {
           </button>
         </form>
         <p className="text-sm text-center text-gray-600 mt-4">
-          ¿No tienes una cuenta? 
+          ¿No tienes una cuenta?
           <Link href="/register">
             <span className="text-blue-600 hover:underline"> Regístrate aquí</span>
           </Link>

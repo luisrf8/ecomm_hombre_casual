@@ -44,7 +44,7 @@ export default function App() {
   const { register, handleSubmit, setValue } = useForm();
   const cart = useSelector(state => state.cart)
   const [totalAmount, setTotalAmount] = useState(0);
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state => state.auth);
   const [preference, setPreference] = useState('retiro-en-tienda'); // valor inicial para Envío Nacional
   const [direccion, setDireccion] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState('');
@@ -55,6 +55,11 @@ export default function App() {
   const dispatch = useDispatch();
   const router = useRouter();
   
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];  // Fecha de hoy en formato YYYY-MM-DD
+    setValue("paymentDate", today);  // Establecer el valor predeterminado
+  }, [setValue]); // Esta dependancia asegura que se ejecute solo cuando el setValue esté disponible
+
   useEffect(() => {
     totalCardAmount()
   }, [cart])
@@ -68,6 +73,7 @@ export default function App() {
     setTotalAmount(total)
   }
 const onSubmitFormOne = (data) => {
+  console.log("cart", cart)
   // Aquí puedes manejar los datos según la preferencia y la dirección
   const formData = {
     preference,
@@ -103,21 +109,27 @@ const handlePreferencePaymentChange = (e) => {
 
 const methodsForCurrency = paymentMethods[selectedCurrency] || [];
 
-const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  setImage(file);
+const handleImageChange = () => {
+  const fileInput = document.getElementById('image');  // Obtener el input por id
+  const file = fileInput.files[0];  // Obtener el primer archivo (si hay más de uno)
+
+  console.log(file);  // Verifica en consola si es un objeto File
+  setImage(file);  // Aquí asignas el archivo al estado
 };
+
+
   // Agregar un nuevo pago
   const addPayment = (data) => {
+    console.log("preferencePayment", preferencePayment)
     setPayments((prevPayments) => [
       ...prevPayments,
       {
         currency: selectedCurrency,
-        preferencePayment,
+        method: preferencePayment,
         reference: data.payID,
         amount: data.amount,
         paymentDate: data.paymentDate,
-        image,
+        img: image, // Si existe una imagen, se agrega
       },
     ]);
     // Limpiar la imagen y los campos después de agregar el pago
@@ -125,7 +137,8 @@ const handleImageChange = (e) => {
     setValue("payID", "");
     setValue("amount", "");
     setValue("paymentDate", "");
-  };
+ };
+
   // Enviar todos los pagos
   const onSubmit = () => {
     console.log("Pagos enviados:", payments);
@@ -142,25 +155,44 @@ const handleImageChange = (e) => {
   
   const onSubmitFormThree = (data) => {
     // Combinar todos los datos relevantes
-    const formData = {
-      user, // Usuario desde el estado
-      paymentMethod: preferencePayment, // Método de pago seleccionado
-      payments, // Lista de pagos
-      ...data, // Otros datos que puedan venir del formulario en este paso
-    };
-  
-    // Aquí puedes hacer algo con formData, como enviarlo al servidor
-    console.log("Datos para enviar:", formData);
-  
-    // // Enviar al servidor o procesar los datos
-    // api.post('api/submit-payment', formData) // Asegúrate de usar el endpoint adecuado
-    //   .then((response) => {
-    //     console.log("Respuesta del servidor:", response.data);
-    //     // Lógica adicional después de enviar los datos
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error al enviar los datos:", error);
-    //   });
+    const formData = new FormData();
+    
+    // Agregar datos simples (como totalAmount, customer_id, etc.)
+    formData.append("totalAmount", totalAmount);
+    formData.append("itemsSelected", JSON.stringify(cart));  // Convertir cart a JSON para enviarlo
+    formData.append("customer_id", user.user.id);
+    formData.append("preference", preference);
+    formData.append("direccion", direccion);
+    console.log("payments", payments)
+    // Agregar los pagos (incluyendo la imagen)
+    payments.forEach((payment, index) => {
+      formData.append(`paymentDetails[${index}][amount]`, payment.amount);
+      formData.append(`paymentDetails[${index}][currency]`, payment.currency);
+      formData.append(`paymentDetails[${index}][method]`, JSON.stringify(payment.method));
+      formData.append(`paymentDetails[${index}][reference]`, payment.reference);
+      formData.append(`paymentDetails[${index}][paymentDate]`, payment.paymentDate);
+   
+      formData.append(`paymentDetails[${index}][img]`, payment.img);
+
+  });
+  console.log("FormData para enviar:");
+  for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+  }
+    
+    // Realiza la solicitud POST usando fetch o axios
+    api.post('api/create-sale/ecomm', formData, {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    }) // Asegúrate de usar el endpoint adecuado
+      .then((response) => {
+        console.log("Respuesta del servidor:", response.data);
+        // Lógica adicional después de enviar los datos
+      })
+      .catch((error) => {
+        console.log("Error al enviar los datos:", error);
+      });
   };
   
   const [step, setStep] = useState(1);
@@ -192,36 +224,36 @@ const handleImageChange = (e) => {
               <div className="flex row gap-6 mt-4" style={{ width: "30rem" }}>
                 <div className="flex items-center gap-x-1">
                   <input
-                    id="retiro-en-tienda"
+                    id="Tienda"
                     name="preference"
                     type="radio"
-                    value="retiro-en-tienda"
-                    checked={preference === 'retiro-en-tienda'}
+                    value="Tienda"
+                    checked={preference === 'Tienda'}
                     onChange={handlePreferenceChange}
                     className="h-4 w-4 border-blue-300 text-white-600 focus:ring-blue-600"
                   />
-                  <label htmlFor="retiro-en-tienda" className="block text-sm font-medium leading-6 text-white-900">
+                  <label htmlFor="Tienda" className="block text-sm font-medium leading-6 text-white-900">
                     Retiro en Tienda
                   </label>
                 </div>
                 <div className="flex items-center gap-x-1">
                   <input
-                    id="envio-nacional"
+                    id="Envio"
                     name="preference"
                     type="radio"
-                    value="envio-nacional"
-                    checked={preference === 'envio-nacional'}
+                    value="Envio"
+                    checked={preference === 'Envio'}
                     onChange={handlePreferenceChange}
                     className="h-4 w-4 border-gray-300 text-white-600 focus:ring-blue-600"
                   />
-                  <label htmlFor="envio-nacional" className="block text-sm font-medium leading-6 text-white-900">
+                  <label htmlFor="Envio" className="block text-sm font-medium leading-6 text-white-900">
                     Envío Nacional
                   </label>
                 </div>
               </div>
 
               {/* Condicional: Mostrar campo de dirección solo si "Envío Nacional" está seleccionado */}
-              {preference === 'envio-nacional' && (
+              {preference === 'Envio' && (
                 <div className="mt-4">
                   <label className="block text-sm font-medium leading-6 text-white-900">
                     Por favor ingrese la dirección de la agencia Zoom de su preferencia:
@@ -327,26 +359,26 @@ const handleImageChange = (e) => {
             </div>
           )}
         </div>
-
         {/* Campos de referencia, monto, imagen y fecha */}
+        {preferencePayment && (
         <div className='items-center'>
           <p className="text-sm leading-6 text-white-600">Ingrese Referencias de pago.</p>
           <div className='flex gap-5 md:flex-row flex-col'>
-            <div className='md:w-[8.5rem] w-[80vw] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
+            {/* <div className='md:w-[8.5rem] w-[80vw] h-[9.5rem] mt-[1rem] cursor-pointer relative rounded-md border text-sm hover:bg-gray-50 focus:outline-none sm:flex-1'
               style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'start' }}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: 'none' }}
-                id="imageInput"
+              <input 
+                type="file" 
+                onChange={handleImageChange} 
+                accept="image/*" 
+                id="image" name="image"
+                className="file-input" 
               />
               <label htmlFor="imageInput">
                 {image && <img src={URL.createObjectURL(image)} alt="Preview" />}
                 {!image && <PhotoIcon className='h-10 cursor-pointer transition-all ease-in-out hover:scale-110 text-black-900' />}
               </label>
               <label htmlFor="imageInput" className='cursor-pointer'>Referencia</label>
-            </div>
+            </div> */}
 
             <div className='w-[16rem]'>
               <input
@@ -374,6 +406,7 @@ const handleImageChange = (e) => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Agregar pago */}
         <div className='flex justify-between items-center'>

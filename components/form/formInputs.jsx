@@ -1,11 +1,11 @@
 import { CheckCircleIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import api from 'lib/axios';
+import { removeAllCart } from 'lib/slices/cartReducer';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {
   return (
@@ -163,7 +163,6 @@ const handleImageChange = () => {
     formData.append("customer_id", user.user.id);
     formData.append("preference", preference);
     formData.append("direccion", direccion);
-    console.log("payments", payments)
     // Agregar los pagos (incluyendo la imagen)
     payments.forEach((payment, index) => {
       formData.append(`paymentDetails[${index}][amount]`, payment.amount);
@@ -175,7 +174,6 @@ const handleImageChange = () => {
       formData.append(`paymentDetails[${index}][img]`, payment.img);
 
   });
-  console.log("FormData para enviar:");
   for (let [key, value] of formData.entries()) {
       console.log(key, value);
   }
@@ -188,6 +186,8 @@ const handleImageChange = () => {
     }) // Asegúrate de usar el endpoint adecuado
       .then((response) => {
         console.log("Respuesta del servidor:", response.data);
+        dispatch(removeAllCart())
+        router.push("/"); // Redirigir a la página de inicio
         // Lógica adicional después de enviar los datos
       })
       .catch((error) => {

@@ -3,7 +3,7 @@ const {parsed:env} = require('dotenv').config();
 const nextConfig = {
   env,
   images: {
-    domains: ['localhost'], // Agrega "localhost" aquí
+    domains: ['localhost', '192.168.1.100'], // Agrega "localhost" aquí
   },
 }
 const withPWA = require('next-pwa')({

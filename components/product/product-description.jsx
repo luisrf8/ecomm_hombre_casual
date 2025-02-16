@@ -8,6 +8,7 @@ import { VariantSelector } from './variant-selector';
 
 export function ProductDescription(data) {
   const {product} = data
+  console.log("product", product)
   const [itemSelected, setItemSelected] = useState()
   const [newItem , setNewItem] = useState({})
   
@@ -37,7 +38,7 @@ export function ProductDescription(data) {
       <div className="mb-4 flex flex-col border-b pb-6">
         <h1 className="mb-2 text-xl md:text-5xl font-medium wrap">{product.name}</h1>
         <div className="">
-          <Price amount={product.price} currencyCode={"BS"} />
+          <Price amount={product.variants[0].price} currencyCode={"USD"} />
         </div> 
       </div>
       {product.variants ? (

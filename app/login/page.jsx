@@ -4,22 +4,25 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../lib/slices/auth.js"; // Importar la acción de login
+import { login } from "../../lib/slices/auth.js";
 
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleLogin(e) {
     e.preventDefault();
+    setLoading(true);
+
     api
       .post("api/loginEcomm", { email, password })
       .then((response) => {
         if (response.data.token) {
-          dispatch(login(response.data)); // Guardar usuario en Redux
-          router.push("/"); // Redirigir a home
+          dispatch(login(response.data));
+          router.push("/");
         } else {
           console.error("No se recibió un token válido");
         }
@@ -27,6 +30,9 @@ export default function Login() {
       .catch((error) => {
         console.error("Error al iniciar sesión", error.response?.data || error.message);
         alert(error.response?.data?.message || "Error al iniciar sesión");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -46,6 +52,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="correo@ejemplo.com"
+              disabled={loading}
             />
           </div>
           <div className="mb-6">
@@ -59,13 +66,37 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="••••••••"
+              disabled={loading}
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-center"
+            disabled={loading}
           >
-            Iniciar Sesión
+            {loading ? (
+              <span className="flex items-center">
+                <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                Cargando...
+              </span>
+            ) : (
+              "Iniciar Sesión"
+            )}
           </button>
         </form>
         <p className="text-sm text-center text-gray-600 mt-4">

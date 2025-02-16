@@ -56,7 +56,7 @@ export function AddToCart(data) {
         }
       )}
     >
-      <span>{!selectedVariantId ? 'Selecciona opciones' : '+ Añadir al carrito'}</span>
+      <span>{!selectedVariantId ? '+ Añadir al carrito' : '+ Añadir al carrito'}</span>
     </button>
   );
 }

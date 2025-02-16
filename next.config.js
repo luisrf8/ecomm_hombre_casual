@@ -3,7 +3,7 @@ const {parsed:env} = require('dotenv').config();
 const nextConfig = {
   env,
   images: {
-    domains: ['localhost', '192.168.1.100'], // Agrega "localhost" aquí
+    domains: ['localhost', '192.168.1.104'], // Agrega "localhost" aquí
   },
 }
 const withPWA = require('next-pwa')({
@@ -25,6 +25,11 @@ module.exports = {
   experimental: {
     serverActions: true,
     missingSuspenseWithCSRBailout: false,
+  },
+  //true o borrar en caso de que quieras ver los errores en un modal
+  reactStrictMode: false,
+  devIndicators: {
+    autoPrerender: false,
   },
   async redirects() {
     return [

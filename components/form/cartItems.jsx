@@ -1,5 +1,7 @@
 "use client"
+import clsx from 'clsx';
 import Price from 'components/price';
+import api from 'lib/axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -7,9 +9,15 @@ import { useSelector } from 'react-redux';
 export default function CartItems() {
 const cart = useSelector(state => state.cart)
 const [totalAmount, setTotalAmount] = useState(0);
+const [dollarRate, setDollarRate] = useState(0);
+
+useEffect(() => {
+  getDollarRate()
+}, [])
 
 useEffect(() => {
   totalCardAmount()
+  getDollarRate()
 }, [cart])
 
 function totalCardAmount() {
@@ -20,11 +28,35 @@ function totalCardAmount() {
   }
   setTotalAmount(total)
 }
+function getDollarRate() {
+  api.get(`api/dollarRate`)
+  .then(response => {
+    console.log("response.data", Number(response.data.data.rate))
+      setDollarRate(response.data.data.rate)
+    })
+    .catch(error => {
+    });
+  }
 return(
     <div className='column'>
       { cart.length ? (
       <> 
       <h2 className="text-base font-semibold leading-7 text-[#022368]">Carrito</h2>
+      {/* <div className="mb-3 flex items-center justify-between pt-1">
+        <p>Total</p>
+          <Price
+          className="text-right text-base text-black "
+          // amount={(totalAmount + totalAmount * 0.12).toFixed(2)}
+          amount={(totalAmount).toFixed(2)}
+          />
+      </div>
+      <div className="mb-3 flex items-center justify-between pt-1">
+        <p>Total Bolívares</p>
+        <p suppressHydrationWarning={true}  className='text-white p-1 rounded-md gap-2' style={{backgroundColor: '#FFB406'}}>
+          <span className={clsx('ml-1 inline')}>{`VES`}</span>
+          <span className={clsx('ml-1 inline')}>{`${(totalAmount * dollarRate).toFixed(2)}`}</span>
+        </p>
+      </div> */}
       <ul className="flex-grow overflow-auto py-2"
         style={{height: '100%',}}
       >
@@ -85,6 +117,13 @@ return(
           // amount={(totalAmount + totalAmount * 0.12).toFixed(2)}
           amount={(totalAmount).toFixed(2)}
           />
+      </div>
+      <div className="mb-3 flex items-center justify-between pt-1">
+        <p>Total Bolívares</p>
+        <p suppressHydrationWarning={true}  className='text-white p-1 rounded-md gap-2' style={{backgroundColor: '#FFB406'}}>
+          <span className={clsx('ml-1 inline')}>{`VES`}</span>
+          <span className={clsx('ml-1 inline')}>{`${(totalAmount * dollarRate).toFixed(2)}`}</span>
+        </p>
       </div>
       </>
       )

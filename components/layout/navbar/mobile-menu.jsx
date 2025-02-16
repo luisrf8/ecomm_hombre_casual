@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import Favorite from './favorite';
-import Search from './search';
+// import Search from './search';
 
 export default function MobileMenu({menu}) {
   const pathname = usePathname();
@@ -69,28 +69,42 @@ export default function MobileMenu({menu}) {
                   <XMarkIcon className="h-6" />
                 </button>
 
-                <div className="mb-4 w-full">
+                {/* <div className="mb-4 w-full">
                   <Search />
-                </div>
+                </div> */}
                 {menu ? (
                   <ul className="flex w-full flex-col">
+                    {/* Agregar opción "Todos" */}
+                    <li className="py-2 text-xl text-black transition-colors hover:text-neutral-500">
+                      <Link
+                        href="/search"
+                        className="text-neutral-700 underline-offset-4 hover:text-black hover:underline"
+                        onClick={closeMobileMenu}
+                      >
+                        Todos
+                      </Link>
+                    </li>
+                    
+                    {/* Renderizar los elementos del menú */}
                     {menu.map((item, index) => (
                       <li
-                        className="py-2 text-xl text-black transition-colors hover:text-neutral-500 "
+                        className="py-2 text-xl text-black transition-colors hover:text-neutral-500"
                         key={index}
                       >
                         <Link
-                        href={`/search/${item.id}`}
-                      className="text-neutral-700 underline-offset-4 hover:text-black hover:underline "
-                      onClick={closeMobileMenu}
-                    >
-                      {item.name}
-                    </Link>
+                          href={`/search/${item.id}`}
+                          className="text-neutral-700 underline-offset-4 hover:text-black hover:underline"
+                          onClick={closeMobileMenu}
+                        >
+                          {item.name}
+                        </Link>
                       </li>
                     ))}
+                    
                     <Favorite />
                   </ul>
                 ) : null}
+
               </div>
             </Dialog.Panel>
           </Transition.Child>

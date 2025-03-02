@@ -1,11 +1,11 @@
 import { CheckCircleIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import api from 'lib/axios';
-import { removeAllCart } from 'lib/slices/cartReducer';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
+import { removeAllCart } from '../../lib/slices/cartReducer';
 
 // Componente reutilizable para campos de entrada
 function InputField({ label, name, register, required }) {
@@ -55,8 +55,16 @@ export default function App() {
   const [payments, setPayments] = useState([]);
   const [rawAmount, setRawAmount] = useState(""); // Guardar lo que el usuario escribe
   const [loading, setLoading] = useState(false);
+  const [today, setToday] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+
+  
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split("T")[0]; // Obtiene la fecha en formato YYYY-MM-DD
+    setToday(currentDate);
+  }, []);
+
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];  // Fecha de hoy en formato YYYY-MM-DD
     setValue("paymentDate", today);  // Establecer el valor predeterminado
@@ -213,7 +221,7 @@ const handleImageChange = () => {
         console.log("Respuesta del servidor:", response.data);
         dispatch(removeAllCart())
         setLoading(false); // Detener el estado de carga
-        setStep(3)
+        setStep(step + 1);
         // router.push("/"); // Redirigir a la página de inicio
         // Lógica adicional después de enviar los datos
       })
@@ -431,6 +439,7 @@ const handleImageChange = () => {
                     {...register("paymentDate")}
                     name="paymentDate"
                     required
+                    max={today} // Restringe fechas futuras
                     className="block w-[80vw] mt-4 md:w-250 md:w-[100%] justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -465,51 +474,51 @@ const handleImageChange = () => {
         <div>
           {/* Mostrar pagos agregados */}
           {payments.length > 0 && (
-  <div className='my-4'>
-    <h3>Pagos agregados:</h3>
-    <ul>
-      {payments.map((payment, index) => {
-        const isBolivares = payment.method.currency.name === "Bolívares";
-        const amountInUsd = parseFloat(payment.amount);
-        const amountInBs = isBolivares ? (amountInUsd * 60).toFixed(2) : payment.amount;
-        const currency = isBolivares ? "BS" : "USD";
+            <div className='my-4'>
+              <h3>Pagos agregados:</h3>
+              <ul>
+                {payments.map((payment, index) => {
+                  const isBolivares = payment.method.currency.name === "Bolívares";
+                  const amountInUsd = parseFloat(payment.amount);
+                  const amountInBs = isBolivares ? (amountInUsd * 60).toFixed(2) : payment.amount;
+                  const currency = isBolivares ? "BS" : "USD";
 
-        return (
-          <li key={index}>
-            Método: {payment.method.name} - {payment.method.bank} - Referencia: {payment.reference} { }
-            {isBolivares ? (
-              <span>
-                - {amountInBs} {currency} / {amountInUsd} USD - { }
-              </span>
-            ) : (
-              <span>
-                - {amountInUsd} {currency} - { }
-              </span>
-            )}
-            Fecha: {payment.paymentDate}
-          </li>
-        );
-      })}
-    </ul>
+                  return (
+                    <li key={index}>
+                      Método: {payment.method.name} - {payment.method.bank} - Referencia: {payment.reference} { }
+                      {isBolivares ? (
+                        <span>
+                          - {amountInBs} {currency} / {amountInUsd} USD - { }
+                        </span>
+                      ) : (
+                        <span>
+                          - {amountInUsd} {currency} - { }
+                        </span>
+                      )}
+                      Fecha: {payment.paymentDate}
+                    </li>
+                  );
+                })}
+              </ul>
 
-    {/* Calcular el monto total */}
-    <div className='flex gap-1'>
-      <h4>Total Pagado: USD </h4>
-      <p>
-        {payments.reduce((total, payment) => {
-          const amountInUsd = parseFloat(payment.amount);
-          return total + amountInUsd; // Sumar directamente si es USD
-        }, 0).toFixed(2)} 
-      </p>
-    </div>
-    <div className='flex gap-1'>
-      <h4>Resta: USD </h4>
-      <p>
-        {totalAmount - totalPayments}
-      </p>
-    </div>
-  </div>
-)}
+              {/* Calcular el monto total */}
+              <div className='flex gap-1'>
+                <h4>Total Pagado: USD </h4>
+                <p>
+                  {payments.reduce((total, payment) => {
+                    const amountInUsd = parseFloat(payment.amount);
+                    return total + amountInUsd; // Sumar directamente si es USD
+                  }, 0).toFixed(2)} 
+                </p>
+              </div>
+              <div className='flex gap-1'>
+                <h4>Resta: USD </h4>
+                <p>
+                  {totalAmount - totalPayments}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex justify-between items-center">
           <label>

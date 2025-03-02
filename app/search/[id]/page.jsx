@@ -12,7 +12,7 @@ export default async function CategoryPage() {
   useEffect(() => {
     const match = pathname.match(/\/search\/([a-f\d-]+)/);
     const categoriaId = match ? match[1] : null;
-    getParentCategories()
+    // getParentCategories()
     getArticles(categoriaId)
 }, [pathname])
   function getArticles(id) {

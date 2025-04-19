@@ -5,14 +5,11 @@ const nextConfig = {
   env,
   images: {
     domains: ['localhost', '192.168.1.107'], // Agrega "localhost" aquí
-    minimumCacheTTL: 60 * 60 * 24, // 1 día de caché
-    loader: 'imgix', // O 'default', dependiendo de tu configuración
-    path: '', // Dejar vacío para deshabilitar la optimización
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  reactStrictMode: false, // O dejar en true si prefieres ver los errores en un modal
+  reactStrictMode: false,
   devIndicators: {
     autoPrerender: false,
     allowedDevOrigins: ['http://192.168.1.107'], // Ajusta según sea necesario
@@ -37,7 +34,6 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development', // Deshabilitar PWA en desarrollo (útil para testing)
 });
 
-// Configuración final combinada
 module.exports = {
   ...withPWA(nextConfig),
   experimental: {

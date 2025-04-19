@@ -5,6 +5,13 @@ module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      transitionDelay: {
+        0: '0ms',
+        150: '150ms',
+        300: '300ms',
+        500: '500ms',
+        // Agrega otros valores que desees usar
+      },
       fontFamily: {
         sans: ['var(--font-inter)']
       },
@@ -20,7 +27,7 @@ module.exports = {
         blink: {
           '0%': { opacity: 0.2 },
           '20%': { opacity: 1 },
-          '100% ': { opacity: 0.2 }
+          '100%': { opacity: 0.2 }
         }
       },
       animation: { 

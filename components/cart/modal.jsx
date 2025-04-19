@@ -148,6 +148,7 @@ export default function CartModal() {
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 ">
                             <Image
                               className="h-full w-full object-cover"
+                              alt='hc'
                               width={100}
                               height={100}
                               src={`${process.env.BASE_URL}/storage/${item.images[0].path}`}

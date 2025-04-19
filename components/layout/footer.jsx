@@ -2,7 +2,7 @@ import FooterMenu from 'components/layout/footer-menu';
 import { Suspense } from 'react';
 
 
-export default async function Footer() {
+export default function Footer() {
   const skeleton = 'w-full h-6 animate-pulse rounded bg-neutral-200 dark:bg-neutral-700';
 
   return (

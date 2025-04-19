@@ -1,6 +1,9 @@
 module.exports = {
   plugins: {
-    tailwindcss: {},
-    autoprefixer: {}
-  }
+    '@tailwindcss/postcss': {
+      base: `${__dirname}/../..`,
+      optimize: true,
+    },
+    autoprefixer: {},  
+  },
 };

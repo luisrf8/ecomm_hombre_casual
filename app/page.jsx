@@ -4,7 +4,7 @@ import { ThreeItemGrid } from 'components/grid/three-items';
 // import IndexCarousel from 'components/index-carousel';
 import Footer from 'components/layout/footer';
 import api from 'lib/axios';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const runtime = 'edge';
 
@@ -19,7 +19,7 @@ const carouselProducts = [
   },
 ];
 
-export default async function HomePage() {
+export default function HomePage() {
   const [hasFetchedData, setHasFetchedData] = useState(false)
   const [products, setProducts] = useState(null)
   useEffect(() => {
@@ -45,11 +45,7 @@ function getArticles() {
             <Carousel carouselProducts={products} title="Trending"/>
           </div>
         ) : ("") }
-        <Suspense>
-          <Suspense>
             <Footer />
-          </Suspense>
-        </Suspense>
     </>
   );
 }

@@ -9,7 +9,6 @@ import { Suspense, useEffect, useState } from 'react';
 import api from '../../../lib/axios';
 import Favorite from './favorite';
 import MobileMenu from './mobile-menu';
-
 // import Search from './search';
 
 export default function Navbar() {
@@ -76,7 +75,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav>
+      <nav className='fixed top-0 z-50 w-full bg-white shadow-md dark:bg-black dark:text-white'>
         <div className="relative flex items-center">
           <div className="flex w-full items-center justify-evenly pt-4 pb-4">
             <div className="md:hidden flex justify-center w-1/3">
@@ -108,6 +107,12 @@ export default function Navbar() {
               <div className="hidden flex-none md:block">
                 <Favorite className='transition-all ease-in-out hover:scale-110' />
               </div>
+    {/* <div className="flex items-center justify-center  bg-white dark:bg-gray-dark transition-all duration-300">
+      <div className="p-8 rounded-lg shadow-lg bg-gray-100 dark:bg-gray-medium">
+        <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">Prueba del botón de tema</h2> */}
+        {/* <ThemeToggle className="transition-all ease-in-out hover:scale-110" /> */}
+      {/* </div>
+    </div> */}
               <Suspense fallback={<OpenCart />}>
                 <Cart />
               </Suspense>

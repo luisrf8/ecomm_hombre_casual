@@ -1,6 +1,5 @@
 'use client'
 import Footer from 'components/layout/footer';
-import LoadingDots from 'components/loading-dots';
 import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
@@ -56,7 +55,9 @@ const categoriaId2 = partes[2];
     <Suspense>
       <div className="mx-auto flex max-w-screen-2xl flex-col gap-8 px-4 mt-6 pb-4 text-black  md:flex-row">
         {!hasFetchedData ? (
-            <LoadingDots className="bg-gray-900" />
+          <>
+          </>
+            // <LoadingDots className="bg-gray-900" />
           ) : (
           // collectionsData ? (
             <div className="order-first w-full flex-none md:max-w-[125px] md:mt-10">

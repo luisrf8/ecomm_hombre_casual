@@ -45,6 +45,7 @@ export default function App() {
   const { register, handleSubmit, setValue } = useForm();
   const cart = useSelector(state => state.cart)
   const [totalAmount, setTotalAmount] = useState(0);
+  const [dollarRate, setDollarRate] = useState(0);
   const user = useSelector(state => state.auth);
   const [preference, setPreference] = useState('retiro-en-tienda'); // valor inicial para Envío Nacional
   const [direccion, setDireccion] = useState('');
@@ -99,6 +100,14 @@ const onSubmitFormOne = (data) => {
   .catch((error) => {
     console.log("error", error)
   })
+  api.get('api/dollarRate',)
+  .then((response) => {
+    console.log("response.data", response.data)
+    setDollarRate(Number(response.data.data.rate))
+  })
+  .catch((error) => {
+    console.log("error", error)
+  })
 };
 
 const handlePreferenceChange = (e) => {
@@ -149,7 +158,9 @@ const handleImageChange = () => {
   
     // Conversión si la moneda es "Bolívares"
     if (selectedCurrency === "Bolívares") {
-      amountToSave = amountToSave / 60;
+      console.log("Monto convertido a USD:", dollarRate);
+      amountToSave = amountToSave / dollarRate;
+      console.log("Monto convertido a USD:", amountToSave);
     }
   
     const newPayment = {
@@ -480,7 +491,7 @@ const handleImageChange = () => {
                 {payments.map((payment, index) => {
                   const isBolivares = payment.method.currency.name === "Bolívares";
                   const amountInUsd = parseFloat(payment.amount);
-                  const amountInBs = isBolivares ? (amountInUsd * 60).toFixed(2) : payment.amount;
+                  const amountInBs = isBolivares ? (amountInUsd * dollarRate).toFixed(2) : payment.amount;
                   const currency = isBolivares ? "BS" : "USD";
 
                   return (
@@ -560,7 +571,7 @@ const handleImageChange = () => {
                 width={100}
                 height={100}
                 alt='hc'
-                src="/hc.png"
+                src="/infinityimg.png"
               />
               <CheckCircleIcon
                 className="absolute top-0 left-[4.5rem] h-5 mr-4 md:h-12 text-green-500 transition-all ease-in-out hover:scale-110"

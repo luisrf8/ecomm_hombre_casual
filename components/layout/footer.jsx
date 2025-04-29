@@ -23,10 +23,10 @@ export default function Footer() {
           <FooterMenu />
         </Suspense>
       </div>
-      <div className="border-t border-neutral-200 px-6 py-6" style={{backgroundColor: "#022368"}}>
+      <div className="border-t border-neutral-200 px-6 py-6">
         <div className="mx-auto md:flex w-full max-w-7xl xs:text-[0.75rem] dark:border-neutral-700 min-[1320px]:px-0">
           <hr className="hidden h-4 border-neutral-400 md:inline-block text-white"/>
-          <p className="text-white">2024 Hombre Casual C.A. | Todos los derechos reservados</p>
+          <p className="text-white">2024 Infinity Center C.A. | Todos los derechos reservados</p>
         </div>
       </div>
     </footer>

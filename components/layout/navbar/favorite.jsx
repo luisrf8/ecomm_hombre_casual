@@ -30,7 +30,7 @@ export default function Favorite() {
         className="flex items-center space-x-2 transition-colors w-[10rem]"
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        <UserIcon className="h-7 transition-all ease-in-out hover:scale-110 text-blue-900" />
+        <UserIcon className="h-7 transition-all ease-in-out hover:scale-110 text-white-900" />
         {isAuthenticated ? (
           <span className="">{user.user.name}</span>
         ) : (

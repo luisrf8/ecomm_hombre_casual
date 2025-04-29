@@ -24,7 +24,7 @@ export function Gallery({ images }) {
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
           src={`${process.env.BASE_URL}/storage/${images.path}`}
-          alt='hola'
+          alt='hc'
           priority={true}
         />
 {/* 

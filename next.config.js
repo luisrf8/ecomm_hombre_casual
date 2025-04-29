@@ -4,7 +4,7 @@ const { parsed: env } = require('dotenv').config();
 const nextConfig = {
   env,
   images: {
-    domains: ['localhost', '192.168.1.107'], // Agrega "localhost" aquí
+    domains: ['localhost', '192.168.1.108'], // Agrega "localhost" aquí
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -12,7 +12,7 @@ const nextConfig = {
   reactStrictMode: false,
   devIndicators: {
     autoPrerender: false,
-    allowedDevOrigins: ['http://192.168.1.107'], // Ajusta según sea necesario
+    allowedDevOrigins: ['http://192.168.1.108'], // Ajusta según sea necesario
   },
   async redirects() {
     return [

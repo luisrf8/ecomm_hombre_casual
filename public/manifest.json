@@ -1,28 +1,28 @@
 {
-    "name": "Hombre Casual",
-    "short_name": "HC",
+    "name": "Infinity Center",
+    "short_name": "Infinity Center",
     "start_url": "/",
     "theme_color": "#000000",
     "background_color": "#000000",
     "display": "standalone",
     "icons": [
         {
-            "src": "/hc.png",
+            "src": "/infinityimg.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/hc.png",
+            "src": "/infinityimg.png",
             "sizes": "256x256",
             "type": "image/png"
         },
         {
-            "src": "/hc.png",
+            "src": "/infinityimg.png",
             "sizes": "384x384",
             "type": "image/png"
         },
         {
-            "src": "/hc.png",
+            "src": "/infinityimg.png",
             "sizes": "512x512",
             "type": "image/png"
         }

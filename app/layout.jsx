@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
           {pathname !== '/login' && pathname !== '/register' && <Navbar />}
           <Suspense fallback={<div>Loading...</div>}>
-            <main>{children}</main>
+            <main className='mt-40'>{children}</main>
           </Suspense>
         </Provider>
       </body>

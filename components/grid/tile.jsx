@@ -25,6 +25,7 @@ export function GridTileImage({
           className={clsx('relative h-full w-full object-contain', {
             'transition duration-300 ease-in-out group-hover:scale-105': isInteractive
           })}
+          alt='hc'
           width={2000}
           height={2000}
           {...props}

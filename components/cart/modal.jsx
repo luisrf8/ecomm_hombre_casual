@@ -208,20 +208,22 @@ export default function CartModal() {
                   />
                 </div>
               </div>
-              {user ? (
+              {user && user.token ? (
+                // Si el usuario está autenticado, mostrar el botón "Crear Orden"
                 <button
-                onClick={() => router.push('/form')}
-                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
+                  onClick={() => router.push('/form')}
+                  className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white hover:opacity-90"
                 >
-                  {/* PAGAR */}
                   CREAR ORDEN
                 </button>
               ) : (
-                // Si no está autenticado, mostrar el botón de "Iniciar Sesión"
+                // Si no está autenticado, mostrar el botón "Iniciar Sesión"
                 <button
-                className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white  hover:opacity-90"
-                onClick={() => router.push('/login')}
-                >Iniciar Sesión</button>
+                  className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white hover:opacity-90"
+                  onClick={() => router.push('/login')}
+                >
+                  Iniciar Sesión
+                </button>
               )}
             </div>
           )}

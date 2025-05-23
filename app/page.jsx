@@ -1,51 +1,74 @@
-'use client'
+'use client';
 import Carousel from 'components/carousel';
 import { ThreeItemGrid } from 'components/grid/three-items';
-// import IndexCarousel from 'components/index-carousel';
 import Footer from 'components/layout/footer';
+import LoadingOverlay from 'components/loading-overlay';
 import api from 'lib/axios';
+import { motion } from "motion/react";
 import { useEffect, useState } from 'react';
 
 export const runtime = 'edge';
 
-const carouselProducts = [
-  {
-    handle: 'product-2',
-    image: '/images/img1.png',
-  },
-  {
-    handle: 'product-3',
-    image: '/images/img2.png',
-  },
-];
-
 export default function HomePage() {
-  const [hasFetchedData, setHasFetchedData] = useState(false)
-  const [products, setProducts] = useState(null)
+  const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
+  const [products, setProducts] = useState(null);
+
   useEffect(() => {
-    getArticles()
-}, [])
-function getArticles() {
-  api.get(`api/get-products`)
-  .then(response => {
-      setProducts(response.data)
-      setHasFetchedData(true); 
-    })
-    .catch(error => {
-      setHasFetchedData(true); 
-    });
+    getArticles();
+  }, []);
+
+  function getArticles() {
+    setIsLoading(true); // Activa el estado de carga
+    api.get(`api/get-products`)
+      .then(response => {
+        setProducts(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener los productos:', error);
+      })
+      .finally(() => {
+        setIsLoading(false); // Desactiva el estado de carga
+      });
   }
+
   return (
     <>
-        {/* <IndexCarousel products={carouselProducts}/> */}
-        {products ? (
-          <div>
+      {isLoading ? (
+        // Indicador de carga mientras se obtienen los datos
+        <LoadingOverlay />
+      ) : (
+        // Contenido principal una vez que los datos están disponibles
+        <div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+          >
             <ThreeItemGrid itemProducts={products} />
-            <Carousel carouselProducts={products} title="Ofertas"/>
-            <Carousel carouselProducts={products} title="Trending"/>
-          </div>
-        ) : ("") }
-            <Footer />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+          >
+            <Carousel carouselProducts={products} title="Ofertas" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+          >
+            <Carousel carouselProducts={products} title="Trending" />
+          </motion.div>
+          <Footer />
+        </div>
+      )}
     </>
   );
 }

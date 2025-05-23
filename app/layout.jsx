@@ -1,10 +1,11 @@
 "use client";
 import Navbar from 'components/layout/navbar';
+import LoadingOverlay from 'components/loading-overlay';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { store } from '../lib/store'; // Asegúrate de importar tu store
+import { store } from '../lib/store';
 import './globals.css';
 
 const inter = Inter({
@@ -15,6 +16,20 @@ const inter = Inter({
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    let previousPathname = pathname;
+
+    const handleRouteChange = () => {
+      setIsLoading(true);
+    };
+
+    if (previousPathname !== pathname) {
+      handleRouteChange();
+      previousPathname = pathname;
+    }
+  }, [pathname]);
 
   return (
     <html lang="en" className={inter.variable}>
@@ -30,9 +45,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 ">
         <Provider store={store}>
+          {isLoading && <LoadingOverlay />}
           {pathname !== '/login' && pathname !== '/register' && <Navbar />}
           <Suspense fallback={<div>Loading...</div>}>
-            <main className='mt-40'>{children}</main>
+            <main className="mt-40">{children}</main>
           </Suspense>
         </Provider>
       </body>

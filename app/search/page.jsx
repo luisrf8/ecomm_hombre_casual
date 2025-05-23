@@ -1,6 +1,6 @@
 'use client'
 import ProductGridItems from 'components/layout/product-grid-items';
-import LoadingDots from 'components/loading-dots';
+import LoadingOverlay from 'components/loading-overlay';
 import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ export default function CategoryPage() {
   useEffect(() => {
     // Define una función asíncrona dentro del useEffect
     const fetchArticles = async () => {
+      // setIsLoading(true); // Activa el estado de carga
       try {
         const response = await api.get(`api/get-products`);
         setArticles(response.data);
@@ -22,6 +23,7 @@ export default function CategoryPage() {
         console.error('Hubo un error al hacer la solicitud GET:', error);
       } finally {
         setHasFetchedData(true);
+        // setIsLoading(false); // Desactiva el estado de carga
       }
     };
 
@@ -35,7 +37,8 @@ export default function CategoryPage() {
     <section>
       <div className="mx-auto flex max-w-screen-2xl flex-col gap-8 mt-6 pb-4 text-black md:flex-row">
         {!hasFetchedData ? (
-          <LoadingDots className="bg-gray-900" />
+          <LoadingOverlay />
+          // <LoadingDots className="bg-gray-900" />
         ) : (
           ""
         )}

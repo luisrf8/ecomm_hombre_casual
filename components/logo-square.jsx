@@ -10,9 +10,7 @@ export default function LogoSquare({ size }) {
         height={100}
         alt='hc'
         src="/inf.png"
-        
-              />
-{/* Hombre Casual */}
+      />
     </div>
   );
 }

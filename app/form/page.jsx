@@ -12,7 +12,7 @@ export default function FormPage() {
 
   return (
     <>
-      <div className="mx-auto my-[2rem] max-w-screen-2xl px-4">
+      <div className="mx-auto mt-50 max-w-screen-2xl px-4">
         <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8">
           <div className={`basis-full ${isCartEmpty ? "lg:basis-full" : "lg:basis-4/6"} lg:flex lg:justify-center md:flex md:justify-center`}>
             <FormInputs />

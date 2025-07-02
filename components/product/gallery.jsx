@@ -1,82 +1,50 @@
 'use client';
 import Image from 'next/image';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export function Gallery({ images }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const imageSearchParam = searchParams.get('image');
-  const imageIndex = imageSearchParam ? parseInt(imageSearchParam) : 0;
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // const previousSearchParams = new URLSearchParams(searchParams.toString());
-  // const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
-  // previousSearchParams.set('image', previousImageIndex.toString());
-  // const previousUrl = createUrl(pathname, previousSearchParams);
+  if (!images || images.length === 0) {
+    return <p>No hay imágenes disponibles.</p>;
+  }
 
-  const buttonClassName =
-    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black  flex items-center justify-center';
+  const handleSelect = (index) => {
+    setCurrentIndex(index);
+  };
 
   return (
-    <>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden ">
+    <div className="w-full">
+      {/* Imagen principal */}
+      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
         <Image
-          className="h-full w-full object-contain p-12"
+          className="h-full w-full object-contain p-4"
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
-          src={`${process.env.BASE_URL}/storage/${images.path}`}
-          alt='hc'
+          src={`${process.env.BASE_URL}/storage/${images[currentIndex].path}`}
+          alt={`Imagen ${currentIndex + 1}`}
           priority={true}
         />
-{/* 
-        {images.length > 1 ? (
-          <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur ">
-              <Link
-                aria-label="Previous product image"
-                href={previousUrl}
-                className={buttonClassName}
-                scroll={false}
-              >
-                <ArrowLeftIcon className="h-5" />
-              </Link>
-              <div className="mx-1 h-6 w-px bg-neutral-500"></div>
-              <Link
-                aria-label="Next product image"
-                className={buttonClassName}
-                scroll={false}
-              >
-                <ArrowRightIcon className="h-5" />
-              </Link>
-            </div>
-          </div>
-        ) : null} */}
       </div>
-
-      {/* {images.length > 1 ? (
-        <ul className="my-12 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
-          {images.map((image, index) => {
-            const isActive = index === imageIndex;
-
-            return (
-              <li key={image.src} className="h-20 w-20">
-                <Link
-                  aria-label="Enlarge product image"
-                  scroll={false}
-                  className="h-full w-full"
-                >
-                  <GridTileImage
-                    alt={image.altText}
-                    src={image.src}
-                    width={80}
-                    height={80}
-                    active={isActive}
-                  />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null} */}
-    </>
+      {/* Miniaturas */}
+      <div className="flex justify-center gap-4 overflow-x-auto px-4 mb-10">
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={`relative w-20 h-20 border-2 rounded-md cursor-pointer ${
+              currentIndex === index ? 'border-gray-200' : 'border-transparent'
+            }`}
+            onClick={() => handleSelect(index)}
+          >
+            <Image
+              src={`${process.env.BASE_URL}/storage/${img.path}`}
+              alt={`Miniatura ${index + 1}`}
+              fill
+              className="object-cover rounded-md"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

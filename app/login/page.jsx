@@ -1,5 +1,6 @@
 "use client";
 import api from "lib/axios";
+// import Image from 'next/image';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -37,7 +38,14 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+      {/* <Image
+        className="h-10 w-60 mb-10"
+        width={100}
+        height={100}
+        alt='hc'
+        src="/inf.png"
+      /> */}
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-md">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
         <form onSubmit={handleLogin}>
@@ -50,7 +58,7 @@ export default function Login() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
               placeholder="correo@ejemplo.com"
               disabled={loading}
             />
@@ -64,14 +72,14 @@ export default function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
               placeholder="••••••••"
               disabled={loading}
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-center"
+            className="w-full py-2 px-4 bg-gray-900 text-white font-medium rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center justify-center"
             disabled={loading}
           >
             {loading ? (
@@ -102,7 +110,7 @@ export default function Login() {
         <p className="text-sm text-center text-gray-600 mt-4">
           ¿No tienes una cuenta?
           <Link href="/register">
-            <span className="text-blue-600 hover:underline"> Regístrate aquí</span>
+            <span className="text-gray-800 hover:underline"> Regístrate aquí</span>
           </Link>
         </p>
       </div>

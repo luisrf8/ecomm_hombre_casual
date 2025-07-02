@@ -158,7 +158,6 @@ export default function CartModal() {
                             <span className="leading-tight">
                               {item.title}
                             </span>
-                            <span className="leading-tight text-sm text-neutral-500 ">Talla:{item.item.size}</span>
                           </div>
                         <div className="flex h-16 flex-col justify-between">
                           <Price
@@ -212,14 +211,14 @@ export default function CartModal() {
                 // Si el usuario está autenticado, mostrar el botón "Crear Orden"
                 <button
                   onClick={() => router.push('/form')}
-                  className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white hover:opacity-90"
+                  className="block w-full rounded-md bg-black p-3 text-center text-sm font-medium text-white hover:opacity-90"
                 >
                   CREAR ORDEN
                 </button>
               ) : (
                 // Si no está autenticado, mostrar el botón "Iniciar Sesión"
                 <button
-                  className="block w-full rounded-md bg-[#022368] p-3 text-center text-sm font-medium text-white hover:opacity-90"
+                  className="block w-full rounded-md bg-black p-3 text-center text-sm font-medium text-white hover:opacity-90"
                   onClick={() => router.push('/login')}
                 >
                   Iniciar Sesión

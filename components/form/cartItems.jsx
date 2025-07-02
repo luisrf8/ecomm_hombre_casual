@@ -41,22 +41,7 @@ return(
     <div className='column'>
       { cart.length ? (
       <> 
-      <h2 className="text-base font-semibold leading-7 text-[#022368]">Carrito</h2>
-      {/* <div className="mb-3 flex items-center justify-between pt-1">
-        <p>Total</p>
-          <Price
-          className="text-right text-base text-black "
-          // amount={(totalAmount + totalAmount * 0.12).toFixed(2)}
-          amount={(totalAmount).toFixed(2)}
-          />
-      </div>
-      <div className="mb-3 flex items-center justify-between pt-1">
-        <p>Total Bolívares</p>
-        <p suppressHydrationWarning={true}  className='text-white p-1 rounded-md gap-2' style={{backgroundColor: '#FFB406'}}>
-          <span className={clsx('ml-1 inline')}>{`VES`}</span>
-          <span className={clsx('ml-1 inline')}>{`${(totalAmount * dollarRate).toFixed(2)}`}</span>
-        </p>
-      </div> */}
+      <h2 className="text-base font-semibold leading-7 text-black">Carrito</h2>
       <ul className="flex-grow overflow-auto py-2"
         style={{height: '100%',}}
       >
@@ -96,34 +81,24 @@ return(
           )
         })}
       </ul>
-      {/* <div className="mt-3 flex items-center justify-between"
-      >
-        <p>Sub Total</p>
-          <Price
-          className="text-right text-base text-black"
-          amount={(totalAmount).toFixed(2)}
-          />
-      </div>
-      <div className="mb-3 flex items-center justify-between pt-1">
-        <p>Impuesto</p>
-          <Price
-          className="text-right text-base text-black "
-          amount={(totalAmount * 0.12).toFixed(2)}
-          />
-      </div> */}
       <div className="mb-3 flex items-center justify-between pt-1">
         <p>Total</p>
           <Price
           className="text-right text-base text-black "
-          // amount={(totalAmount + totalAmount * 0.12).toFixed(2)}
           amount={(totalAmount).toFixed(2)}
           />
       </div>
       <div className="mb-3 flex items-center justify-between pt-1">
+        <p>Tasa BS / USD</p>
+        <p suppressHydrationWarning={true} className='p-1 rounded-md gap-2 border border-gray-200 text-gray-800'>
+          <span className="ml-1 inline">{`${(1 * dollarRate).toFixed(2)}`} BS</span>
+        </p>
+      </div>
+      <div className="mb-3 flex items-center justify-between pt-1">
         <p>Total Bolívares</p>
-        <p suppressHydrationWarning={true}  className='text-white p-1 rounded-md gap-2' style={{backgroundColor: '#FFB406'}}>
-          <span className={clsx('ml-1 inline')}>{`VES`}</span>
+        <p suppressHydrationWarning={true}  className='p-1 rounded-md gap-2 border border-gray-200 text-gray-800'>
           <span className={clsx('ml-1 inline')}>{`${(totalAmount * dollarRate).toFixed(2)}`}</span>
+          <span className={clsx('ml-1 inline')}>{`BS`}</span>
         </p>
       </div>
       </>

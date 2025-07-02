@@ -6,7 +6,7 @@ import { addToCart } from '../../lib/slices/cartReducer';
 export function AddToCart(data) {
   const dispatch = useDispatch();
   const [isAble, setIsAble] = useState(false);
-  const { newItem, item } = data;
+  const { newItem, item, itemSelected } = data;
   const { variants } = item;
   const [isPending, startTransition] = useTransition();
 
@@ -32,7 +32,7 @@ export function AddToCart(data) {
     <button
       aria-label="Añadir al carrito"
       title={title}
-      disabled={!isAble || isPending}
+      disabled={!itemSelected}
       onClick={() => {
         if (!newItem) return;
         startTransition(async () => {
@@ -50,13 +50,13 @@ export function AddToCart(data) {
         });
       }}
       className={clsx(
-        'relative flex w-[15rem] items-center justify-center rounded-md bg-[#022368] p-4 tracking-wide text-white hover:opacity-90',
+        'relative flex w-[15rem] items-center justify-center rounded-md bg-black p-4 tracking-wide text-white hover:opacity-90',
         {
-          'cursor-not-allowed opacity-60': !isAble || isPending,
+          'cursor-not-allowed opacity-60': !itemSelected,
         }
       )}
     >
-      <span>{!selectedVariantId ? '+ Añadir al carrito' : '+ Añadir al carrito'}</span>
+      <span>{!itemSelected ? 'Seleccione una opción' : '+ Añadir al Carrito'}</span>
     </button>
   );
 }

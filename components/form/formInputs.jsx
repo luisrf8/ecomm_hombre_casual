@@ -1,45 +1,12 @@
 import { CheckCircleIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import WsMsg from 'components/ws-msg';
 import api from 'lib/axios';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react'; // Import useState
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllCart } from '../../lib/slices/cartReducer';
 
-// Componente reutilizable para campos de entrada
-function InputField({ label, name, register, required }) {
-  return (
-    <div className="sm:col-span-3 mt-4">
-      <input
-        {...register(name,   { required })}
-        style={{height: '2.5rem',}}
-        placeholder={label}
-        className="block w-[80vw] md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      />
-    </div>
-  );
-}
-
-// Componente reutilizable para select
-function SelectField({ label, name, register, options }) {
-  return (
-    <div className="sm:col-span-3 mt-4">
-      <select
-        {...register(name)}
-        style={{height: '2.5rem', background: 'transparent'}}
-        placeholder={label}
-        className="md:w-[3.5rem] w-[80vw] flex justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value} className=''>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
 
 export default function App() {
   const { register, handleSubmit, setValue } = useForm();
@@ -84,8 +51,6 @@ export default function App() {
     setTotalAmount(total)
   }
 const onSubmitFormOne = (data) => {
-  console.log("cart", cart)
-  // Aquí puedes manejar los datos según la preferencia y la dirección
   const formData = {
     preference,
     direccion,
@@ -128,16 +93,6 @@ const handlePreferencePaymentChange = (e) => {
 
 const methodsForCurrency = paymentMethods[selectedCurrency] || [];
 
-const handleImageChange = () => {
-  const fileInput = document.getElementById('image');  // Obtener el input por id
-  const file = fileInput.files[0];  // Obtener el primer archivo (si hay más de uno)
-
-  console.log(file);  // Verifica en consola si es un objeto File
-  setImage(file);  // Aquí asignas el archivo al estado
-};
-
-
-  // Agregar un nuevo pago
   const addPayment = (data) => {
     console.log("data", data)
     if (!data.payID || !data.amount || !data.paymentDate) {
@@ -182,12 +137,6 @@ const handleImageChange = () => {
     setValue("amount", "");
   };
   
-  // Enviar todos los pagos
-  const onSubmit = () => {
-    console.log("Pagos enviados:", payments);
-    // Aquí puedes enviar los datos de pagos al servidor
-  };
-
   const onSubmitFormTwo = () => {
       handleNextStep();
   };
@@ -198,7 +147,6 @@ const handleImageChange = () => {
   
   const onSubmitFormThree = (data) => {
     setLoading(true); // Iniciar el estado de carga
-    // Combinar todos los datos relevantes
     const formData = new FormData();
     
     // Agregar datos simples (como totalAmount, customer_id, etc.)
@@ -258,17 +206,17 @@ const handleImageChange = () => {
 
 
   return (
-    <>
+    <div className='flex flex-col gap-4 p-4'>
         {/* Personal Info */}
       {step === 1 && (
         <form onSubmit={handleSubmit(onSubmitFormOne)} className=''>
           <div className='flex gap-2'>
             <div>
-              <h2 className="text-base font-semibold leading-7 text-[#022368]">
+              <h2 className="text-base font-semibold leading-7 text-black">
                 Hola! {user?.user?.name}.
               </h2>
               <p className="mt-1 text-sm leading-6 text-white-600">Escoge tu preferencia.</p>
-              <div className="flex row gap-6 mt-4" style={{ width: "30rem" }}>
+              <div className="flex row gap-6 mt-4" >
                 <label htmlFor="Tienda" className="cursor-pointer">
                   <input
                     id="Tienda"
@@ -279,7 +227,7 @@ const handleImageChange = () => {
                     onChange={handlePreferenceChange}
                     className="hidden peer"
                   />
-                  <div className="w-34 h-12 p-3 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-blue-900 peer-checked:text-blue-900">
+                  <div className="w-[100%] md:36 h-12 p-3 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-gray-900 peer-checked:text-gray-900">
                     Retiro en Tienda
                   </div>
                 </label>
@@ -294,7 +242,7 @@ const handleImageChange = () => {
                     onChange={handlePreferenceChange}
                     className="hidden peer"
                   />
-                  <div className="w-34 h-12 p-3 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-blue-900 peer-checked:text-blue-900">
+                  <div className="w-[100%] md:36 h-12 p-3 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-gray-900 peer-checked:text-gray-900">
                     Envío Nacional
                   </div>
                 </label>
@@ -303,7 +251,7 @@ const handleImageChange = () => {
 
               {/* Condicional: Mostrar campo de dirección solo si "Envío Nacional" está seleccionado */}
               {preference === 'Envio' && (
-                <div className="mt-4 w-100">
+                <div className="mt-4 w-[100%] md:w-80">
                   <label className="block text-sm font-medium leading-6 text-white-900 overflow-wrap-break-word">
                     Por favor ingrese,<br></br> la dirección de la agencia Zoom de su preferencia.
                   </label>
@@ -311,7 +259,7 @@ const handleImageChange = () => {
                     type="text"
                     value={direccion}
                     onChange={(e) => setDireccion(e.target.value)}
-                    className="block w-[80vw] mt-2 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-[100%] mt-2 bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                     placeholder="Dirección de la agencia Zoom"
                   />
                 </div>
@@ -326,7 +274,7 @@ const handleImageChange = () => {
             <button
               style={{ width: '8rem' }}
               onClick={handleSubmit(onSubmitFormOne)}
-              className="rounded-md flex justify-center items-center mt-4 bg-[#022368] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="rounded-md flex justify-center items-center mt-4 bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
             >
               Siguiente
             </button>
@@ -336,11 +284,11 @@ const handleImageChange = () => {
       {/* Payment Info */}
       {step === 2 && (
       <div>
-        <h2 className="text-base font-semibold leading-7 text-[#022368]">Pago.</h2>
+        <h2 className="text-base font-semibold leading-7 text-black">Pago.</h2>
         <form onSubmit={handleSubmit(addPayment)} className="flex md:flex-row flex-col gap-8">
           {/* Selección de moneda */}
-          <div>
-            <div className="flex row gap-6 pt-2" style={{ width: "30rem" }}>
+          <div className="flex flex-col gap-4">
+            <div className="flex row gap-6 pt-2">
               {Object.keys(paymentMethods).map((currency) => (
                 <label htmlFor={currency} key={currency} className="cursor-pointer">
                   <input
@@ -353,7 +301,7 @@ const handleImageChange = () => {
                     className="hidden peer"
                     required
                   />
-                  <div className="w-32 h-8 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-blue-900 peer-checked:text-blue-900">
+                  <div className="w-30 md:w-36 h-8 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-gray-900 peer-checked:text-gray-900">
                     {currency}
                   </div>
                 </label>
@@ -377,7 +325,7 @@ const handleImageChange = () => {
                         className="hidden peer"
                         required
                       />
-                      <div className="w-32 h-8 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-blue-900 peer-checked:text-blue-900">
+                      <div className="w-30 md:w-36 h-8 flex items-center justify-center border-2 border-gray-400 text-gray-600 rounded-md peer-checked:border-gray-900 peer-checked:text-gray-900">
                         {method.name}
                       </div>
                     </label>
@@ -387,7 +335,7 @@ const handleImageChange = () => {
                 {preferencePayment && (
                   <div className="mt-4 flex flex-col md:flex-row items-center md:items-start bg-white p-4 shadow-lg rounded-lg border border-gray-200 w-full max-w-md md:max-w-lg">
                     {/* Contenedor del QR */}
-                    <div className="w-32 h-24 flex items-center justify-center rounded-lg overflow-hidden border border-gray-300">
+                    <div className="w-32 h-24 flex items-center justify-center rounded-lg overflow-hidden md-border md-border-gray-300">
                       {preferencePayment.qr_image && preferencePayment.qr_image !== '[]' ? (
                         <div
                           style={{
@@ -429,7 +377,7 @@ const handleImageChange = () => {
                     required
                     type="number"
                     placeholder="Referencia (últimos 6 números)"
-                    className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-[100%] mt-4 bg-transparent p-3 rounded-md border-0 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                   />
                   <input
                     {...register("amount")}
@@ -443,7 +391,7 @@ const handleImageChange = () => {
                         e.target.value = 0; // Si el valor es negativo, lo cambia a 0
                       }
                     }}
-                    className="block w-[80vw] mt-4 md:w-250 md:w-[100%] bg-transparent p-3 rounded-md border-1 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block mt-4 w-[100%] bg-transparent p-3 rounded-md border-0 border-neutral-900 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                   />
                   <input
                     type="date"
@@ -451,7 +399,7 @@ const handleImageChange = () => {
                     name="paymentDate"
                     required
                     max={today} // Restringe fechas futuras
-                    className="block w-[80vw] mt-4 md:w-250 md:w-[100%] justify-center items-center text-center bg-transparent rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block mt-4 w-[93%] md:w-[100%] bg-transparent p-3 rounded-md border-1 md:border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -566,30 +514,31 @@ const handleImageChange = () => {
         <form onSubmit={handleSubmit(onSubmitFormTwo)} className='text-center'>
           <div className='flex justify-center'>
             <div className="relative">
-              <Image
+              {/* <Image
                 className="h-50 w-50 object-cover"
                 width={100}
                 height={100}
                 alt='hc'
                 src="/infinityimg.png"
-              />
+              /> */}
               <CheckCircleIcon
-                className="absolute top-0 left-[4.5rem] h-5 mr-4 md:h-12 text-green-500 transition-all ease-in-out hover:scale-110"
+                className="h-25 mr-4 md:h-12 text-green-500 transition-all ease-in-out hover:scale-110"
               />
             </div>
           </div>
-          <h2 className="text-base font-semibold leading-7 text-[#022368]">Tu orden ha sido procesada con éxito.
+          <h2 className="text-base font-semibold leading-7 text-black">Tu orden ha sido procesada con éxito.
             Pronto validaremos los datos y luego recibirás un mensaje con la información de tu compra, el tiempo de entrega con Zoom dependerá de la zona geográfica de destino.</h2>
               <button
                 style={{width: '6rem'}}
                 type="submit"
                 onClick={() => router.push('/')}
-                className="mt-4 rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                className="mt-4 rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
               >
-                Siguiente
+                Listo
               </button>
         </form>
       )}
-    </>
+      <WsMsg/>
+    </div>
   );
 }

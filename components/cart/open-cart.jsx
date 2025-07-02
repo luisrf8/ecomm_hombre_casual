@@ -17,7 +17,7 @@ export default function OpenCart({ quantity }) {
         Carrito
       </span>
       {isClient && quantity ? (
-        <div className="w-5 h-5 rounded-[50%] bg-orange-400 text-[13px] font-medium text-white">
+        <div className="w-5 h-5 rounded-[50%] bg-gray-100 text-[13px] font-medium text-gray-900">
           {quantity}
         </div>
       ) : null}

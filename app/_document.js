@@ -1,73 +1,34 @@
+'use client';
 import Navbar from 'components/layout/navbar';
-import { ensureStartsWith } from 'lib/utils';
-// eslint-disable-next-line @next/next/no-document-import-in-page
-// import Document, { Head, Html, Main, NextScript } from "next/document";
 import { Inter } from 'next/font/google';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import './globals.css';
-
-const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : 'http://localhost:3000';
-const twitterCreator = TWITTER_CREATOR ? ensureStartsWith(TWITTER_CREATOR, '@') : undefined;
-const twitterSite = TWITTER_SITE ? ensureStartsWith(TWITTER_SITE, 'https://') : undefined;
-
-export const metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`
-  },
-  robots: {
-    follow: true,
-    index: true
-  },
-  ...(twitterCreator &&
-    twitterSite && {
-      twitter: {
-        card: 'summary_large_image',
-        creator: twitterCreator,
-        site: twitterSite
-      }
-    })
-};
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter'
 });
-// class MyDocument extends Document {
-//     render() {
-//       return (
-//         <Html lang="en" className={inter.variable}>
-//         <Head>
-//             <link rel="manifest" href="/manifest.json" />
-//           <link rel="apple-touch-icon" href="/icon.png"></link>
-//           <meta name="theme-color" content="#fff" />
-//         </Head>
-//       <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
-//         <Navbar />
-//         <Suspense>
-//           <main>{children}</main>
-//         </Suspense>
-//         <Main/>
-//         <NextScript/>
-//       </body>
-//     </Html>
-//       );
-//     }
-//   }
-//   export default MyDocument;
-export default async function RootLayout({ children }) {
+
+export default function RootLayout({ children }) {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((reg) => console.log('Service Worker registrado:', reg))
+          .catch((err) => console.error('Error al registrar el Service Worker:', err));
+      });
+    }
+  }, []);
+
   return (
     <html lang="en" className={inter.variable}>
-        <head>
-            <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icon.png"></link>
-          <meta name="theme-color" content="#fff" />
-        </head>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="theme-color" content="#000000" />
+      </head>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
         <Navbar />
         <Suspense>

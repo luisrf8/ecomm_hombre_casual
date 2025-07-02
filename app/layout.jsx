@@ -31,6 +31,17 @@ export default function RootLayout({ children }) {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((reg) => console.log('Service Worker registrado:', reg))
+          .catch((err) => console.error('Error al registrar el Service Worker:', err));
+      });
+    }
+  }, []);
+
   return (
     <html lang="en" className={inter.variable}>
       <head>
@@ -48,7 +59,9 @@ export default function RootLayout({ children }) {
           {isLoading && <LoadingOverlay />}
           {pathname !== '/login' && pathname !== '/register' && <Navbar />}
           <Suspense fallback={<div>Loading...</div>}>
-            <main className="mt-40">{children}</main>
+            <main className={pathname !== '/login' && pathname !== '/register' ? 'mt-40' : ''}>
+              {children}
+            </main>
           </Suspense>
         </Provider>
       </body>

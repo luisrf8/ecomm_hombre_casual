@@ -12,22 +12,22 @@ function ThreeItemGridItem({
     <div
       className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
     >
-      <Link className="relative block aspect-square h-full w-full" href={`/product/${item.id}`} product={item}>
-        <GridTileImage
-          src={`${process.env.BASE_URL}/storage/${item.images[0].path}`}
-          sizes={
-            size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
-          }
-          priority={priority}
-          alt={item.name}
-          label={{
-            position: size === 'full' ? 'center' : 'bottom',
-            title: item.name,
-            amount: item.variants[0].price,
-            // currencyCode: item.price
-            currencyCode: "USD"
-          }}
-        />
+      <Link className="relative block h-full w-full" href={`/product/${item.id}`} product={item}>
+      <GridTileImage
+        src={`${process.env.BASE_URL}/storage/${item.images[0].path}`}
+        sizes={
+          size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
+        }
+        priority={priority}
+        alt={item.name}
+        label={{
+          position: size === 'full' ? 'center' : 'bottom',
+          title: item.name,
+          amount: item.variants[0].price,
+          currencyCode: "USD"
+        }}
+        className={size !== 'full' ? 'transform scale-135 transition-transform duration-300 group-hover:scale-145' : 'transform scale-105 transition-transform duration-300 group-hover:scale-110'}
+      />
       </Link>
     </div>
   );

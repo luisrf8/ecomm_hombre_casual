@@ -32,7 +32,9 @@ export default function Favorite() {
       >
         <UserIcon className="h-7 transition-all ease-in-out hover:scale-110 text-white-900" />
         {isAuthenticated ? (
-          <span className="">{user.user.name}</span>
+          <>
+            {user.user.name}
+          </>
         ) : (
           <Link href="/login">
             <span className="hover:underline">Iniciar Sesión</span>
@@ -44,7 +46,7 @@ export default function Favorite() {
       {menuOpen && isAuthenticated && (
         <div
           ref={menuRef}
-          className="absolute top-4 right-0 mt-5 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+          className="absolute top-4 right-0 mt-5 w-48 bg-white text-gray-900 border border-gray-200 rounded-lg shadow-lg z-50"
         >
           <ul className="py-2">
             <li>

@@ -29,7 +29,7 @@ export default function UserProfile() {
   }, [user?.id]);
 
   return (
-    <div className="m-8 p-6 bg-white rounded-lg shadow-md">
+    <div className="m-8 p-6 bg-white rounded-lg shadow-md mt-50">
       <h2 className="text-2xl font-bold mb-4">Compras Realizadas {user?.name}</h2>
       {!hasFetchedData ? (
         <p>Cargando compras...</p>
@@ -37,50 +37,52 @@ export default function UserProfile() {
         <p>No hay compras registradas.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-200 hidden md:table">
+          <table className="w-full table-auto text-sm text-left  hidden md:table">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">ID</th>
-                <th className="border p-2">Dirección</th>
-                <th className="border p-2">Fecha</th>
-                <th className="border p-2">Estado de Entrega</th>
-                <th className="border p-2">Total Ítems</th>
-                <th className="border p-2">Productos</th>
-                <th className="border p-2">Pago</th>
-                <th className="border p-2">Método de Pago</th>
-                <th className="border p-2">Referencia</th>
+              <tr className="text-gray-600 border-b border-gray-200">
+                <th className="p-3 font-semibold">ID</th>
+                <th className="p-3 font-semibold">Dirección</th>
+                <th className="p-3 font-semibold">Fecha</th>
+                <th className="p-3 font-semibold">Estado</th>
+                <th className="p-3 font-semibold">Ítems</th>
+                <th className="p-3 font-semibold">Productos</th>
+                <th className="p-3 font-semibold">Pago</th>
+                <th className="p-3 font-semibold">Método de Pago</th>
+                <th className="p-3 font-semibold">Referencia</th>
               </tr>
             </thead>
             <tbody>
               {purchases.map((purchase) => (
-                <tr key={purchase.id} className="border">
-                  <td className="border p-2">{purchase.id}</td>
-                  <td className="border p-2">{purchase.address}</td>
-                  <td className="border p-2">{purchase.date}</td>
-                  <td className="border p-2">
+                <tr key={purchase.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
+                  <td className="p-3">{purchase.id}</td>
+                  <td className="p-3">{purchase.address}</td>
+                  <td className="p-3">{purchase.date}</td>
+                  <td className="p-3">
                     {purchase.deliver_status === 0 ? "Pendiente" : "Entregado"}
                   </td>
-                  <td className="border p-2">{purchase.total_items}</td>
-                  <td className="border p-2">
+                  <td className="p-3">{purchase.total_items}</td>
+                  <td className="p-3 space-y-1">
                     {purchase.details.map((detail) => (
                       <div key={detail.id}>
-                        {detail.variant.size} - ${detail.price} x {detail.quantity}
+                        Talla: {detail.variant.size} - ${detail.price} × {detail.quantity}
                       </div>
                     ))}
                   </td>
-                  <td className="border p-2">
+                  <td className="p-3 space-y-1">
                     {purchase.payments.map((payment) => (
                       <div key={payment.id}>
-                        {payment.amount} {payment.currency}
+                        {payment.converted_amount ?? payment.amount} USD
                       </div>
                     ))}
                   </td>
-                  <td className="border p-2">
+                  <td className="p-3 space-y-1">
                     {purchase.payments.map((payment) => (
-                      <div key={payment.id}>{payment.payment_method}</div>
+                      <div key={payment.id}>
+                        {payment.payment?.name} {payment.payment?.bank}
+                      </div>
                     ))}
                   </td>
-                  <td className="border p-2">
+                  <td className="p-3 space-y-1">
                     {purchase.payments.map((payment) => (
                       <div key={payment.id}>{payment.reference}</div>
                     ))}
@@ -89,11 +91,10 @@ export default function UserProfile() {
               ))}
             </tbody>
           </table>
-
           {/* Diseño responsive en formato tarjeta */}
           <div className="md:hidden">
             {purchases.map((purchase) => (
-              <div key={purchase.id} className="bg-gray-100 p-4 mb-4 rounded-lg shadow">
+              <div key={purchase.id} className="border border-gray-300 p-4 mb-4 rounded-lg shadow">
                 <p className="font-bold">ID: {purchase.id}</p>
                 <p>Dirección: {purchase.address}</p>
                 <p>Fecha: {purchase.date}</p>

@@ -5,7 +5,7 @@ const Price = ({
   currencyCode = 'USD',
 }) => (
   <>
-  <p suppressHydrationWarning={true}  className='text-black text-[2rem] font-bold'>
+  <p suppressHydrationWarning={true}  className='text-black text-[2rem]'>
     <span className={clsx('ml-1 inline')}>{`${currencyCode}`}</span>
     <span className={clsx('ml-1 inline')}>{`${amount}`}</span>
   </p>

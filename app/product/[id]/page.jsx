@@ -67,7 +67,7 @@ function getArticles(id) {
         <div className="flex flex-col rounded-lg border border-neutral-200 bg-gray-100  lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-3/6 bg-white">
             <Gallery
-              images={product.images ? product.images[0] : ""}
+              images={product.images ? product.images : ""}
               className="p-8 md:p-12"
             />
           </div>

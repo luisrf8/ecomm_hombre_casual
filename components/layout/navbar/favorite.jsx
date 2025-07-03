@@ -11,8 +11,13 @@ export default function Favorite() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const isAuthenticated = user && user.user && user.user.name;
+  const isAuthenticated = user?.user?.name ?? null;
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   // Cerrar el menú si se hace clic fuera de él
   useEffect(() => {
     function handleClickOutside(event) {
@@ -31,14 +36,14 @@ export default function Favorite() {
         onClick={() => setMenuOpen(!menuOpen)}
       >
         <UserIcon className="h-7 transition-all ease-in-out hover:scale-110 text-white-900" />
-        {isAuthenticated ? (
-          <>
-            {user.user.name}
-          </>
-        ) : (
-          <Link href="/login">
-            <span className="hover:underline">Iniciar Sesión</span>
-          </Link>
+        {isClient && (
+          isAuthenticated ? (
+            <>{user?.user?.name}</>
+          ) : (
+            <Link href="/login">
+              <span className="hover:underline">Iniciar Sesión</span>
+            </Link>
+          )
         )}
       </div>
 

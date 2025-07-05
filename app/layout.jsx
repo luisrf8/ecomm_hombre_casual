@@ -1,6 +1,9 @@
 "use client";
 import Navbar from 'components/layout/navbar';
 import LoadingOverlay from 'components/loading-overlay';
+import InstallPWAButton from 'components/pwa';
+import InstallPromptIOS from 'components/pwaIos';
+
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
@@ -31,6 +34,7 @@ export default function RootLayout({ children }) {
     }
   }, [pathname]);
 
+  // Registro del Service Worker
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -46,13 +50,14 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.variable}>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="application-name" content="Hombre Casual" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Hombre Casual" />
+        <meta name="application-name" content="Infinity Center" />
+        <meta name="mobile-web-app-capable" content="yes"></meta>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Infinity Center" />
         <meta name="description" content="Tienda Online" />
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 ">
         <Provider store={store}>
@@ -63,6 +68,8 @@ export default function RootLayout({ children }) {
               {children}
             </main>
           </Suspense>
+          <InstallPWAButton />
+          <InstallPromptIOS />
         </Provider>
       </body>
     </html>

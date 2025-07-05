@@ -9,7 +9,6 @@ import { products } from 'lib/ddbb.js';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
-export const runtime = 'edge';
 // const carouselProducts = [
 //   {
 //     handle: 'product-2',

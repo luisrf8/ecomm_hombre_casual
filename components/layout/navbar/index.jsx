@@ -68,18 +68,20 @@ export default function Navbar() {
 
   // Filtra las categorías basándose en el término de búsqueda
   const filteredCategories = parentCategories
-    ? parentCategories.filter(item =>
+  ? parentCategories.filter(item =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra por nombre de la categoría
       )
-    : [];
-
-  return (
-    <div>
+      : [];
+      
+      return (
+        <div>
       <nav className='fixed top-0 z-50 w-full bg-white shadow-md dark:bg-black dark:text-white'>
         <div className="relative flex items-center">
           <div className="flex w-full items-center justify-evenly pt-4 pb-4">
             <div className="md:hidden flex justify-center w-1/3">
+            <Suspense fallback={null}>
               <MobileMenu menu={parentCategories} />
+            </Suspense>
             </div>
             <div className="flex w-full justify-center md:w-1/3">
               <Link href="/" className="flex w-full items-center justify-center md:w-auto">

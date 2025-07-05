@@ -3,7 +3,6 @@ import FormInputs from 'components/form/formInputs';
 import { useSelector } from 'react-redux';
 import CarItems from '../../components/form/cartItems';
 
-export const runtime = 'edge';
 
 export default function FormPage() {
   const cart = useSelector(state => state.cart);

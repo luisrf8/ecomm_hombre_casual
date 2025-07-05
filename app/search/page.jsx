@@ -5,7 +5,6 @@ import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export const runtime = 'edge';
 
 export default function CategoryPage() {
   const [articles, setArticles] = useState([]);

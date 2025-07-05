@@ -1,7 +1,6 @@
 import Prose from 'components/prose';
 import { notFound } from 'next/navigation';
 
-export const runtime = 'edge';
 
 export const revalidate = 43200; // 12 hours in seconds
 

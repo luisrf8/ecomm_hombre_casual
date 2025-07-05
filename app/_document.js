@@ -1,7 +1,7 @@
 'use client';
 import Navbar from 'components/layout/navbar';
 import { Inter } from 'next/font/google';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import './globals.css';
 
 const inter = Inter({
@@ -11,17 +11,6 @@ const inter = Inter({
 });
 
 export default function RootLayout({ children }) {
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register('/sw.js')
-          .then((reg) => console.log('Service Worker registrado:', reg))
-          .catch((err) => console.error('Error al registrar el Service Worker:', err));
-      });
-    }
-  }, []);
-
   return (
     <html lang="en" className={inter.variable}>
       <head>

@@ -7,7 +7,6 @@ import { ProductDescription } from 'components/product/product-description';
 import api from 'lib/axios';
 import { usePathname } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
-export const runtime = 'edge';
 
 export default function ProductPage() {
   const pathname = usePathname()

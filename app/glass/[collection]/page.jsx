@@ -1,7 +1,6 @@
 import { defaultSort, sorting } from 'lib/constants';
 import { notFound } from 'next/navigation';
 
-export const runtime = 'edge';
 
 async function generateMetadata({ params }) {
   const { collection } = params;

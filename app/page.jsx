@@ -7,7 +7,6 @@ import api from 'lib/axios';
 import { motion } from "motion/react";
 import { useEffect, useState } from 'react';
 
-export const runtime = 'edge';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
